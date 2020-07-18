@@ -2,7 +2,7 @@
 
 ## 功能介绍
 
-由论坛大佬 chanforever 的插件修改得来。
+由论坛大佬 chanforever 的插件修改得来，在 Deepin dock栏 添加插件实现快速切换显卡的操作。
 
 【原贴地址： https://bbs.deepin.org/forum.php?mod=viewthread&tid=197280 】
 
