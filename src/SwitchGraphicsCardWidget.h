@@ -5,12 +5,14 @@
 #include <QTimer>
 #include <QVBoxLayout>
 
-class DDESwitchWidget : public QWidget
+#include "ddeUtil.h"
+
+class SwitchGraphicsCardWidget : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit DDESwitchWidget(QWidget *parent = nullptr);
+    explicit SwitchGraphicsCardWidget(QWidget *parent = nullptr);
 
 private slots:
     // 用于更新数据的槽函数

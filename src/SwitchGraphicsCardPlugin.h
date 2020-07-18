@@ -5,19 +5,20 @@
 #include <QObject>
 #include <QLabel>
 
-#include "DDESwitchWidget.h"
-#include "DDESwitchAppletWidget.h"
+#include "ddeUtil.h"
+#include "SwitchGraphicsCardWidget.h"
+#include "SwitchGraphicsCardAppletWidget.h"
 
-class DDESwitchPlugin : public QObject, PluginsItemInterface
+class SwitchGraphicsCardPlugin : public QObject, PluginsItemInterface
 {
     Q_OBJECT
     // 声明实现了的接口
     Q_INTERFACES(PluginsItemInterface)
     // 插件元数据
-    Q_PLUGIN_METADATA(IID "com.deepin.dock.PluginsItemInterface" FILE "DDESwitchPlugin.json")
+    Q_PLUGIN_METADATA(IID "com.deepin.dock.PluginsItemInterface" FILE "SwitchGraphicsCardPlugin.json")
 
 public:
-    explicit DDESwitchPlugin(QObject *parent = nullptr);
+    explicit SwitchGraphicsCardPlugin(QObject *parent = nullptr);
 
     // 返回插件的名称，必须是唯一值，不可以和其它插件冲突
     const QString pluginName() const override;
@@ -30,9 +31,9 @@ public:
     QWidget *itemTipsWidget(const QString &itemKey) override;
     QWidget *itemPopupApplet(const QString &itemKey) override;
 private:
-    DDESwitchWidget *m_pluginWidget;
+    SwitchGraphicsCardWidget *m_pluginWidget;
     QLabel *m_tipsWidget;
-    DDESwitchAppletWidget *m_appletWidget;
+    SwitchGraphicsCardAppletWidget *m_appletWidget;
 };
 
 #endif // HOMEMONITORPLUGIN_H

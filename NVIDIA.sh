@@ -1,0 +1,24 @@
+#!/bin/sh
+
+# 提示文本
+echo '即将切换至 NVIDIA 显卡。在注销登录之前，请保存好当前的工作。'
+
+# 初始化 NVIDIA 相关配置文件
+/opt/durapps/dde-dock-switch_graphics_card/Initialize.sh
+
+# 修改 xorg.conf
+sudo cp /etc/X11/xorg.conf.bak /etc/X11/xorg.conf
+sudo sed -i 's$Screen      0  "Screen0" 0 0$Screen      0  "DGPU" 0 0$g' /etc/X11/xorg.conf
+sudo sed -i 's$\n    Option         "AllowNVIDIAGPUScreens"$$g' /etc/X11/xorg.conf
+
+# 启用 nvidia-graphics-drivers.conf
+sudo mv /etc/modprobe.d/nvidia-graphics-driver.conf.bak /etc/modprobe.d/nvidia-graphics-driver.conf
+
+# 修改 lightdm.conf
+sudo sed -i 's$#display-setup-script=$display-setup-script=/etc/lightdm/display_setup.sh$g' /etc/lightdm/lightdm.conf
+
+# 更新 graphics.conf
+echo -n 'Nvidia' | sudo tee $HOME/.config/dde-dock-switch_graphics_card/graphics.conf > /dev/null
+
+# 重启 lightdm
+sudo service lightdm restart

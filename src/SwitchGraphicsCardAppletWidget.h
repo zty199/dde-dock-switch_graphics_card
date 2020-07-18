@@ -5,7 +5,9 @@
 #include <QMessageBox>
 #include <QTimer>
 
-class DDESwitchAppletWidget : public QWidget
+#include "ddeUtil.h"
+
+class SwitchGraphicsCardAppletWidget : public QWidget
 {
     Q_OBJECT
 
@@ -13,20 +15,23 @@ private:
 
     QPushButton *IntelCard;
     QPushButton *NvidiaCard;
-    
     QTimer *RefreshTimer;
+    QProcess *process;
+
     QString CardName;
 
 private slots:
-    void ChangeIntelCard();
-    void ChangeNvidiaCard();
+    void SwitchIntel();
+    void SwitchNvidia();
 
 public:
-    explicit DDESwitchAppletWidget(QWidget *parent = nullptr);
+    explicit SwitchGraphicsCardAppletWidget(QWidget *parent = nullptr);
 
     QString GetCardName();
     void UpdateConfig();
     void UpdateCardName();
+
+    void Initialize();
 };
 
 #endif

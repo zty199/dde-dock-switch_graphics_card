@@ -7,7 +7,7 @@
 cmake_minimum_required(VERSION 3.11)
 
 # 使用 set 命令设置一个变量
-set(PLUGIN_NAME "SwitchVideoCard")
+set(PLUGIN_NAME "switch_graphics_card")
 
 # 设置项目名称
 project(${PLUGIN_NAME})

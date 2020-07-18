@@ -1,23 +1,20 @@
-User=`echo $USER`
+#!/bin/sh
 
-#提示文本
-echo '即将切换至Intel显卡，请输入登录密码，回车后会自动注销。在此之前，请保存好当前的工作。'
+# 提示文本
+echo "即将切换至 Intel 显卡。在注销登录之前，请保存好当前的工作。"
 
-xorg_path=/etc/X11/xorg.conf.d/
-drivers_path=/etc/modprobe.d/
-display_path=/etc/lightdm/
+# 修改 xorg.conf
+sudo cp /etc/X11/xorg.conf.bak /etc/X11/xorg.conf
+sudo sed -i 's$Screen      0  "Screen0" 0 0$Screen      0  "IGPU" 0 0$g' /etc/X11/xorg.conf
 
-#重命名配置文件
-sudo mv $xorg_path/20-nvidia.conf $xorg_path/20-nvidia.conf.bak
-sudo mv $drivers_path/nvidia-graphics-drivers.conf $drivers_path/nvidia-graphics-drivers.conf.bak
-sudo mv $display_path/display_setup.sh  $diplay_path/display_setup.sh.bak
+# 移除 nvidia-graphics-drivers.conf
+sudo mv /etc/modprobe.d/nvidia-graphics-driver.conf /etc/modprobe.d/nvidia-graphics-driver.conf.bak
 
-#恢复LightDM配置文件
+# 恢复 lightdm.conf
 sudo sed -i 's$display-setup-script=/etc/lightdm/display_setup.sh$#display-setup-script=$g' /etc/lightdm/lightdm.conf
 
-#更新conf
-echo -n 'Intel' | sudo tee /home/$User/.config/switchcard/card.conf > /dev/null
+# 更新 graphics.conf
+echo -n "Intel" | sudo tee $HOME/.config/dde-dock-switch_graphics_card/graphics.conf > /dev/null
 
-#重启LightDM服务，注销即可切换
+# 重启 lightdm
 sudo service lightdm restart
-
