@@ -4,9 +4,9 @@
 
 由论坛大佬 chanforever 的插件修改得来。
 
-【原贴地址： https://bbs.deepin.org/forum.php?mod=viewthread&tid=197280】
+【原贴地址： https://bbs.deepin.org/forum.php?mod=viewthread&tid=197280 】
 
-【github原项目地址： https://github.com/mywhat/DDESwitchCard/】
+【github原项目地址： https://github.com/mywhat/DDESwitchCard/ 】
 
 修改了脚本内容以及安装位置等，方便打包成 deb 直接安装，避免文件权限混乱。自动检测配置文件是否缺失，并进行初始化操作。添加了 nvidia-prime 的配置（需要高版本 xserver-xorg 支持）。
 
