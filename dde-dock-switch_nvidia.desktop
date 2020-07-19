@@ -1,11 +1,10 @@
 [Desktop Entry]
 Type=Application
-Exec=deepin-terminal -e /opt/durapps/dde-dock-switch_graphics_card/NVIDIA.sh
+Exec=deepin-terminal -e sh /opt/durapps/dde-dock-switch_graphics_card/NVIDIA.sh
 GenericName=Switch NVIDIA
 Name=Switch NVIDIA
 MimeType=
-GenericName[zh_CN]=切换NVIDIA显卡
+GenericName[zh_CN]=切换 NVIDIA 显卡
 GenericName[en]=Switch NVIDIA
-Name[zh_CN]=切换NVIDIA显卡
+Name[zh_CN]=切换 NVIDIA 显卡
 Name[en]=Switch NVIDIA
-

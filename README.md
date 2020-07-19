@@ -16,6 +16,10 @@ P.S.其实，按照大佬的打包，nvidia-prime 的启用就是在 xorg.conf �
 
 qt-default
 
+qtcreator
+
+cmake, gcc, g++
+
 libqt5core5a
 
 libqt5gui
@@ -47,7 +51,7 @@ P.S.建议使用 deb 安装包安装
 
 2.  将编译生成的 libswitch_graphics_card.so 放在 ~/.local/lib/dde-dock/plugins/ 或者 /usr/lib/dde-dock/plugins/ 文件夹下;
 
-3.  等待 dde-dock 自动重新加载，即可在最右侧看到该插件已启用。（好像暂时不能在dock栏设置不启用该插件......）
+3.  等待 dde-dock 自动重新加载，即可在最右侧看到该插件已启用。该插件默认启用，可以选择手动禁用。
 
 4.  （可选）将 dde-dock-switch_intel.desktop 和 dde-dock-switch_nvidia.desktop 放入 /usr/share/deepin/dde-file-manager/oem-menuextensions/ ，可以在右键菜单中直接切换显卡。
 
@@ -58,3 +62,5 @@ P.S.建议使用 deb 安装包安装
 论坛大佬 jfy_99 的显卡切换脚本     https://bbs.deepin.org/forum.php?mod=viewthread&tid=192750
 
 论坛大佬 risez 的 nvidia-prime 方案        https://bbs.deepin.org/forum.php?mod=viewthread&tid=191741
+
+论坛大佬 q77190858 的 dde-dock系统监控小插件    https://bbs.deepin.org/forum.php?mod=viewthread&tid=179425

@@ -3,14 +3,6 @@
 # 提示文字
 echo "即将初始化 NVIDIA 显卡相关配置文件......"
 
-# 初始化 WORKSPACE
-if [ ! -d $HOME/.config/dde-dock-switch_graphics_card/ ]
-then
-	mkdir -p $HOME/.config/dde-dock-switch_graphics_card/
-fi
-
-WORKSPACE=$HOME/.config/dde-dock-switch_graphics_card/
-
 # 获取显卡 BusID
 NVIDIA_BusID=`lspci | egrep 'VGA|3D' | grep 'NVIDIA' | cut -d ' ' -f 1 | sed -r 's/0?(.)/\1/' | sed -e 's/:0/:/g' -e 's/\./:/g'`
 Intel_BusID=`lspci | egrep 'VGA|3D' | grep 'Intel' | cut -d ' ' -f 1 | sed -r 's/0?(.)/\1/' | sed -e 's/:0/:/g' -e 's/\./:/g'`
@@ -72,11 +64,7 @@ xrandr --auto
 xrandr --dpi 96' | sudo tee /etc/lightdm/display_setup.sh > /dev/null
 sudo chmod +x /etc/lightdm/display_setup.sh
 
-# 生成 graphics.conf
-nvidia-smi | grep deepin > /dev/null
-if [ $? -ne 0 ]
-then
-	echo -n "Intel" | sudo tee $WORKSPACE/graphics.conf > /dev/null
-else
-	echo -n "Nvidia" | sudo tee $WORKSPACE/graphics.conf > /dev/null
-fi
+# 生成 prime-run
+echo '#!/bin/sh
+__NV_PRIME_RENDER_OFFLOAD=1 __VK_LAYER_NV_optimus=NVIDIA_only __GLX_VENDOR_LIBRARY_NAME=nvidia "$@"' | sudo tee /usr/bin/prime-run.bak > /dev/null
+sudo chmod +x /usr/bin/prime-run.bak

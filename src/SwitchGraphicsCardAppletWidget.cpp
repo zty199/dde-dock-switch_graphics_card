@@ -4,18 +4,18 @@ SwitchGraphicsCardAppletWidget::SwitchGraphicsCardAppletWidget(QWidget *parent) 
         QWidget(parent),
         RefreshTimer(new QTimer(this))
 {
-    resize(30, 60);
+    resize(150, 60);
 
     IntelCard = new QPushButton(this);
-    IntelCard->resize(28, 28);
+    IntelCard->resize(148, 28);
     IntelCard->move(1, 1);
-    IntelCard->setIcon(QIcon(IntelIconPath));
+    IntelCard->setText("切换 Intel 显卡");
     NvidiaCard = new QPushButton(this);
-    NvidiaCard->resize(28, 28);
+    NvidiaCard->resize(148, 28);
     NvidiaCard->move(1, 30);
-    NvidiaCard->setIcon(QIcon(NvidiaIconPath));
+    NvidiaCard->setText("切换 NVIDIA 显卡");
 
-    //设置10s定时器
+    //设置 10s 定时器
     RefreshTimer->start(10000);
 
     connect(IntelCard, SIGNAL(clicked(bool)), this, SLOT(SwitchIntel()));
@@ -33,21 +33,25 @@ QString SwitchGraphicsCardAppletWidget::GetCardName()
 void SwitchGraphicsCardAppletWidget::SwitchIntel()
 {
     if(this->CardName == "Intel"){
-        QMessageBox::about(NULL, "Tips", tr("已经是Intel显卡了！"));
+        QMessageBox::warning(NULL, "警告", tr("已经是 Intel 显卡了！"));
         return;
     }
 
-    system("deepin-terminal -e /opt/durapps/dde-dock-switch_graphics_card/Intel.sh");
+    CardName = "Intel";
+    UpdateConfig();
+    system("pkexec sh /opt/durapps/dde-dock-switch_graphics_card/Intel.sh");
 }
 
 void SwitchGraphicsCardAppletWidget::SwitchNvidia()
 {
-    if(this->CardName == "Nvidia"){
-        QMessageBox::about(NULL, "Tips", tr("已经是NVIDIA显卡了！"));
+    if(this->CardName == "NVIDIA"){
+        QMessageBox::warning(NULL, "警告", tr("已经是 NVIDIA 显卡了！"));
         return;
     }
 
-    system("deepin-terminal -e /opt/durapps/dde-dock-switch_graphics_card/NVIDIA.sh");
+    CardName = "Intel";
+    UpdateConfig();
+    system("pkexec sh /opt/durapps/dde-dock-switch_graphics_card/NVIDIA.sh");
 }
 
 void SwitchGraphicsCardAppletWidget::UpdateConfig()
@@ -56,7 +60,7 @@ void SwitchGraphicsCardAppletWidget::UpdateConfig()
     // 没有显卡配置文件则进行初始化
     if(!Config.exists())
     {
-        system("deepin-terminal -e /opt/durapps/dde-dock-switch_graphics_card/Initialize.sh");
+        system("sh /opt/durapps/dde-dock-switch_graphics_card/CheckConf.sh");
     }
     Config.open(QIODevice::WriteOnly | QIODevice::Truncate);
     Config.write(CardName.toUtf8());
@@ -69,14 +73,15 @@ void SwitchGraphicsCardAppletWidget::UpdateCardName()
     // 没有显卡配置文件则进行初始化
     if(!Config.exists())
     {
-        system("deepin-terminal -e /opt/durapps/dde-dock-switch_graphics_card/Initialize.sh");
+        system("sh /opt/durapps/dde-dock-switch_graphics_card/CheckConf.sh");
     }
     Config.open(QIODevice::ReadOnly | QIODevice::Text);
     QByteArray TextByte = Config.readAll();
     Config.close();
     
     CardName = QString(TextByte);
-    if(CardName.isEmpty()){
-        system("deepin-terminal -e /opt/durapps/dde-dock-switch_graphics_card/Initialize.sh");
+    if(CardName.isEmpty() || (CardName != "Intel" && CardName != "NVIDIA"))
+    {
+        system("sh /opt/durapps/dde-dock-switch_graphics_card/CheckConf.sh");
     }
 }

@@ -23,6 +23,7 @@ private:
     QLabel *m_infoLabel;
     // 处理时间间隔的计时器
     QTimer *m_refreshTimer;
+
 };
 
 #endif // INFORMATIONWIDGET_H

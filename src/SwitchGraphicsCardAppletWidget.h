@@ -31,7 +31,6 @@ public:
     void UpdateConfig();
     void UpdateCardName();
 
-    void Initialize();
 };
 
 #endif

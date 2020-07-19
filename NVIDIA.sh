@@ -1,5 +1,13 @@
 #!/bin/sh
 
+# 判断当前显卡状态
+nvidia-smi | grep kwin > /dev/null
+if [ $? -eq 0 ]
+then
+	zenity --warning --width=150 --title="警告—DDE Dock" --text="已经是 NVIDIA 显卡了！"
+    exit
+fi
+
 # 提示文本
 echo '即将切换至 NVIDIA 显卡。在注销登录之前，请保存好当前的工作。'
 
@@ -16,9 +24,6 @@ sudo mv /etc/modprobe.d/nvidia-graphics-driver.conf.bak /etc/modprobe.d/nvidia-g
 
 # 修改 lightdm.conf
 sudo sed -i 's$#display-setup-script=$display-setup-script=/etc/lightdm/display_setup.sh$g' /etc/lightdm/lightdm.conf
-
-# 更新 graphics.conf
-echo -n 'Nvidia' | sudo tee $HOME/.config/dde-dock-switch_graphics_card/graphics.conf > /dev/null
 
 # 重启 lightdm
 sudo service lightdm restart

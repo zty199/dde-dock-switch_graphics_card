@@ -22,6 +22,7 @@ public:
 
     // 返回插件的名称，必须是唯一值，不可以和其它插件冲突
     const QString pluginName() const override;
+    const QString pluginDisplayName() const override;
 
     // 插件初始化函数
     void init(PluginProxyInterface *proxyInter) override;
@@ -30,10 +31,17 @@ public:
     QWidget *itemWidget(const QString &itemKey) override;
     QWidget *itemTipsWidget(const QString &itemKey) override;
     QWidget *itemPopupApplet(const QString &itemKey) override;
+
+    // 控制插件启用和禁用
+    bool pluginIsAllowDisable() override;
+    bool pluginIsDisable() override;
+    void pluginStateSwitched() override;
+
 private:
-    SwitchGraphicsCardWidget *m_pluginWidget;
     QLabel *m_tipsWidget;
+    SwitchGraphicsCardWidget *m_pluginWidget;
     SwitchGraphicsCardAppletWidget *m_appletWidget;
+
 };
 
 #endif // HOMEMONITORPLUGIN_H

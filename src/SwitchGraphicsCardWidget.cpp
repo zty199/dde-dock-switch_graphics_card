@@ -1,9 +1,9 @@
 #include "SwitchGraphicsCardWidget.h"
 
-SwitchGraphicsCardWidget::SwitchGraphicsCardWidget(QWidget *parent)
-    : QWidget(parent)
-    , m_infoLabel(new QLabel)
-    , m_refreshTimer(new QTimer(this))
+SwitchGraphicsCardWidget::SwitchGraphicsCardWidget(QWidget *parent) :
+    QWidget(parent),
+    m_infoLabel(new QLabel),
+    m_refreshTimer(new QTimer(this))
 {
     m_infoLabel->setStyleSheet("QLabel {"
                                "color: white;"
@@ -32,11 +32,29 @@ void SwitchGraphicsCardWidget::RefreshInfo()
     // 没有显卡配置文件则进行初始化
     if(!Config.exists())
     {
-        system("deepin-terminal -e /opt/durapps/dde-dock-switch_graphics_card/Initialize.sh");
+        system("sh /opt/durapps/dde-dock-switch_graphics_card/CheckConf.sh");
     }
     Config.open(QIODevice::ReadOnly | QIODevice::Text);
     QByteArray TextByte = Config.readAll();
+    Config.close();
+    QString CardName = QString(TextByte);
+    if(CardName.isEmpty() || (CardName != "Intel" && CardName != "NVIDIA"))
+    {
+        system("sh /opt/durapps/dde-dock-switch_graphics_card/CheckConf.sh");
+    }
+    Config.open(QIODevice::ReadOnly | QIODevice::Text);
+    TextByte = Config.readAll();
+    Config.close();
+    CardName = QString(TextByte);
 
-    // 更新内容
-    m_infoLabel->setText(QString(TextByte));
+    QImage *img = new QImage;   // 新建一个image对象
+    if(CardName == "Intel")
+    {
+        img->load(IntelIconPath);   // 载入图像资源
+    }
+    else {
+        img->load(NvidiaIconPath);
+    }
+    // 更新 dock栏 图标
+    m_infoLabel->setPixmap(QPixmap::fromImage(*img));
 }
