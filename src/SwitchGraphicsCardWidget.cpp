@@ -18,34 +18,23 @@ SwitchGraphicsCardWidget::SwitchGraphicsCardWidget(QWidget *parent) :
     setLayout(centralLayout);
 
     // 连接 Timer 超时的信号到更新数据的槽上
-    connect(m_refreshTimer, &QTimer::timeout, this, &SwitchGraphicsCardWidget::RefreshInfo);
+    connect(m_refreshTimer, &QTimer::timeout, this, &SwitchGraphicsCardWidget::RefreshIcon);
 
     // 设置 Timer 超时为 5s，即每 5s 更新一次控件上的数据，并启动这个定时器
     m_refreshTimer->start(5000);
 
-    RefreshInfo();
+    RefreshIcon();
 }
 
-void SwitchGraphicsCardWidget::RefreshInfo()
+void SwitchGraphicsCardWidget::RefreshIcon()
 {
+    // 初始化显卡信息
+    system("sh /opt/durapps/dde-dock-switch_graphics_card/CheckConf.sh");
     QFile Config(QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + ConfigFilePath);
-    // 没有显卡配置文件则进行初始化
-    if(!Config.exists())
-    {
-        system("sh /opt/durapps/dde-dock-switch_graphics_card/CheckConf.sh");
-    }
     Config.open(QIODevice::ReadOnly | QIODevice::Text);
     QByteArray TextByte = Config.readAll();
     Config.close();
     QString CardName = QString(TextByte);
-    if(CardName.isEmpty() || (CardName != "Intel" && CardName != "NVIDIA"))
-    {
-        system("sh /opt/durapps/dde-dock-switch_graphics_card/CheckConf.sh");
-    }
-    Config.open(QIODevice::ReadOnly | QIODevice::Text);
-    TextByte = Config.readAll();
-    Config.close();
-    CardName = QString(TextByte);
 
     QImage *img = new QImage;   // 新建一个image对象
     if(CardName == "Intel")

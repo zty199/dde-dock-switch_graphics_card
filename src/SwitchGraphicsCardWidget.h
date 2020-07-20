@@ -16,7 +16,7 @@ public:
 
 private slots:
     // 用于更新数据的槽函数
-    void RefreshInfo();
+    void RefreshIcon();
 
 private:
     // 真正的数据显示在这个 Label 上

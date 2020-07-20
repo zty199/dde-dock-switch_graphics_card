@@ -28,8 +28,7 @@ public:
     explicit SwitchGraphicsCardAppletWidget(QWidget *parent = nullptr);
 
     QString GetCardName();
-    void UpdateConfig();
-    void UpdateCardName();
+    void UpdateGraphicsInfo();
 
 };
 
