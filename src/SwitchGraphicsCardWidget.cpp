@@ -20,8 +20,8 @@ SwitchGraphicsCardWidget::SwitchGraphicsCardWidget(QWidget *parent) :
     // 连接 Timer 超时的信号到更新数据的槽上
     connect(m_refreshTimer, &QTimer::timeout, this, &SwitchGraphicsCardWidget::RefreshInfo);
 
-    // 设置 Timer 超时为 10s，即每 10s 更新一次控件上的数据，并启动这个定时器
-    m_refreshTimer->start(10000);
+    // 设置 Timer 超时为 5s，即每 5s 更新一次控件上的数据，并启动这个定时器
+    m_refreshTimer->start(5000);
 
     RefreshInfo();
 }

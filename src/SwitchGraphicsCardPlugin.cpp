@@ -27,6 +27,7 @@ void SwitchGraphicsCardPlugin::init(PluginProxyInterface *proxyInter)
     // 如果插件没有被禁用则在初始化插件时才添加主控件到面板上
     if (!pluginIsDisable()) {
         m_proxyInter->itemAdded(this, pluginName());
+        system("sh /opt/durapps/dde-dock-switch_graphics_card/CheckConf.sh");
     }
 }
 
