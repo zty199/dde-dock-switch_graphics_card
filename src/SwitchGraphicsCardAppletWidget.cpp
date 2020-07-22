@@ -20,8 +20,8 @@ SwitchGraphicsCardAppletWidget::SwitchGraphicsCardAppletWidget(QWidget *parent) 
     connect(IntelCard, SIGNAL(clicked(bool)), this, SLOT(SwitchIntel()));
     connect(NvidiaCard, SIGNAL(clicked(bool)), this, SLOT(SwitchNvidia()));
 
-    // 设置 Timer 超时为 5s，即每 5s 更新一次控件上的数据，并启动这个定时器
-    RefreshTimer->start(5000);
+    // 设置 Timer 超时为 10s，即每 10s 更新一次控件上的数据，并启动这个定时器
+    RefreshTimer->start(10000);
 
     UpdateGraphicsInfo();
 }

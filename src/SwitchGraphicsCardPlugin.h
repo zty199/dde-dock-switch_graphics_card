@@ -37,6 +37,10 @@ public:
     bool pluginIsDisable() override;
     void pluginStateSwitched() override;
 
+    // 右键菜单
+    const QString itemContextMenu(const QString &itemKey) override;
+    void invokedMenuItem(const QString &itemKey, const QString &menuId, const bool checked) override;
+
 private:
     QLabel *m_tipsWidget;
     SwitchGraphicsCardWidget *m_pluginWidget;

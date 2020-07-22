@@ -27,7 +27,7 @@ void SwitchGraphicsCardPlugin::init(PluginProxyInterface *proxyInter)
     // 如果插件没有被禁用则在初始化插件时才添加主控件到面板上
     if (!pluginIsDisable()) {
         m_proxyInter->itemAdded(this, pluginName());
-        system("sh /opt/durapps/dde-dock-switch_graphics_card/CheckConf.sh");
+        system("sh /opt/durapps/dde-dock-switch_graphics_card/ResetConf.sh");
     }
 }
 
@@ -85,5 +85,53 @@ void SwitchGraphicsCardPlugin::pluginStateSwitched()
         m_proxyInter->itemRemoved(this, pluginName());
     } else {
         m_proxyInter->itemAdded(this, pluginName());
+    }
+}
+
+const QString SwitchGraphicsCardPlugin::itemContextMenu(const QString &itemKey)
+{
+    Q_UNUSED(itemKey);
+
+    QList<QVariant> items;
+    items.reserve(2);
+
+    QMap<QString, QVariant> refresh;
+    refresh["itemId"] = "refresh";
+    refresh["itemText"] = "刷新显卡信息";
+    refresh["isActive"] = true;
+    items.push_back(refresh);
+
+    /* QMap<QString, QVariant> open;
+     * open["itemId"] = "open";
+     * open["itemText"] = "";
+     * open["isActive"] = true;
+     * items.push_back(open);
+     */
+
+    QMap<QString, QVariant> setting;
+    setting["itemId"] = "setting";
+    setting["itemText"] = "显示器设置";
+    setting["isActive"] = true;
+    items.push_back(setting);
+
+    QMap<QString, QVariant> menu;
+    menu["items"] = items;
+    menu["checkableMenu"] = false;
+    menu["singleCheck"] = false;
+
+    // 返回 JSON 格式的菜单数据
+    return QJsonDocument::fromVariant(menu).toJson();
+}
+
+void SwitchGraphicsCardPlugin::invokedMenuItem(const QString &itemKey, const QString &menuId, const bool checked)
+{
+    Q_UNUSED(itemKey);
+
+    // 根据上面接口设置的 id 执行不同的操作
+    if (menuId == "refresh") {
+        system("sh /opt/durapps/dde-dock-switch_graphics_card/CheckConf.sh");
+    }
+    else if(menuId == "setting") {
+        system("dde-control-center -m display");
     }
 }
