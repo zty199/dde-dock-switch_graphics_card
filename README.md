@@ -8,15 +8,19 @@
 
 【github原项目地址： https://github.com/mywhat/DDESwitchCard/ 】
 
-修改了脚本内容以及安装位置等，方便打包成 deb 直接安装，避免文件权限混乱。自动检测配置文件是否缺失，并进行初始化操作。添加了 nvidia-prime 的配置（需要高版本 xserver-xorg 支持）。
+修改了脚本内容以及安装位置等，方便打包成 deb 直接安装，避免文件权限混乱。
 
-P.S.其实，按照大佬的打包，nvidia-prime 的启用就是在 xorg.conf 的 Section "ServerLayout" 里加一行 Option "AllowNVIDIAGPUScreens" 的事，外加一个 prime-run 脚本调用环境变量......前提就是 xserver-xorg 版本和显卡的支持问题了......
+自动检测配置文件是否缺失，并进行初始化操作。
+
+添加了 nvidia-prime 的配置，Intel 显卡状态下使用 prime-run 命令即可调用 N卡（需要高版本 xserver-xorg 支持）。
+
+*增加了右键菜单，支持手动刷新显卡信息，快速访问系统显示器设置。
 
 ## 编译环境依赖
 
 qt-default
 
-qtcreator
+qtcreator（推荐使用 Qt Creator 编译运行）
 
 cmake, gcc, g++
 
@@ -35,7 +39,7 @@ libdtkwidget-dev
 dde-dock-dev
 
 
-nvidia-smi (运行时依赖)
+nvidia-smi（运行时依赖）
 
 ## 源码编译(需要安装qt编译链和DDE的相关依赖)
 
@@ -47,7 +51,7 @@ cd build && cmake .. && make -j4
 
 P.S.建议使用 deb 安装包安装
 
-1.  将 icon 文件夹，Initialize.sh，Intel,sh，NVIDIA.sh 放置在 /opt/durapps/dde-dock-switch_graphics_card 文件夹下；
+1.  将 icon 文件夹，Initialize.sh，Intel,sh，NVIDIA.sh，CheckConf.sh，ResetConf.sh 放置在 /opt/durapps/dde-dock-switch_graphics_card 文件夹下；
 
 2.  将编译生成的 libswitch_graphics_card.so 放在 ~/.local/lib/dde-dock/plugins/ 或者 /usr/lib/dde-dock/plugins/ 文件夹下;
 
@@ -57,10 +61,12 @@ P.S.建议使用 deb 安装包安装
 
 ## 感谢
 
+linuxdeepin 官方的 dde-dock 项目仓库       https://github.com/linuxdeepin/dde-dock
+
 论坛大佬 chanforever 的插件        https://bbs.deepin.org/forum.php?mod=viewthread&tid=197280
 
 论坛大佬 jfy_99 的显卡切换脚本     https://bbs.deepin.org/forum.php?mod=viewthread&tid=192750
 
 论坛大佬 risez 的 nvidia-prime 方案        https://bbs.deepin.org/forum.php?mod=viewthread&tid=191741
 
-论坛大佬 q77190858 的 dde-dock系统监控小插件    https://bbs.deepin.org/forum.php?mod=viewthread&tid=179425
+论坛大佬 q77190858 的 dde-dock系统监控小插件        https://bbs.deepin.org/forum.php?mod=viewthread&tid=179425
