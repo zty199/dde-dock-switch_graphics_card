@@ -1,10 +1,11 @@
 [Desktop Entry]
+Type=Application
 Exec=deepin-terminal -e sh /opt/durapps/dde-dock-switch_graphics_card/Intel.sh
 GenericName=Switch Intel
+Name=Switch Intel
+MimeType=
 GenericName[en]=Switch Intel
 GenericName[zh_CN]=切换 Intel 显卡
-MimeType=
-Name=Switch Intel
 Name[en]=Switch Intel
 Name[zh_CN]=切换 Intel 显卡
-Type=Application
+X-Deepin-Vendor=user-custom
