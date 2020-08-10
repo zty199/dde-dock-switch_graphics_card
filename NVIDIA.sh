@@ -1,5 +1,13 @@
 #!/bin/sh
 
+# 判断 nvidia-smi 是否安装
+which nvidia-smi > /dev/null
+if [ $? -ne 0 ]
+then
+	zenity --warning --width=300 --title="警告—DDE Dock" --text="未检测到 nvidia-smi，无法切换到 NVIDIA 显卡。请检查是否安装 NVIDIA 闭源驱动！"
+    exit
+fi
+
 # 判断当前显卡状态
 nvidia-smi | grep kwin > /dev/null
 if [ $? -eq 0 ]

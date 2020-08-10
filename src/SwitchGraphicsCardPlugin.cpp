@@ -93,7 +93,7 @@ const QString SwitchGraphicsCardPlugin::itemContextMenu(const QString &itemKey)
     Q_UNUSED(itemKey);
 
     QList<QVariant> items;
-    items.reserve(2);
+    items.reserve(3);
 
     QMap<QString, QVariant> refresh;
     refresh["itemId"] = "refresh";
@@ -101,18 +101,17 @@ const QString SwitchGraphicsCardPlugin::itemContextMenu(const QString &itemKey)
     refresh["isActive"] = true;
     items.push_back(refresh);
 
-    /* QMap<QString, QVariant> open;
-     * open["itemId"] = "open";
-     * open["itemText"] = "";
-     * open["isActive"] = true;
-     * items.push_back(open);
-     */
-
     QMap<QString, QVariant> setting;
     setting["itemId"] = "setting";
     setting["itemText"] = "显示器设置";
     setting["isActive"] = true;
     items.push_back(setting);
+
+    QMap<QString, QVariant> nvidia;
+    nvidia["itemId"] = "nvidia";
+    nvidia["itemText"] = "NVIDIA 显卡设置";
+    nvidia["isActive"] = true;
+    items.push_back(nvidia);
 
     QMap<QString, QVariant> menu;
     menu["items"] = items;
@@ -133,5 +132,8 @@ void SwitchGraphicsCardPlugin::invokedMenuItem(const QString &itemKey, const QSt
     }
     else if(menuId == "setting") {
         system("dde-control-center -m display");
+    }
+    else if(menuId == "nvidia") {
+        system("nvidia-settings");
     }
 }
