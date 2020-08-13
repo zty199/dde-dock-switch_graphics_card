@@ -20,7 +20,7 @@ fi
 echo '即将切换至 NVIDIA 显卡。在注销登录之前，请保存好当前的工作。'
 
 # 初始化 NVIDIA 相关配置文件
-sh ./Initialize.sh
+sh /opt/durapps/dde-dock-switch_graphics_card/Initialize.sh
 
 # 修改 xorg.conf
 sudo cp /etc/X11/xorg.conf.bak /etc/X11/xorg.conf
