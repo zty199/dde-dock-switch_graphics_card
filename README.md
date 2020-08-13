@@ -14,13 +14,13 @@
 
 添加了 nvidia-prime 的配置，Intel 显卡状态下使用 prime-run 命令即可调用 N卡（需要高版本 xserver-xorg 支持）。
 
-*增加了右键菜单，支持手动刷新显卡信息，快速访问系统显示器设置。
+增加了右键菜单，支持手动刷新显卡信息，快速访问 系统显示器设置 以及 NVIDIA 显卡设置。
 
 ## 编译环境依赖
 
 qt-default
 
-qtcreator（推荐使用 Qt Creator 编译运行）
+qtcreator（推荐使用 Qt Creator 直接打开 CMakeLists.txt 编译运行）
 
 cmake, gcc, g++
 
@@ -39,7 +39,7 @@ libdtkwidget-dev
 dde-dock-dev
 
 
-nvidia-smi（运行时依赖）
+mesa-utils（运行时依赖）
 
 ## 源码编译(需要安装qt编译链和DDE的相关依赖)
 

@@ -1,16 +1,16 @@
 #!/bin/sh
 
-# 判断 nvidia-smi 是否安装
-which nvidia-smi > /dev/null
+# 判断 NVIDIA 闭源驱动 是否安装
+lshw -c video | grep "driver=nvidia" > /dev/null
 if [ $? -ne 0 ]
 then
-	zenity --warning --width=300 --title="警告—DDE Dock" --text="未检测到 nvidia-smi，插件无法正常切换显卡。请检查是否安装 NVIDIA 闭源驱动！"
+	zenity --warning --width=300 --title="警告—DDE Dock" --text="未检测到 NVIDIA 显卡驱动，插件无法正常切换显卡。建议安装 NVIDIA 闭源驱动！"
     exit
 fi
 
 # 判断当前显卡状态
-nvidia-smi | grep kwin > /dev/null
-if [ $? -ne 0 ]
+glxinfo | grep "OpenGL vendor" | grep "Intel" > /dev/null
+if [ $? -eq 0 ]
 then
 	zenity --warning --width=150 --title="警告—DDE Dock" --text="已经是 Intel 显卡了！"
     exit
@@ -20,7 +20,7 @@ fi
 echo "即将切换至 Intel 显卡。在注销登录之前，请保存好当前的工作。"
 
 # 初始化 nvidia-prime 相关配置文件
-/opt/durapps/dde-dock-switch_graphics_card/Initialize.sh
+sh ./Initialize.sh
 
 # 启用 nvidia-prime
 sudo mv /usr/bin/prime-run.bak /usr/bin/prime-run

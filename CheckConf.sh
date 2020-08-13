@@ -9,10 +9,10 @@ fi
 WORKSPACE=$HOME/.config/dde-dock-switch_graphics_card/
 
 # 生成 graphics.conf
-nvidia-smi | grep kwin > /dev/null
+glxinfo | grep "OpenGL vendor" | grep "NVIDIA" > /dev/null
 if [ $? -ne 0 ]
 then
-	echo -n "Intel" > $WORKSPACE/graphics.conf
+	echo -n "Intel" | tee $WORKSPACE/graphics.conf > /dev/null
 else
-	echo -n "NVIDIA" > $WORKSPACE/graphics.conf
+	echo -n "NVIDIA" | tee $WORKSPACE/graphics.conf > /dev/null
 fi
