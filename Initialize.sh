@@ -68,5 +68,11 @@ sudo chmod +x /etc/lightdm/display_setup.sh
 
 # 生成 prime-run
 echo '#!/bin/sh
-__NV_PRIME_RENDER_OFFLOAD=1 __VK_LAYER_NV_optimus=NVIDIA_only __GLX_VENDOR_LIBRARY_NAME=nvidia "$@"' | sudo tee /usr/bin/prime-run.bak > /dev/null
+file=$1
+if [ "${file##*.}"x = "desktop"x ]
+then
+    __NV_PRIME_RENDER_OFFLOAD=1 __VK_LAYER_NV_optimus=NVIDIA_only __GLX_VENDOR_LIBRARY_NAME=nvidia $(cat $file | grep "Exec=" | sed "s/^Exec=//" | head -n 1)
+else
+    __NV_PRIME_RENDER_OFFLOAD=1 __VK_LAYER_NV_optimus=NVIDIA_only __GLX_VENDOR_LIBRARY_NAME=nvidia $file
+fi' | sudo tee /usr/bin/prime-run.bak > /dev/null
 sudo chmod +x /usr/bin/prime-run.bak
