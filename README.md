@@ -55,9 +55,9 @@ cd build && cmake .. && make -j4
 
 P.S.建议使用 deb 安装包安装
 
-1.  将 icon 文件夹，Initialize.sh，Intel,sh，NVIDIA.sh，CheckConf.sh，ResetConf.sh，Rescue.sh 放置在 /opt/durapps/dde-dock-switch_graphics_card 文件夹下；
+1.  将 Initialize.sh，Intel,sh，NVIDIA.sh，CheckConf.sh，ResetConf.sh，Rescue.sh 放置在 /opt/durapps/dde-dock-switch_graphics_card/bin 文件夹下；将 icons 文件夹放置在 /opt/durapps/dde-dock-switch_graphics_card/share 文件夹下。
 
-2.  将编译生成的 libswitch_graphics_card.so 放在 ~/.local/lib/dde-dock/plugins/ 或者 /usr/lib/dde-dock/plugins/ 文件夹下;
+2.  将编译生成的 libswitch_graphics_card.so 放在 ~/.local/lib/dde-dock/plugins/ 或者 /usr/lib/dde-dock/plugins/ 文件夹下。
 
 3.  等待 dde-dock 自动重新加载，即可在最右侧看到该插件已启用。该插件默认启用，可以选择手动禁用。
 
