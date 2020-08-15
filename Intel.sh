@@ -23,7 +23,7 @@ echo "即将切换至 Intel 显卡。在注销登录之前，请保存好当前�
 sh /opt/durapps/dde-dock-switch_graphics_card/bin/Initialize.sh
 
 # 启用 nvidia-prime
-sudo mv /usr/bin/prime-run.bak /usr/bin/prime-run
+sudo cp /usr/bin/prime-run.bak /usr/bin/prime-run
 
 # 修改 xorg.conf
 sudo cp /etc/X11/xorg.conf.bak /etc/X11/xorg.conf

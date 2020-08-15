@@ -22,6 +22,9 @@ echo '即将切换至 NVIDIA 显卡。在注销登录之前，请保存好当前
 # 初始化 NVIDIA 相关配置文件
 sh /opt/durapps/dde-dock-switch_graphics_card/bin/Initialize.sh
 
+# 删除 nvidia-prime
+sudo rm /usr/bin/prime-run
+
 # 修改 xorg.conf
 sudo cp /etc/X11/xorg.conf.bak /etc/X11/xorg.conf
 sudo sed -i 's$Screen      0  "Screen0" 0 0$Screen      0  "DGPU" 0 0$g' /etc/X11/xorg.conf
