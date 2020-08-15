@@ -9,7 +9,9 @@
 #include <QProcess>
 
 #define ConfigFilePath "/.config/dde-dock-switch_graphics_card/graphics.conf"
-#define IntelIconPath "/opt/durapps/dde-dock-switch_graphics_card/share/icons/Intel.svg"
-#define NvidiaIconPath "/opt/durapps/dde-dock-switch_graphics_card/share/icons/NVIDIA.svg"
+#define IntelLightPath "/opt/durapps/dde-dock-switch_graphics_card/share/icons/Intel_light.svg"
+#define NvidiaLightPath "/opt/durapps/dde-dock-switch_graphics_card/share/icons/NVIDIA_light.svg"
+#define IntelDarkPath "/opt/durapps/dde-dock-switch_graphics_card/share/icons/Intel_dark.svg"
+#define NvidiaDarkPath "/opt/durapps/dde-dock-switch_graphics_card/share/icons/NVIDIA_dark.svg"
 
 #endif

@@ -1,4 +1,7 @@
 #include "SwitchGraphicsCardWidget.h"
+#include <DGuiApplicationHelper>
+
+DGUI_USE_NAMESPACE
 
 SwitchGraphicsCardWidget::SwitchGraphicsCardWidget(QWidget *parent) :
     QWidget(parent),
@@ -17,6 +20,9 @@ SwitchGraphicsCardWidget::SwitchGraphicsCardWidget(QWidget *parent) :
 
     setLayout(centralLayout);
 
+    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, [ = ] {
+        RefreshIcon();
+    });
     // 连接 Timer 超时的信号到更新数据的槽上
     connect(m_refreshTimer, &QTimer::timeout, this, &SwitchGraphicsCardWidget::RefreshIcon);
 
@@ -39,10 +45,17 @@ void SwitchGraphicsCardWidget::RefreshIcon()
     QImage *img = new QImage;   // 新建一个image对象
     if(CardName == "Intel")
     {
-        img->load(IntelIconPath);   // 载入图像资源
+        if(DGuiApplicationHelper::instance()->themeType() == DGuiApplicationHelper::LightType)  // 判断主题颜色
+            img->load(IntelDarkPath);   // 载入图像资源
+        else
+            img->load(IntelLightPath);
     }
     else {
-        img->load(NvidiaIconPath);
+        if(DGuiApplicationHelper::instance()->themeType() == DGuiApplicationHelper::LightType)
+            img->load(NvidiaDarkPath);
+        else {
+            img->load(NvidiaLightPath);
+        }
     }
     // 更新 dock栏 图标
     m_infoLabel->setPixmap(QPixmap::fromImage(*img));
