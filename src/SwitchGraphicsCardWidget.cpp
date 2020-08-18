@@ -35,7 +35,7 @@ SwitchGraphicsCardWidget::SwitchGraphicsCardWidget(QWidget *parent) :
 void SwitchGraphicsCardWidget::RefreshIcon()
 {
     // 刷新显卡信息
-    system("sh /opt/durapps/dde-dock-switch_graphics_card/bin/CheckConf.sh");
+    system("sh /opt/apps/com.deepin.dde-dock-graphics-plugin/files/bin/CheckConf.sh");
     QFile Config(QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + ConfigFilePath);
     Config.open(QIODevice::ReadOnly | QIODevice::Text);
     QByteArray TextByte = Config.readAll();

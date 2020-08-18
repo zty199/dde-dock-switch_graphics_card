@@ -20,7 +20,7 @@ fi
 echo "即将切换至 Intel 显卡。在注销登录之前，请保存好当前的工作。"
 
 # 初始化 nvidia-prime 相关配置文件
-sh /opt/durapps/dde-dock-switch_graphics_card/bin/Initialize.sh
+sh /opt/apps/com.deepin.dde-dock-graphics-plugin/files/bin/Initialize.sh
 
 # 启用 nvidia-prime
 sudo cp /usr/bin/prime-run.bak /usr/bin/prime-run
