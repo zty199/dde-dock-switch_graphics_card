@@ -7,7 +7,8 @@ Source: https://github.com/mywhat/DDESwitchCard
 Homepage: https://github.com/zty199/dde-dock-switch_graphics_card
 Architecture: amd64
 Priority: optional
-Depends: mesa-utils
-Conflicts: switch-graphics-card
+Depends: mesa-utils, zenity
+Conflicts: switch-graphics-card (<= 1.5)
+Replaces: switch-graphics-card (<= 1.5)
 Description: A simple dde-dock plugin for graphics card switch.
 

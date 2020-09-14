@@ -24,6 +24,7 @@ sh /opt/apps/com.deepin.dde-dock-graphics-plugin/files/bin/Initialize.sh
 
 # 启用 nvidia-prime
 sudo cp /usr/bin/prime-run.bak /usr/bin/prime-run
+sudo ln -s -f /opt/apps/com.deepin.dde-dock-graphics-plugin/files/share/oem-menuextensions/prime-run.desktop /usr/share/deepin/dde-file-manager/oem-menuextensions/
 
 # 修改 xorg.conf
 sudo cp /etc/X11/xorg.conf.bak /etc/X11/xorg.conf

@@ -5,6 +5,7 @@ sudo rm /etc/X11/xorg.conf.bak /etc/X11/xorg.conf
 
 # 删除 prime-run
 sudo rm /usr/bin/prime-run.bak /usr/bin/prime-run
+sudo rm /usr/share/deepin/dde-file-manager/oem-menuextensions/prime-run.desktop
 
 # 删除 nvidia-graphics-drivers.conf
 sudo rm /etc/modprobe.d/nvidia-graphics-driver.conf.bak /etc/modprobe.d/nvidia-graphics-driver.conf

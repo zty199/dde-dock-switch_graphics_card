@@ -24,6 +24,7 @@ sh /opt/apps/com.deepin.dde-dock-graphics-plugin/files/bin/Initialize.sh
 
 # 删除 nvidia-prime
 sudo rm /usr/bin/prime-run
+sudo rm /usr/share/deepin/dde-file-manager/oem-menuextensions/prime-run.desktop
 
 # 修改 xorg.conf
 sudo cp /etc/X11/xorg.conf.bak /etc/X11/xorg.conf

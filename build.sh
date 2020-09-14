@@ -5,7 +5,7 @@ cd $PWD
 # 编译
 echo "开始编译..."
 
-mkdir build && cd build
+mkdir -p build && cd build
 cmake ../src
 make
 cd ..
@@ -33,13 +33,16 @@ cat ./deb_uos/DEBIAN/control
 
 echo "-------------------------"
 
-fakeroot dpkg -b ./deb_uos ./dde-dock-graphics-plugin_amd64.deb
+version=$(cat ./deb_uos/DEBIAN/control | grep "Version" | awk -F ' '  '{print $2}')
+
+fakeroot dpkg -b ./deb_uos ./dde-dock-graphics-plugin_"$version"_amd64.deb
 
 echo "构建完成，软件包位于当前目录"
 
 # 清除模板中的文件
 echo "清除文件..."
 
+rm -rf ./deb_uos/DEBIAN/md5sums
 rm -rf ./deb_uos/opt/apps/com.deepin.dde-dock-graphics-plugin/files/*
 
 # rm -rf ./build

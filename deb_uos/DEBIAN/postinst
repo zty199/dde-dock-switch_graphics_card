@@ -2,6 +2,6 @@
 
 ln -s -f /opt/apps/com.deepin.dde-dock-graphics-plugin/files/plugins/libswitch_graphics_card.so /usr/lib/dde-dock/plugins/
 
-ln -s -f /opt/apps/com.deepin.dde-dock-graphics-plugin/files/share/oem-menuextensions/prime-run.desktop /usr/share/deepin/dde-file-manager/oem-menuextensions/
+# ln -s -f /opt/apps/com.deepin.dde-dock-graphics-plugin/files/share/oem-menuextensions/prime-run.desktop /usr/share/deepin/dde-file-manager/oem-menuextensions/
 
 pkill -9 dde-dock

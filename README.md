@@ -30,9 +30,9 @@ cmake, gcc, g++
 
 libqt5core5a
 
-libqt5gui
+libqt5gui5
 
-libqt5widgets
+libqt5widgets5
 
 libdtkcore-dev
 
@@ -45,9 +45,11 @@ dde-dock-dev
 
 mesa-utils（运行时依赖）
 
+zenity（运行时依赖）
+
 ## 源码编译
 
-运行 build.sh 自动编译源码，并生成 dde-dock-graphics-plugin_amd64.deb
+运行 build.sh 自动编译源码，并生成 dde-dock-graphics-plugin_<version>_amd64.deb
 
 ## 使用
 
