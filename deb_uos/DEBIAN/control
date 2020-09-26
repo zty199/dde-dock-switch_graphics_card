@@ -1,6 +1,5 @@
-Package: com.deepin.dde-dock-graphics-plugin
-Version: 1.5.1
-Installed-Size: 396
+Package: dde-dock-graphics-plugin
+Version: 1.6
 Maintainer: zty199 <zty2864@gmail.com>
 Section: utils
 Source: https://github.com/mywhat/DDESwitchCard

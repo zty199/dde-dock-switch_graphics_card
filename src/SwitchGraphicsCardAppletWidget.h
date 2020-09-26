@@ -19,6 +19,7 @@ private:
     QProcess *process;
 
     QString CardName;
+    QString locale;
 
 private slots:
     void SwitchIntel();
@@ -28,6 +29,7 @@ public:
     explicit SwitchGraphicsCardAppletWidget(QWidget *parent = nullptr);
 
     QString GetCardName();
+    QString GetLocale();
     void UpdateGraphicsInfo();
 
 };

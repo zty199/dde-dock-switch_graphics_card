@@ -20,6 +20,8 @@
 
 添加了 插件右键菜单，支持手动刷新显卡信息，快速访问 系统显示器设置 以及 NVIDIA 显卡设置。
 
+添加了部分英文翻译。
+
 ## 编译环境依赖
 
 qt-default
@@ -49,13 +51,13 @@ zenity（运行时依赖）
 
 ## 源码编译
 
-运行 build.sh 自动编译源码，并生成 dde-dock-graphics-plugin_<version>_amd64.deb
+运行 build.sh 自动编译源码，并生成 dde-dock-graphics-plugin_"$version"_amd64.deb
 
 ## 使用
 
 P.S.建议使用自动生成的 deb 安装包进行安装
 
-1.  将 scripts 文件夹下 Initialize.sh，Intel,sh，NVIDIA.sh，CheckConf.sh，ResetConf.sh，Rescue.sh 放置在 /opt/apps/com.deepin.dde-dock-graphics-plugin/files/bin 文件夹下；将 icons 文件夹放置在 /opt/apps/com.deepin.dde-dock-graphics-plugin/files/share 文件夹下。
+1.  将 scripts 文件夹下 Initialize.sh，Intel,sh，NVIDIA.sh，CheckConf.sh，ResetConf.sh，Rescue.sh 放置在 /opt/apps/dde-dock-graphics-plugin/files/bin 文件夹下；将 icons 文件夹放置在 /opt/apps/dde-dock-graphics-plugin/files/share 文件夹下。
 
 2.  将编译生成的 libswitch_graphics_card.so 放在 ~/.local/lib/dde-dock/plugins/ 或者 /usr/lib/dde-dock/plugins/ 文件夹下。
 
@@ -78,5 +80,7 @@ linuxdeepin 官方的 dde-dock 项目仓库       https://github.com/linuxdeepin
 论坛大佬 q77190858 的 dde-dock系统监控小插件        https://bbs.deepin.org/forum.php?mod=viewthread&tid=179425
 
 论坛大佬 shenmo，lenke，mmlmonkey，xuey 等提供的修改建议       https://bbs.deepin.org/forum.php?mod=viewthread&tid=197367
+
+GitHub 开源项目 dde-appknitter 的脚本翻译方式      https://github.com/Dziban-dev/dde-appknitter
 
 码云组织　Deepin开源项目　提供的 UOS 打包规范和方法
