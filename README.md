@@ -20,7 +20,9 @@
 
 添加了 插件右键菜单，支持手动刷新显卡信息，快速访问 系统显示器设置 以及 NVIDIA 显卡设置。
 
-添加了部分英文翻译。
+添加了 pkexec 策略文件，切换显卡授权提示框显示更美观。
+
+添加了英文翻译，非中文环境自动显示英文。（能力有限，只能翻译英文了......）
 
 ## 编译环境依赖
 
@@ -63,13 +65,15 @@ P.S.建议使用自动生成的 deb 安装包进行安装
 
 3.  等待 dde-dock 自动重新加载，即可在最右侧看到该插件已启用。该插件默认启用，可以选择手动禁用。
 
-4.  （可选）将 prime-run.desktop 放入 /usr/share/deepin/dde-file-manager/oem-menuextensions/ ，可以在右键菜单中快速调用 prime-run 运行可执行文件。
-
-5.  （可选）将 dde-dock-switch_intel.desktop 和 dde-dock-switch_nvidia.desktop 放入 /usr/share/deepin/dde-file-manager/oem-menuextensions/ ，可以在右键菜单中直接切换显卡。
+4.  将 prime-run.desktop 放入 /usr/share/deepin/dde-file-manager/oem-menuextensions/ ，可以在右键菜单中快速调用 prime-run 运行可执行文件。
 
 ## 感谢
 
 linuxdeepin 官方的 dde-dock 项目仓库       https://github.com/linuxdeepin/dde-dock
+
+linuxdeepin 官方的 dde-file-manager 项目仓库       https://github.com/linuxdeepin/dde-file-manager
+
+GitHub 开源项目 dde-appknitter 的脚本翻译方式      https://github.com/Dziban-dev/dde-appknitter
 
 论坛大佬 chanforever 的插件        https://bbs.deepin.org/forum.php?mod=viewthread&tid=197280
 
@@ -80,7 +84,5 @@ linuxdeepin 官方的 dde-dock 项目仓库       https://github.com/linuxdeepin
 论坛大佬 q77190858 的 dde-dock系统监控小插件        https://bbs.deepin.org/forum.php?mod=viewthread&tid=179425
 
 论坛大佬 shenmo，lenke，mmlmonkey，xuey 等提供的修改建议       https://bbs.deepin.org/forum.php?mod=viewthread&tid=197367
-
-GitHub 开源项目 dde-appknitter 的脚本翻译方式      https://github.com/Dziban-dev/dde-appknitter
 
 码云组织　Deepin开源项目　提供的 UOS 打包规范和方法

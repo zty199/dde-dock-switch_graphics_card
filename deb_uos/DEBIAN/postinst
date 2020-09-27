@@ -2,4 +2,6 @@
 
 ln -s -f /opt/apps/dde-dock-graphics-plugin/files/plugins/libswitch_graphics_card.so /usr/lib/dde-dock/plugins/
 
+ln -s -f /opt/apps/dde-dock-graphics-plugin/files/share/pkexec/com.deepin.pkexec.dde-dock-graphics-plugin.policy /usr/share/polkit-1/actions/
+
 # pkill -9 dde-dock

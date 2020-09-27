@@ -34,6 +34,7 @@ lshw -c video | grep "driver=nvidia" > /dev/null
 if [ $? -ne 0 ]
 then
 	zenity --warning --width=500 --title="$TITLE" --text="$TEXT"
+    echo "$TITLE: $TEXT"
     echo -n "Intel" | tee $WORKSPACE/graphics.conf > /dev/null
     exit
 fi

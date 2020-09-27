@@ -45,11 +45,14 @@ mkdir -p ./deb_uos/opt/apps/dde-dock-graphics-plugin/files/bin/
 mkdir -p ./deb_uos/opt/apps/dde-dock-graphics-plugin/files/plugins/
 mkdir -p ./deb_uos/opt/apps/dde-dock-graphics-plugin/files/share/icons/
 mkdir -p ./deb_uos/opt/apps/dde-dock-graphics-plugin/files/share/oem-menuextensions/
+mkdir -p ./deb_uos/opt/apps/dde-dock-graphics-plugin/files/share/pkexec/
 
+chmod 644 ./build/libswitch_graphics_card.so
 cp ./build/libswitch_graphics_card.so ./deb_uos/opt/apps/dde-dock-graphics-plugin/files/plugins
 cp ./scripts/* ./deb_uos/opt/apps/dde-dock-graphics-plugin/files/bin/
 cp ./icons/* ./deb_uos/opt/apps/dde-dock-graphics-plugin/files/share/icons/
-cp ./oem-menuextensions/prime-run.desktop ./deb_uos/opt/apps/dde-dock-graphics-plugin/files/share/oem-menuextensions/
+cp ./oem-menuextensions/* ./deb_uos/opt/apps/dde-dock-graphics-plugin/files/share/oem-menuextensions/
+cp ./pkexec/* ./deb_uos/opt/apps/dde-dock-graphics-plugin/files/share/pkexec/
 
 find ./deb_uos/opt -type f -print0 | xargs -0 md5sum > ./deb_uos/DEBIAN/md5sums && sed -i "s#./deb_uos/opt#/opt#" ./deb_uos/DEBIAN/md5sums
 

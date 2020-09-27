@@ -28,6 +28,7 @@ lshw -c video | grep "driver=nvidia" > /dev/null
 if [ $? -ne 0 ]
 then
 	zenity --warning --width=500 --title="$TITLE" --text="$TEXT1"
+    echo "$TITLE: $TEXT1"
     exit
 fi
 
@@ -36,6 +37,7 @@ glxinfo | grep "OpenGL vendor" | grep "Intel" > /dev/null
 if [ $? -eq 0 ]
 then
 	zenity --warning --width=300 --title="$TITLE" --text="$TEXT2"
+    echo "$TITLE: $TEXT2"
     exit
 fi
 

@@ -60,7 +60,7 @@ void SwitchGraphicsCardAppletWidget::SwitchIntel()
         return;
     }
 
-    system("pkexec sh /opt/apps/dde-dock-graphics-plugin/files/bin/Intel.sh");
+    system("pkexec /opt/apps/dde-dock-graphics-plugin/files/bin/Intel.sh");
 }
 
 void SwitchGraphicsCardAppletWidget::SwitchNvidia()
@@ -75,13 +75,13 @@ void SwitchGraphicsCardAppletWidget::SwitchNvidia()
         return;
     }
 
-    system("pkexec sh /opt/apps/dde-dock-graphics-plugin/files/bin/NVIDIA.sh");
+    system("pkexec /opt/apps/dde-dock-graphics-plugin/files/bin/NVIDIA.sh");
 }
 
 void SwitchGraphicsCardAppletWidget::UpdateGraphicsInfo()
 {
     // 刷新显卡信息
-    system("sh /opt/apps/dde-dock-graphics-plugin/files/bin/CheckConf.sh");
+    system("/opt/apps/dde-dock-graphics-plugin/files/bin/CheckConf.sh");
     QFile Config(QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + ConfigFilePath);
     Config.open(QIODevice::ReadOnly | QIODevice::Text);
     QByteArray TextByte = Config.readAll();
