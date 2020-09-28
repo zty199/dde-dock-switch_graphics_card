@@ -48,7 +48,7 @@ echo $TIP
 sh /opt/apps/dde-dock-graphics-plugin/files/bin/Initialize.sh
 
 # 启用 nvidia-prime | Enable nvidia-prime
-sudo cp /usr/bin/prime-run.bak /usr/bin/prime-run
+sudo ln -s -f /opt/apps/dde-dock-graphics-plugin/files/scripts/prime-run.sh /usr/bin/prime-run
 sudo ln -s -f /opt/apps/dde-dock-graphics-plugin/files/share/oem-menuextensions/prime-run.desktop /usr/share/deepin/dde-file-manager/oem-menuextensions/
 
 # 修改 xorg.conf | Modify xorg.conf

@@ -8,22 +8,21 @@ SwitchGraphicsCardPlugin::SwitchGraphicsCardPlugin(QObject *parent)
 
 const QString SwitchGraphicsCardPlugin::pluginName() const
 {
-    return QStringLiteral("switch-graphics_card");
+    return QStringLiteral("switch-graphics-card");
 }
 
 const QString SwitchGraphicsCardPlugin::pluginDisplayName() const
 {
-    if(m_appletWidget->GetLocale() == "zh")
+    if(m_appletWidget->getLocale() == "zh")
         return QString("显卡切换");
-    else {
+    else
         return QString("Switch Graphics Card");
-    }
 }
 
 void SwitchGraphicsCardPlugin::init(PluginProxyInterface *proxyInter)
 {
     m_proxyInter = proxyInter;
-    
+
     m_pluginWidget = new SwitchGraphicsCardWidget;
     m_tipsWidget = new QLabel;
     m_appletWidget = new SwitchGraphicsCardAppletWidget;
@@ -31,7 +30,12 @@ void SwitchGraphicsCardPlugin::init(PluginProxyInterface *proxyInter)
     // 如果插件没有被禁用则在初始化插件时才添加主控件到面板上
     if (!pluginIsDisable()) {
         m_proxyInter->itemAdded(this, pluginName());
-        system("/opt/apps/dde-dock-graphics-plugin/files/bin/ResetConf.sh");
+
+        // 初始化显卡信息和系统语言环境
+        m_appletWidget->setCardName();
+        m_appletWidget->setLocale();
+        m_appletWidget->refreshButton();
+        m_pluginWidget->getInfo(m_appletWidget);
     }
 }
 
@@ -51,10 +55,10 @@ QWidget *SwitchGraphicsCardPlugin::itemTipsWidget(const QString &itemKey)
     Q_UNUSED(itemKey);
 
     // 设置/刷新 tips 中的信息
-    if(m_appletWidget->GetLocale() == "zh")
-        m_tipsWidget->setText("当前显卡：" + m_appletWidget->GetCardName());
+    if(m_appletWidget->getLocale() == "zh")
+        m_tipsWidget->setText("当前显卡：" + m_appletWidget->getCardName());
     else
-        m_tipsWidget->setText("Current: " + m_appletWidget->GetCardName());
+        m_tipsWidget->setText("Current: " + m_appletWidget->getCardName());
 
     return this->m_tipsWidget;
 }
@@ -104,7 +108,7 @@ const QString SwitchGraphicsCardPlugin::itemContextMenu(const QString &itemKey)
 
     QMap<QString, QVariant> refresh;
     refresh["itemId"] = "refresh";
-    if(m_appletWidget->GetLocale() == "zh")
+    if(m_appletWidget->getLocale() == "zh")
         refresh["itemText"] = "刷新";
     else
         refresh["itemText"] = "Refresh";
@@ -113,7 +117,7 @@ const QString SwitchGraphicsCardPlugin::itemContextMenu(const QString &itemKey)
 
     QMap<QString, QVariant> setting;
     setting["itemId"] = "setting";
-    if(m_appletWidget->GetLocale() == "zh")
+    if(m_appletWidget->getLocale() == "zh")
         setting["itemText"] = "显示器设置";
     else
         setting["itemText"] = "Display Settings";
@@ -122,7 +126,7 @@ const QString SwitchGraphicsCardPlugin::itemContextMenu(const QString &itemKey)
 
     QMap<QString, QVariant> nvidia;
     nvidia["itemId"] = "nvidia";
-    if(m_appletWidget->GetLocale() == "zh")
+    if(m_appletWidget->getLocale() == "zh")
         nvidia["itemText"] = "NVIDIA 显卡设置";
     else
         nvidia["itemText"] = "Run nvidia-settings";
@@ -144,12 +148,19 @@ void SwitchGraphicsCardPlugin::invokedMenuItem(const QString &itemKey, const QSt
 
     // 根据上面接口设置的 id 执行不同的操作
     if (menuId == "refresh") {
-        system("/opt/apps/dde-dock-graphics-plugin/files/bin/CheckConf.sh");
+        // 刷新显卡信息和系统语言环境
+        m_appletWidget->setCardName();
+        m_appletWidget->setLocale();
+        m_appletWidget->refreshButton();
+        m_pluginWidget->getInfo(m_appletWidget);
     }
     else if(menuId == "setting") {
+        // 这里还可以使用 dbus 调用控制中心
+        // dbus-send --dest=com.deepin.dde.ControlCenter /com/deepin/dde/ControlCenter --print-reply com.deepin.dde.ControlCenter.ShowModule string:"display"
         system("dde-control-center -m display");
     }
     else if(menuId == "nvidia") {
+        // 这个需要用户自行安装 nvidia-settings
         system("nvidia-settings");
     }
 }

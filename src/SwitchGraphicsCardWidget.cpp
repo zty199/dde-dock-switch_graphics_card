@@ -21,27 +21,34 @@ SwitchGraphicsCardWidget::SwitchGraphicsCardWidget(QWidget *parent) :
     setLayout(centralLayout);
 
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, [ = ] {
-        RefreshIcon();
+        refreshIcon();
     });
+
+    /* 可以设置定时刷新 */
     // 连接 Timer 超时的信号到更新数据的槽上
-    connect(m_refreshTimer, &QTimer::timeout, this, &SwitchGraphicsCardWidget::RefreshIcon);
+    //connect(m_refreshTimer, &QTimer::timeout, this, &SwitchGraphicsCardWidget::getInfo);
 
     // 设置 Timer 超时为 10s，即每 10s 更新一次控件上的数据，并启动这个定时器
-    m_refreshTimer->start(10000);
+    //m_refreshTimer->start(10000);
 
-    RefreshIcon();
+    //getInfo();
 }
 
-void SwitchGraphicsCardWidget::RefreshIcon()
+void SwitchGraphicsCardWidget::getInfo(SwitchGraphicsCardAppletWidget *m_appletWidget)
 {
-    // 刷新显卡信息
-    system("/opt/apps/dde-dock-graphics-plugin/files/bin/CheckConf.sh");
-    QFile Config(QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + ConfigFilePath);
-    Config.open(QIODevice::ReadOnly | QIODevice::Text);
-    QByteArray TextByte = Config.readAll();
-    Config.close();
-    QString CardName = QString(TextByte);
+    // 获取 appletwidget 中的信息
+    this->m_appletWidget = m_appletWidget;
 
+    // 刷新图标
+    refreshIcon();
+}
+
+void SwitchGraphicsCardWidget::refreshIcon()
+{
+    // 双重触发机制：1.手动刷新信息  2.系统主题改变
+
+    // 获取 appletwidget 中的显卡信息
+    QString CardName = m_appletWidget->getCardName();
     QImage *img = new QImage;   // 新建一个image对象
     if(CardName == "Intel")
     {
@@ -53,10 +60,10 @@ void SwitchGraphicsCardWidget::RefreshIcon()
     else {
         if(DGuiApplicationHelper::instance()->themeType() == DGuiApplicationHelper::LightType)
             img->load(NvidiaDarkPath);
-        else {
+        else
             img->load(NvidiaLightPath);
-        }
     }
+
     // 更新 dock栏 图标
     m_infoLabel->setPixmap(QPixmap::fromImage(*img));
 }
