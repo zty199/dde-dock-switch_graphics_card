@@ -12,8 +12,8 @@ export LC_ALL=zh_CN.UTF-8
 # 翻译文本 | Translation variables
 readonly TITLE_zh="警告 — DDE Dock"
 readonly TITLE_en="Warning — DDE Dock"
-readonly TEXT_zh="未检测到 NVIDIA 显卡驱动，插件无法正常切换显卡。建议安装 NVIDIA 闭源驱动！"
-readonly TEXT_en="NVIDIA X driver not detected. Plugin won't work properly. Suggest installing nvidia-driver first!"
+readonly TEXT_zh="未检测到 NVIDIA 显卡驱动，建议安装 NVIDIA 闭源驱动"
+readonly TEXT_en="NVIDIA X driver not detected, suggest installing nvidia-driver first"
 
 eval "TITLE=\$TITLE_${LANG}"
 eval "TEXT=\$TEXT_${LANG}"
@@ -22,7 +22,8 @@ eval "TEXT=\$TEXT_${LANG}"
 lshw -c video | grep "driver=nvidia" > /dev/null
 if [ $? -ne 0 ]
 then
-	zenity --warning --width=500 --title="$TITLE" --text="$TEXT"
+	# zenity --warning --width=500 --title="$TITLE" --text="$TEXT"
+    notify-send -t 5000 -a dde-dock-graphics-plugin -i dialog-warning "$TEXT"
     echo "Intel"
     exit
 fi

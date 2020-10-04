@@ -1,0 +1,7 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Application
+Icon=deepin-graphics-driver-manager
+Name=SwitchGraphicsCardPlugin
+Name[zh_CN]=显卡切换插件
+NoDisplay=true
