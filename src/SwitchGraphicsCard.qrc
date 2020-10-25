@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file>icons/Intel_light.svg</file>
+        <file>icons/NVIDIA_dark.svg</file>
+        <file>icons/NVIDIA_light.svg</file>
+        <file>icons/Intel_dark.svg</file>
+    </qresource>
+</RCC>

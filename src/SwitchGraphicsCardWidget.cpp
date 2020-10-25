@@ -1,69 +1,147 @@
 #include "SwitchGraphicsCardWidget.h"
-#include <DGuiApplicationHelper>
 
-DGUI_USE_NAMESPACE
+#include <DGuiApplicationHelper>
+#include <DStyle>
+
+DWIDGET_USE_NAMESPACE
 
 SwitchGraphicsCardWidget::SwitchGraphicsCardWidget(QWidget *parent) :
     QWidget(parent),
-    m_infoLabel(new QLabel),
-    m_refreshTimer(new QTimer(this))
+    m_hover(false),
+    m_pressed(false)
 {
-    m_infoLabel->setStyleSheet("QLabel {"
-                               "color: white;"
-                               "}");
-    m_infoLabel->setAlignment(Qt::AlignCenter);
-
-    QVBoxLayout *centralLayout = new QVBoxLayout;
-    centralLayout->addWidget(m_infoLabel);
-    centralLayout->setSpacing(0);
-    centralLayout->setMargin(0);
-
-    setLayout(centralLayout);
+    setMouseTracking(true);
+    setMinimumSize(PLUGIN_BACKGROUND_MIN_SIZE, PLUGIN_BACKGROUND_MIN_SIZE);
 
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, [ = ] {
-        refreshIcon();
+        update();
     });
-
-    /* 可以设置定时刷新 */
-    // 连接 Timer 超时的信号到更新数据的槽上
-    //connect(m_refreshTimer, &QTimer::timeout, this, &SwitchGraphicsCardWidget::getInfo);
-
-    // 设置 Timer 超时为 10s，即每 10s 更新一次控件上的数据，并启动这个定时器
-    //m_refreshTimer->start(10000);
-
-    //getInfo();
 }
 
 void SwitchGraphicsCardWidget::getInfo(SwitchGraphicsCardAppletWidget *m_appletWidget)
 {
     // 获取 appletwidget 中的信息
-    this->m_appletWidget = m_appletWidget;
+    CardName = m_appletWidget->getCardName();
 
     // 刷新图标
-    refreshIcon();
+    update();
 }
 
-void SwitchGraphicsCardWidget::refreshIcon()
+void SwitchGraphicsCardWidget::paintEvent(QPaintEvent *e)
 {
-    // 双重触发机制：1.手动刷新信息  2.系统主题改变
+    Q_UNUSED(e);
 
-    // 获取 appletwidget 中的显卡信息
-    QString CardName = m_appletWidget->getCardName();
-    QImage *img = new QImage;   // 新建一个image对象
+    QPixmap pixmap;
+    QString iconName;
     if(CardName == "Intel")
+        iconName = Intel_light;
+    else
+        iconName = NVIDIA_light;
+    int iconSize = PLUGIN_ICON_MAX_SIZE;
+
+    // 绘制图标背景
+    QPainter painter(this);
+    if(std::min(width(), height()) > PLUGIN_BACKGROUND_MIN_SIZE)
     {
-        if(DGuiApplicationHelper::instance()->themeType() == DGuiApplicationHelper::LightType)  // 判断主题颜色
-            img->load(IntelDarkPath);   // 载入图像资源
-        else
-            img->load(IntelLightPath);
-    }
-    else {
+        QColor color;
         if(DGuiApplicationHelper::instance()->themeType() == DGuiApplicationHelper::LightType)
-            img->load(NvidiaDarkPath);
+        {
+            color = Qt::black;
+            painter.setOpacity(0.5);
+
+            if(m_hover)
+                painter.setOpacity(0.6);
+
+            if(m_pressed)
+                painter.setOpacity(0.3);
+        }
         else
-            img->load(NvidiaLightPath);
+        {
+            color = Qt::white;
+            painter.setOpacity(0.1);
+
+            if(m_hover)
+                painter.setOpacity(0.2);
+
+            if(m_pressed)
+                painter.setOpacity(0.05);
+        }
+
+        painter.setRenderHint(QPainter::Antialiasing, true);
+
+        DStyleHelper dstyle(style());
+        const int radius = dstyle.pixelMetric(DStyle::PM_FrameRadius);
+
+        QPainterPath path;
+
+        int minSize = std::min(width(), height());
+        QRect rc(0, 0, minSize, minSize);
+        rc.moveTo(rect().center() - rc.center());
+
+        path.addRoundedRect(rc, radius, radius);
+        painter.fillPath(path, color);
+    }
+    else if(DGuiApplicationHelper::instance()->themeType() == DGuiApplicationHelper::LightType)
+    {
+        if(CardName == "Intel")
+            iconName = Intel_dark;
+        else
+            iconName = NVIDIA_dark;
     }
 
-    // 更新 dock栏 图标
-    m_infoLabel->setPixmap(QPixmap::fromImage(*img));
+    pixmap = loadSVG(iconName, QSize(iconSize, iconSize));
+
+    painter.setOpacity(1);
+    const QRectF &rf = QRectF(rect());
+    const QRectF &rfp = QRectF(pixmap.rect());
+    painter.drawPixmap(rf.center() - rfp.center() / devicePixelRatioF(), pixmap);
+}
+
+const QPixmap SwitchGraphicsCardWidget::loadSVG(const QString &fileName, const QSize &size) const
+{
+    const auto ratio = devicePixelRatioF();
+
+    QPixmap pixmap;
+    pixmap = QIcon::fromTheme(fileName).pixmap(size * ratio);
+    pixmap.setDevicePixelRatio(ratio);
+
+    return pixmap;
+}
+
+void SwitchGraphicsCardWidget::mousePressEvent(QMouseEvent *event)
+{
+    m_pressed = true;
+    update();
+
+    QWidget::mousePressEvent(event);
+}
+
+void SwitchGraphicsCardWidget::mouseReleaseEvent(QMouseEvent *event)
+{
+    m_pressed = false;
+    m_hover = false;
+    update();
+
+    QWidget::mouseReleaseEvent(event);
+}
+
+void SwitchGraphicsCardWidget::mouseMoveEvent(QMouseEvent *event)
+{
+    m_hover = true;
+
+    QWidget::mouseMoveEvent(event);
+}
+
+void SwitchGraphicsCardWidget::leaveEvent(QEvent *event)
+{
+    m_hover = false;
+    m_pressed = false;
+    update();
+
+    QWidget::leaveEvent(event);
+}
+
+void SwitchGraphicsCardWidget::resizeEvent(QResizeEvent *event)
+{
+    QWidget::resizeEvent(event);
 }

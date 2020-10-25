@@ -1,11 +1,9 @@
 #ifndef SWITCHCARD_H
 #define SWITCHCARD_H
 
-#include <dde-dock/pluginsiteminterface.h>
-#include <QObject>
-#include <QLabel>
-
 #include "ddeUtil.h"
+#include <dde-dock/pluginsiteminterface.h>
+
 #include "SwitchGraphicsCardWidget.h"
 #include "SwitchGraphicsCardAppletWidget.h"
 

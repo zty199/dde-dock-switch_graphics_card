@@ -1,10 +1,6 @@
 #ifndef SWITCHITEMWIDGET_H
 #define SWITCHITEMWIDGET_H
 
-#include <QPushButton>
-#include <QMessageBox>
-#include <QTimer>
-
 #include "ddeUtil.h"
 
 class SwitchGraphicsCardAppletWidget : public QWidget
@@ -12,8 +8,6 @@ class SwitchGraphicsCardAppletWidget : public QWidget
     Q_OBJECT
 
 private:
-    QTimer *RefreshTimer;
-
     QPushButton *Intel;
     QPushButton *NVIDIA;
     QProcess *process;

@@ -51,6 +51,8 @@ mesa-utils（运行时依赖）
 
 zenity（运行时依赖）
 
+libnotify4（运行时依赖）
+
 ## 源码编译
 
 运行 build.sh 自动编译源码，并生成 dde-dock-graphics-plugin_"$version"_amd64.deb
@@ -59,7 +61,7 @@ zenity（运行时依赖）
 
 P.S.建议使用自动生成的 deb 安装包进行安装
 
-1.  将 scripts 文件夹下 Initialize.sh，Intel,sh，NVIDIA.sh，CheckConf.sh，ResetConf.sh，Rescue.sh 放置在 /opt/apps/dde-dock-graphics-plugin/files/bin 文件夹下；将 icons 文件夹放置在 /opt/apps/dde-dock-graphics-plugin/files/share 文件夹下。
+1.  将 scripts 文件夹下 Initialize.sh，Intel,sh，NVIDIA.sh，CheckConf.sh，ResetConf.sh，Rescue.sh 放置在 /opt/apps/dde-dock-graphics-plugin/files/bin 文件夹下。
 
 2.  将编译生成的 libswitch_graphics_card.so 放在 ~/.local/lib/dde-dock/plugins/ 或者 /usr/lib/dde-dock/plugins/ 文件夹下。
 

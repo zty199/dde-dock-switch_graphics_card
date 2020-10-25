@@ -67,7 +67,7 @@ add_definitions("${QT_DEFINITIONS} -DQT_PLUGIN")
 # SHARED 表示生成的库应该是动态库，
 # 变量 ${PLUGIN_NAME} 和 ${SRCS} 都是前面处理好的，
 # 另外 qrc 资源文件也应该追加在后面以编译进目标中。
-add_library(${PLUGIN_NAME} SHARED ${SRCS})
+add_library(${PLUGIN_NAME} SHARED ${SRCS} SwitchGraphicsCard.qrc)
 
 # 设置目标的生成位置，这里表示生成在执行 make 的目录,
 # 另外还有很多可用于设置的属性，可查阅 cmake 文档。
