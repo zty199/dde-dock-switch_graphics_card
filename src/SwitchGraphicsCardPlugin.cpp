@@ -3,7 +3,7 @@
 SwitchGraphicsCardPlugin::SwitchGraphicsCardPlugin(QObject *parent)
     : QObject(parent)
 {
-
+    process = new QProcess;
 }
 
 const QString SwitchGraphicsCardPlugin::pluginName() const
@@ -157,10 +157,10 @@ void SwitchGraphicsCardPlugin::invokedMenuItem(const QString &itemKey, const QSt
     else if(menuId == "setting") {
         // 这里还可以使用 dbus 调用控制中心
         // dbus-send --dest=com.deepin.dde.ControlCenter /com/deepin/dde/ControlCenter --print-reply com.deepin.dde.ControlCenter.ShowModule string:"display"
-        system("dde-control-center -m display");
+        process->start("dde-control-center -m display");    //  非阻塞执行外部命令，不需要等待结束
     }
     else if(menuId == "nvidia") {
         // 这个需要用户自行安装 nvidia-settings
-        system("nvidia-settings");
+        process->start("nvidia-settings");
     }
 }

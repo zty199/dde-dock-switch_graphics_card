@@ -44,6 +44,8 @@ private:
     SwitchGraphicsCardWidget *m_pluginWidget;
     SwitchGraphicsCardAppletWidget *m_appletWidget;
 
+    QProcess *process;
+
 };
 
 #endif // HOMEMONITORPLUGIN_H

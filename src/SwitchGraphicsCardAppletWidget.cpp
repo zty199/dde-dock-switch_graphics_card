@@ -72,7 +72,8 @@ void SwitchGraphicsCardAppletWidget::switchIntel()
         system("notify-send -t 10000 -a dde-dock-graphics-plugin -i deepin-graphics-driver-manager \"Updating initramfs, please wait...\"");
     }
 
-    system("pkexec /opt/apps/dde-dock-graphics-plugin/files/bin/Intel.sh");
+    // 非阻塞调用外部脚本，不需要等待结束
+    process->start("pkexec /opt/apps/dde-dock-graphics-plugin/files/bin/Intel.sh");
 }
 
 void SwitchGraphicsCardAppletWidget::switchNVIDIA()
@@ -97,7 +98,7 @@ void SwitchGraphicsCardAppletWidget::switchNVIDIA()
         system("notify-send -t 10000 -a dde-dock-graphics-plugin -i deepin-graphics-driver-manager \"Updating initramfs, please wait...\"");
     }
 
-    system("pkexec /opt/apps/dde-dock-graphics-plugin/files/bin/NVIDIA.sh");
+    process->start("pkexec /opt/apps/dde-dock-graphics-plugin/files/bin/NVIDIA.sh");
 }
 
 void SwitchGraphicsCardAppletWidget::refreshButton()
