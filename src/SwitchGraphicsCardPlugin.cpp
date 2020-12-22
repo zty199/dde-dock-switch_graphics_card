@@ -2,8 +2,8 @@
 
 SwitchGraphicsCardPlugin::SwitchGraphicsCardPlugin(QObject *parent)
     : QObject(parent)
+    , process(new QProcess)
 {
-    process = new QProcess;
 }
 
 const QString SwitchGraphicsCardPlugin::pluginName() const

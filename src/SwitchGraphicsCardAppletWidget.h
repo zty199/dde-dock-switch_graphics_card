@@ -7,6 +7,15 @@ class SwitchGraphicsCardAppletWidget : public QWidget
 {
     Q_OBJECT
 
+public:
+    explicit SwitchGraphicsCardAppletWidget(QWidget *parent = nullptr);
+
+    void setCardName();
+    QString getCardName();
+    void setLocale();
+    QString getLocale();
+    void refreshButton();
+
 private:
     QPushButton *Intel;
     QPushButton *NVIDIA;
@@ -18,15 +27,6 @@ private:
 private slots:
     void switchIntel();
     void switchNVIDIA();
-
-public:
-    explicit SwitchGraphicsCardAppletWidget(QWidget *parent = nullptr);
-
-    void setCardName();
-    QString getCardName();
-    void setLocale();
-    QString getLocale();
-    void refreshButton();
 
 };
 
