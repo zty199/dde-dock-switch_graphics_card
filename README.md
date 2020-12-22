@@ -59,7 +59,7 @@ libnotify4（运行时依赖）
 
 ## 使用
 
-P.S.建议使用自动生成的 deb 安装包进行安装
+* P.S.建议使用自动生成的 deb 安装包进行安装
 
 1.  将 scripts 文件夹下 Initialize.sh，Intel,sh，NVIDIA.sh，CheckConf.sh，ResetConf.sh，Rescue.sh 放置在 /opt/apps/dde-dock-graphics-plugin/files/bin 文件夹下。
 
@@ -77,6 +77,8 @@ linuxdeepin 官方的 dde-file-manager 项目仓库       https://github.com/lin
 
 GitHub 开源项目 dde-appknitter 的脚本翻译方式      https://github.com/Dziban-dev/dde-appknitter
 
+Github 开源项目 dde-store 的系统通知发送方式     https://github.com/dekzi/dde-store
+
 论坛大佬 chanforever 的插件        https://bbs.deepin.org/forum.php?mod=viewthread&tid=197280
 
 论坛大佬 jfy_99 的显卡切换脚本     https://bbs.deepin.org/forum.php?mod=viewthread&tid=192750
@@ -87,4 +89,4 @@ GitHub 开源项目 dde-appknitter 的脚本翻译方式      https://github.com
 
 论坛大佬 shenmo，lenke，mmlmonkey，xuey 等提供的修改建议       https://bbs.deepin.org/forum.php?mod=viewthread&tid=197367
 
-码云组织　Deepin开源项目　提供的 UOS 打包规范和方法
+码云组织　UOS 开源应用　提供的 UOS 打包规范和方法       https://gitee.com/deepin-opensource
