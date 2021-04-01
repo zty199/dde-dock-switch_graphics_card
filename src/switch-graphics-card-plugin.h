@@ -3,17 +3,19 @@
 
 #include "ddeUtil.h"
 #include <dde-dock/pluginsiteminterface.h>
+#include "tipswidget.h"
 
-#include "SwitchGraphicsCardWidget.h"
-#include "SwitchGraphicsCardAppletWidget.h"
+#include "switchgraphicscardwidget.h"
+#include "switchgraphicscardappletwidget.h"
 
 class SwitchGraphicsCardPlugin : public QObject, PluginsItemInterface
 {
     Q_OBJECT
+
     // 声明实现了的接口
     Q_INTERFACES(PluginsItemInterface)
     // 插件元数据
-    Q_PLUGIN_METADATA(IID "com.deepin.dock.PluginsItemInterface" FILE "SwitchGraphicsCardPlugin.json")
+    Q_PLUGIN_METADATA(IID "com.deepin.dock.PluginsItemInterface" FILE "switch-graphics-card.json")
 
 public:
     explicit SwitchGraphicsCardPlugin(QObject *parent = nullptr);
@@ -25,26 +27,40 @@ public:
     // 插件初始化函数
     void init(PluginProxyInterface *proxyInter) override;
 
+    // 控制插件启用或禁用
+    bool pluginIsAllowDisable() override;
+    bool pluginIsDisable() override;
+    void pluginStateSwitched() override;
+
     // 返回插件的 widget
     QWidget *itemWidget(const QString &itemKey) override;
     QWidget *itemTipsWidget(const QString &itemKey) override;
     QWidget *itemPopupApplet(const QString &itemKey) override;
 
-    // 控制插件启用和禁用
-    bool pluginIsAllowDisable() override;
-    bool pluginIsDisable() override;
-    void pluginStateSwitched() override;
-
     // 右键菜单
     const QString itemContextMenu(const QString &itemKey) override;
     void invokedMenuItem(const QString &itemKey, const QString &menuId, const bool checked) override;
 
+    // dock 栏显示模式改变
+    void displayModeChanged(const Dock::DisplayMode displayMode) override;
+
+    // dock 栏插件排序
+    int itemSortKey(const QString &itemKey) override;
+    void setSortKey(const QString &itemKey, const int order) override;
+
+    // 插件状态改变（启用或禁用）
+    void pluginSettingsChanged() override;
+
 private:
-    QLabel *m_tipsWidget;
     SwitchGraphicsCardWidget *m_pluginWidget;
+    Dock::TipsWidget *m_tipsWidget;
     SwitchGraphicsCardAppletWidget *m_appletWidget;
 
     QProcess *process;
+    bool m_pluginLoaded;
+
+    void loadPlugin();
+    void refreshPluginItemsVisible();
 
 };
 

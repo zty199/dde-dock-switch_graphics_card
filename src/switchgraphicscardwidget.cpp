@@ -1,4 +1,4 @@
-#include "SwitchGraphicsCardWidget.h"
+#include "switchgraphicscardwidget.h"
 
 #include <DGuiApplicationHelper>
 #include <DStyle>
@@ -13,7 +13,8 @@ SwitchGraphicsCardWidget::SwitchGraphicsCardWidget(QWidget *parent) :
     setMouseTracking(true);
     setMinimumSize(PLUGIN_BACKGROUND_MIN_SIZE, PLUGIN_BACKGROUND_MIN_SIZE);
 
-    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, [ = ] {
+    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, [=]()
+    {
         update();
     });
 }
@@ -21,22 +22,24 @@ SwitchGraphicsCardWidget::SwitchGraphicsCardWidget(QWidget *parent) :
 void SwitchGraphicsCardWidget::getInfo(SwitchGraphicsCardAppletWidget *m_appletWidget)
 {
     // 获取 appletwidget 中的信息
-    CardName = m_appletWidget->getCardName();
+    m_cardName = m_appletWidget->getCardName();
 
     // 刷新图标
     update();
 }
 
-void SwitchGraphicsCardWidget::paintEvent(QPaintEvent *e)
+void SwitchGraphicsCardWidget::paintEvent(QPaintEvent *)
 {
-    Q_UNUSED(e);
-
     QPixmap pixmap;
     QString iconName;
-    if(CardName == "Intel")
+    if(m_cardName == "Intel")
+    {
         iconName = Intel_light;
+    }
     else
+    {
         iconName = NVIDIA_light;
+    }
     int iconSize = PLUGIN_ICON_MAX_SIZE;
 
     // 绘制图标背景
@@ -83,10 +86,14 @@ void SwitchGraphicsCardWidget::paintEvent(QPaintEvent *e)
     }
     else if(DGuiApplicationHelper::instance()->themeType() == DGuiApplicationHelper::LightType)
     {
-        if(CardName == "Intel")
+        if(m_cardName == "Intel")
+        {
             iconName = Intel_dark;
+        }
         else
+        {
             iconName = NVIDIA_dark;
+        }
     }
 
     pixmap = loadSVG(iconName, QSize(iconSize, iconSize));
@@ -95,17 +102,6 @@ void SwitchGraphicsCardWidget::paintEvent(QPaintEvent *e)
     const QRectF &rf = QRectF(rect());
     const QRectF &rfp = QRectF(pixmap.rect());
     painter.drawPixmap(rf.center() - rfp.center() / devicePixelRatioF(), pixmap);
-}
-
-const QPixmap SwitchGraphicsCardWidget::loadSVG(const QString &fileName, const QSize &size) const
-{
-    const auto ratio = devicePixelRatioF();
-
-    QPixmap pixmap;
-    pixmap = QIcon::fromTheme(fileName).pixmap(size * ratio);
-    pixmap.setDevicePixelRatio(ratio);
-
-    return pixmap;
 }
 
 void SwitchGraphicsCardWidget::mousePressEvent(QMouseEvent *event)
@@ -144,4 +140,15 @@ void SwitchGraphicsCardWidget::leaveEvent(QEvent *event)
 void SwitchGraphicsCardWidget::resizeEvent(QResizeEvent *event)
 {
     QWidget::resizeEvent(event);
+}
+
+const QPixmap SwitchGraphicsCardWidget::loadSVG(const QString &fileName, const QSize &size) const
+{
+    const auto ratio = devicePixelRatioF();
+
+    QPixmap pixmap;
+    pixmap = QIcon::fromTheme(fileName).pixmap(size * ratio);
+    pixmap.setDevicePixelRatio(ratio);
+
+    return pixmap;
 }

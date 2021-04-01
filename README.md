@@ -2,11 +2,11 @@
 
 ## 功能介绍
 
-由论坛大佬 chanforever 的插件修改得来，在 Deepin dock栏 添加插件实现快速切换显卡的操作。
+由论坛大佬 chanforever 的插件修改得来，在 dde-dock 添加插件实现快速切换显卡的操作。
 
-【原贴地址： https://bbs.deepin.org/forum.php?mod=viewthread&tid=197280 】
+原贴地址：[切换显卡插件](https://bbs.deepin.org/forum.php?mod=viewthread&tid=197280)
 
-【github原项目地址： https://github.com/mywhat/DDESwitchCard/ 】
+github 原项目地址：[mywhat/DDESwitchCard](https://github.com/mywhat/DDESwitchCard/)
 
 修改了整个代码结构，优化函数调用逻辑，取消了外部储存配置文件，避免被修改而影响插件显示。
 
@@ -24,9 +24,11 @@
 
 添加了英文翻译，非中文环境自动显示英文。（能力有限，只能翻译英文了......）
 
+适配 dde-dock (>= 5.4.7-1)。
+
 ## 编译环境依赖
 
-qt-default
+qt5-default
 
 qtcreator（推荐使用 Qt Creator 直接打开 CMakeLists.txt 编译运行）
 
@@ -38,9 +40,9 @@ libqt5gui5
 
 libqt5widgets5
 
-libdtkcore-dev
+libqt5dbus5
 
-libdtkgui-dev
+libdtkcore-dev
 
 libdtkwidget-dev
 
@@ -61,9 +63,9 @@ libnotify4（运行时依赖）
 
 * P.S.建议使用自动生成的 deb 安装包进行安装
 
-1.  将 scripts 文件夹下 Initialize.sh，Intel,sh，NVIDIA.sh，CheckConf.sh，ResetConf.sh，Rescue.sh 放置在 /opt/apps/dde-dock-graphics-plugin/files/bin 文件夹下。
+1.  将 scripts 文件夹下所有 sh 脚本放置在 /opt/apps/dde-dock-graphics-plugin/files/bin 文件夹下。
 
-2.  将编译生成的 libswitch_graphics_card.so 放在 ~/.local/lib/dde-dock/plugins/ 或者 /usr/lib/dde-dock/plugins/ 文件夹下。
+2.  将编译生成的 libswitch-graphics-card.so 放在 ~/.local/lib/dde-dock/plugins/ 或者 /usr/lib/dde-dock/plugins/ 文件夹下。
 
 3.  等待 dde-dock 自动重新加载，即可在最右侧看到该插件已启用。该插件默认启用，可以选择手动禁用。
 
@@ -89,4 +91,4 @@ Github 开源项目 dde-store 的系统通知发送方式     https://github.com
 
 论坛大佬 shenmo，lenke，mmlmonkey，xuey 等提供的修改建议       https://bbs.deepin.org/forum.php?mod=viewthread&tid=197367
 
-码云组织　UOS 开源应用　提供的 UOS 打包规范和方法       https://gitee.com/deepin-opensource
+码云组织　开源应用　提供的 UOS 打包规范和方法       https://gitee.com/deepin-opensource

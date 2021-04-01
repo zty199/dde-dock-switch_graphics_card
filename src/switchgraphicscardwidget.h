@@ -4,7 +4,7 @@
 #include "ddeUtil.h"
 #include "constants.h"
 
-#include "SwitchGraphicsCardAppletWidget.h"
+#include "switchgraphicscardappletwidget.h"
 
 class SwitchGraphicsCardWidget : public QWidget
 {
@@ -16,11 +16,16 @@ public:
     void getInfo(SwitchGraphicsCardAppletWidget *m_appletWidget);
 
 protected:
-    void paintEvent(QPaintEvent *e) override;
+    void paintEvent(QPaintEvent *) override;
+    void mousePressEvent(QMouseEvent *event) override;
+    void mouseReleaseEvent(QMouseEvent *event) override;
+    void mouseMoveEvent(QMouseEvent *event) override;
+    void leaveEvent(QEvent *event) override;
+    void resizeEvent(QResizeEvent *event) override;
 
 private:
     // 通过 SwitchGraphicsCardPlugin.cpp 中实例化的 m_appletWidget 获取当前显卡
-    QString CardName;
+    QString m_cardName;
 
     bool m_hover;
     bool m_pressed;
@@ -31,11 +36,6 @@ private:
     const QString NVIDIA_light = ":/icons/icons/NVIDIA_light.svg";
 
     const QPixmap loadSVG(const QString &fileName, const QSize &size) const;
-    void mousePressEvent(QMouseEvent *event) override;
-    void mouseReleaseEvent(QMouseEvent *event) override;
-    void mouseMoveEvent(QMouseEvent *event) override;
-    void leaveEvent(QEvent *event) override;
-    void resizeEvent(QResizeEvent *event) override;
 
 };
 

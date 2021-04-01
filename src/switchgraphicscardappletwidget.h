@@ -17,12 +17,12 @@ public:
     void refreshButton();
 
 private:
-    QPushButton *Intel;
-    QPushButton *NVIDIA;
+    QPushButton *btn_intel;
+    QPushButton *btn_nvidia;
     QProcess *process;
 
-    QString CardName;
-    QString Locale;
+    QString m_cardName;
+    QString m_locale;
 
 private slots:
     void switchIntel();

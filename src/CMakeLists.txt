@@ -7,7 +7,7 @@
 cmake_minimum_required(VERSION 3.11)
 
 # 使用 set 命令设置一个变量
-set(PLUGIN_NAME "switch_graphics_card")
+set(PLUGIN_NAME "switch-graphics-card")
 
 # 设置项目名称
 project(${PLUGIN_NAME})
@@ -16,6 +16,9 @@ project(${PLUGIN_NAME})
 set(CMAKE_AUTOMOC ON)
 # 启用 qrc 资源文件的支持
 set(CMAKE_AUTORCC ON)
+
+# generate a compile commands file as complete database for vim-YouCompleteMe or some other similar tools
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # 指定所有源码文件
 # 使用了 cmake 的 file 命令，递归查找项目目录下所有头文件和源码文件，
@@ -70,7 +73,7 @@ add_definitions("${QT_DEFINITIONS} -DQT_PLUGIN")
 # SHARED 表示生成的库应该是动态库，
 # 变量 ${PLUGIN_NAME} 和 ${SRCS} 都是前面处理好的，
 # 另外 qrc 资源文件也应该追加在后面以编译进目标中。
-add_library(${PLUGIN_NAME} SHARED ${SRCS} SwitchGraphicsCard.qrc)
+add_library(${PLUGIN_NAME} SHARED ${SRCS} switch-graphics-card.qrc)
 
 # 设置目标的生成位置，这里表示生成在执行 make 的目录,
 # 另外还有很多可用于设置的属性，可查阅 cmake 文档。
