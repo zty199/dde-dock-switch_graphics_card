@@ -53,8 +53,8 @@ mkdir -p ./deb_uos/opt/apps/dde-dock-graphics-plugin/files/plugins/
 mkdir -p ./deb_uos/opt/apps/dde-dock-graphics-plugin/files/share/oem-menuextensions/
 mkdir -p ./deb_uos/opt/apps/dde-dock-graphics-plugin/files/share/pkexec/
 
-chmod 644 ./build/libswitch_graphics_card.so
-cp ./build/libswitch_graphics_card.so ./deb_uos/opt/apps/dde-dock-graphics-plugin/files/plugins
+chmod 644 ./build/libswitch-graphics-card.so
+cp ./build/libswitch-graphics-card.so ./deb_uos/opt/apps/dde-dock-graphics-plugin/files/plugins
 cp ./scripts/* ./deb_uos/opt/apps/dde-dock-graphics-plugin/files/bin/
 cp ./oem-menuextensions/* ./deb_uos/opt/apps/dde-dock-graphics-plugin/files/share/oem-menuextensions/
 cp ./pkexec/* ./deb_uos/opt/apps/dde-dock-graphics-plugin/files/share/pkexec/
