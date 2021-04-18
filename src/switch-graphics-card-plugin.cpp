@@ -6,22 +6,11 @@
 
 SwitchGraphicsCardPlugin::SwitchGraphicsCardPlugin(QObject *parent)
     : QObject(parent)
-    , m_tipsWidget(new Dock::TipsWidget)
-    , m_appletWidget(new SwitchGraphicsCardAppletWidget)
     , process(new QProcess)
     , m_pluginLoaded(false)
+    , ts(new QTranslator)
 {
-    // 设置 tipsWidget 中的信息
-    m_tipsWidget->setVisible(false);
-    m_tipsWidget->setAccessibleName("Switch Graphics Card");
-    if(m_appletWidget->getLocale() == "zh")
-    {
-        m_tipsWidget->setText("当前显卡：" + m_appletWidget->getCardName());
-    }
-    else
-    {
-        m_tipsWidget->setText("Current: " + m_appletWidget->getCardName());
-    }
+    updateTranslator();
 }
 
 const QString SwitchGraphicsCardPlugin::pluginName() const
@@ -31,14 +20,7 @@ const QString SwitchGraphicsCardPlugin::pluginName() const
 
 const QString SwitchGraphicsCardPlugin::pluginDisplayName() const
 {
-    if(m_appletWidget->getLocale() == "zh")
-    {
-        return QString("显卡切换");
-    }
-    else
-    {
-        return QString("Switch Graphics Card");
-    }
+    return QString(tr("Switch Graphics Card"));
 }
 
 void SwitchGraphicsCardPlugin::init(PluginProxyInterface *proxyInter)
@@ -107,40 +89,19 @@ const QString SwitchGraphicsCardPlugin::itemContextMenu(const QString &itemKey)
 
     QMap<QString, QVariant> graphicsRefresh;
     graphicsRefresh["itemId"] = "graphics-refresh";
-    if(m_appletWidget->getLocale() == "zh")
-    {
-        graphicsRefresh["itemText"] = "刷新";
-    }
-    else
-    {
-        graphicsRefresh["itemText"] = "Refresh";
-    }
+    graphicsRefresh["itemText"] = tr("Refresh");
     graphicsRefresh["isActive"] = true;
     items.push_back(graphicsRefresh);
 
     QMap<QString, QVariant> displaySettings;
     displaySettings["itemId"] = "display-settings";
-    if(m_appletWidget->getLocale() == "zh")
-    {
-        displaySettings["itemText"] = "显示器设置";
-    }
-    else
-    {
-        displaySettings["itemText"] = "Display Settings";
-    }
+    displaySettings["itemText"] = tr("Display Settings");
     displaySettings["isActive"] = true;
     items.push_back(displaySettings);
 
     QMap<QString, QVariant> nvidiaSettings;
     nvidiaSettings["itemId"] = "nvidia-settings";
-    if(m_appletWidget->getLocale() == "zh")
-    {
-        nvidiaSettings["itemText"] = "NVIDIA 显卡设置";
-    }
-    else
-    {
-        nvidiaSettings["itemText"] = "Run nvidia-settings";
-    }
+    nvidiaSettings["itemText"] = tr("Run nvidia-settings");
     nvidiaSettings["isActive"] = true;
     items.push_back(nvidiaSettings);
 
@@ -161,9 +122,8 @@ void SwitchGraphicsCardPlugin::invokedMenuItem(const QString &itemKey, const QSt
     // 根据上面接口设置的 id 执行不同的操作
     if(menuId == "graphics-refresh")
     {
-        // 刷新显卡信息和系统语言环境
+        // 刷新显卡信息
         m_appletWidget->setCardName();
-        m_appletWidget->setLocale();
         m_appletWidget->refreshButton();
         m_pluginWidget->getInfo(m_appletWidget);
     }
@@ -225,9 +185,16 @@ void SwitchGraphicsCardPlugin::loadPlugin()
     m_pluginLoaded = true;
 
     m_pluginWidget = new SwitchGraphicsCardWidget;
+    m_tipsWidget = new Dock::TipsWidget;
+    m_appletWidget = new SwitchGraphicsCardAppletWidget;
 
-    // 初始化显卡信息和系统语言环境
+    // 初始化显卡信息
     m_pluginWidget->getInfo(m_appletWidget);
+
+    // 初始化 tipsWidget 信息
+    m_tipsWidget->setVisible(false);
+    m_tipsWidget->setAccessibleName("Switch Graphics Card");
+    m_tipsWidget->setText(tr("Current: ") + m_appletWidget->getCardName());
 
     m_proxyInter->itemAdded(this, pluginName());
     displayModeChanged(displayMode());
@@ -247,5 +214,14 @@ void SwitchGraphicsCardPlugin::refreshPluginItemsVisible()
             return;
         }
         m_proxyInter->itemAdded(this, pluginName());
+    }
+}
+
+void SwitchGraphicsCardPlugin::updateTranslator()
+{
+    if(QLocale::system().name().split("_").at(0) == "zh")
+    {
+        ts->load("zh_CN.qm", ":/translations/translations");
+        QCoreApplication::installTranslator(ts);
     }
 }

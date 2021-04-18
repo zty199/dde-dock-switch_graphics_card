@@ -36,6 +36,13 @@ file(GLOB_RECURSE SRCS "*.h" "*.cpp")
 # <库名>_LIBRARIES      有哪些库文件（Qt5Widgets_LIBRARIES）
 find_package(Qt5Widgets REQUIRED)
 find_package(Qt5DBus REQUIRED)
+find_package(Qt5LinguistTools REQUIRED)
+
+# .ts 翻译文件
+set(TS_FILES ${CMAKE_SOURCE_DIR}/translations/zh_CN.ts)
+# 生成 .qm 翻译文件
+qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
+qt5_add_translation(QM_FILES ${TS_FILES})
 
 find_package(DtkCore REQUIRED)
 find_package(DtkWidget REQUIRED)
@@ -73,7 +80,7 @@ add_definitions("${QT_DEFINITIONS} -DQT_PLUGIN")
 # SHARED 表示生成的库应该是动态库，
 # 变量 ${PLUGIN_NAME} 和 ${SRCS} 都是前面处理好的，
 # 另外 qrc 资源文件也应该追加在后面以编译进目标中。
-add_library(${PLUGIN_NAME} SHARED ${SRCS} switch-graphics-card.qrc)
+add_library(${PLUGIN_NAME} SHARED ${SRCS} ${TS_FILES} switch-graphics-card.qrc)
 
 # 设置目标的生成位置，这里表示生成在执行 make 的目录,
 # 另外还有很多可用于设置的属性，可查阅 cmake 文档。
@@ -85,6 +92,7 @@ set_target_properties(${PLUGIN_NAME} PROPERTIES LIBRARY_OUTPUT_DIRECTORY ./)
 target_include_directories(${PLUGIN_NAME} PUBLIC
     ${Qt5Widgets_INCLUDE_DIRS}
     ${Qt5DBus_INCLUDE_DIRS}
+    ${Qt5LinguistTools_INCLUDE_DIRS}
     ${DtkCore_INCLUDE_DIRS}
     ${DtkWidget_INCLUDE_DIRS}
     ${DdeDockInterface_INCLUDE_DIRS}
@@ -96,13 +104,14 @@ target_include_directories(${PLUGIN_NAME} PUBLIC
 target_link_libraries(${PLUGIN_NAME} PRIVATE
     ${Qt5Widgets_LIBRARIES}
     ${Qt5DBus_LIBRARIES}
+    ${Qt5LinguistTools_LIBRARIES}
     ${DtkCore_LIBRARIES}
     ${DtkWidget_LIBRARIES}
     ${DdeDockInterface_LIBRARIES}
 )
 
 # 设置安装路径的前缀(默认为"/usr/local")
-#set(CMAKE_INSTALL_PREFIX "/usr")
+# set(CMAKE_INSTALL_PREFIX "/usr")
 
 # 设置执行 make install 时哪个目标应该被 install 到哪个位置
-#install(TARGETS ${PLUGIN_NAME} LIBRARY DESTINATION lib/dde-dock/plugins)
+# install(TARGETS ${PLUGIN_NAME} LIBRARY DESTINATION lib/dde-dock/plugins)

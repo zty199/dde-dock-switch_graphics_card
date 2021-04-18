@@ -2,11 +2,15 @@
 
 ## 功能介绍
 
-由论坛大佬 chanforever 的插件修改得来，在 dde-dock 添加插件实现快速切换显卡的操作。
-
-原贴地址：[切换显卡插件](https://bbs.deepin.org/forum.php?mod=viewthread&tid=197280)
+原贴地址：[切换显卡插件](https://bbs.deepin.org/zh/post/197280)
 
 github 原项目地址：[mywhat/DDESwitchCard](https://github.com/mywhat/DDESwitchCard/)
+
+<br/>
+
+由论坛大佬 chanforever 的插件修改得来，在 dde-dock 添加插件实现快速切换显卡的操作。
+
+<br/>
 
 修改了整个代码结构，优化函数调用逻辑，取消了外部储存配置文件，避免被修改而影响插件显示。
 
@@ -34,13 +38,9 @@ qtcreator（推荐使用 Qt Creator 直接打开 CMakeLists.txt 编译运行）
 
 cmake, gcc, g++
 
-libqt5core5a
+qt5-default
 
-libqt5gui5
-
-libqt5widgets5
-
-libqt5dbus5
+qttools5-dev
 
 libdtkcore-dev
 
@@ -48,6 +48,7 @@ libdtkwidget-dev
 
 dde-dock-dev
 
+<br/>
 
 mesa-utils（运行时依赖）
 
@@ -73,22 +74,24 @@ libnotify4（运行时依赖）
 
 ## 感谢
 
-linuxdeepin 官方的 dde-dock 项目仓库       https://github.com/linuxdeepin/dde-dock
+linuxdeepin 官方的 [dde-dock](https://github.com/linuxdeepin/dde-dock) 项目仓库
 
-linuxdeepin 官方的 dde-file-manager 项目仓库       https://github.com/linuxdeepin/dde-file-manager
+linuxdeepin 官方的 [dde-file-manager](https://github.com/linuxdeepin/dde-file-manager) 项目仓库
 
-GitHub 开源项目 dde-appknitter 的脚本翻译方式      https://github.com/Dziban-dev/dde-appknitter
+GitHub 开源项目 [dde-appknitter](https://github.com/Dziban-dev/dde-appknitter) 的脚本翻译方式
 
-Github 开源项目 dde-store 的系统通知发送方式     https://github.com/dekzi/dde-store
+Github 开源项目 [dde-store](https://github.com/dekzi/dde-store) 的系统通知发送方式
 
-论坛大佬 chanforever 的插件        https://bbs.deepin.org/forum.php?mod=viewthread&tid=197280
+GitHub 大佬 [xmuli](https://github.com/xmuli) 的 [Qt 项目(Cmake)设置国际化支持](https://ifmet.cn/posts/9644ed82/) 方法
 
-论坛大佬 jfy_99 的显卡切换脚本     https://bbs.deepin.org/forum.php?mod=viewthread&tid=192750
+论坛大佬 chanforever 的 [DDESwitchCard](https://github.com/mywhat/DDESwitchCard) 插件        https://bbs.deepin.org/zh/post/197280
 
-论坛大佬 risez 的 nvidia-prime 方案        https://bbs.deepin.org/forum.php?mod=viewthread&tid=191741
+论坛大佬 jfy_99 的显卡切换脚本     https://bbs.deepin.org/zh/post/192750
 
-论坛大佬 q77190858 的 dde-dock系统监控小插件        https://bbs.deepin.org/forum.php?mod=viewthread&tid=179425
+论坛大佬 risez 的 nvidia-prime 方案        https://bbs.deepin.org/zh/post/191741
 
-论坛大佬 shenmo，lenke，mmlmonkey，xuey 等提供的修改建议       https://bbs.deepin.org/forum.php?mod=viewthread&tid=197367
+论坛大佬 q77190858 的 [dde-sys-monitor-plugin](https://github.com/q77190858/dde-sys-monitor-plugin) 插件        https://bbs.deepin.org/zh/post/179425
 
-码云组织　开源应用　提供的 UOS 打包规范和方法       https://gitee.com/deepin-opensource
+论坛大佬 shenmo，lenke，mmlmonkey，xuey 等提供的修改建议       https://bbs.deepin.org/zh/post/197367
+
+码云组织　[开源应用](https://gitee.com/deepin-opensource)　提供的 UOS 打包规范和方法

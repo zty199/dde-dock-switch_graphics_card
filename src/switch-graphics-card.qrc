@@ -5,4 +5,7 @@
         <file>icons/NVIDIA_light.svg</file>
         <file>icons/Intel_dark.svg</file>
     </qresource>
+    <qresource prefix="/translations">
+        <file>translations/zh_CN.qm</file>
+    </qresource>
 </RCC>

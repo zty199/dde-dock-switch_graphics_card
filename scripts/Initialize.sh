@@ -63,6 +63,7 @@ Section "Screen"
     SubSection     "Display"
         Depth       24
     EndSubSection
+    Option         "Coolbits" "28"
 EndSection' | sudo tee /etc/X11/xorg.conf.bak > /dev/null
 
 # 生成 nvidia-graphics-drivers.conf | Generate nvidia-graphics-drivers.conf

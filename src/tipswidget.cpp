@@ -80,7 +80,7 @@ void TipsWidget::paintEvent(QPaintEvent *event)
         }
         for(QString text : m_textList)
         {
-            painter.drawText(QRect(0, y, m_width, fontHeight), text, option);
+            painter.drawText(QRect(10, y, m_width, fontHeight), text, option);
             y += fontHeight;
         }
     }
@@ -96,7 +96,7 @@ bool TipsWidget::event(QEvent *event)
         {
             if(!m_text.trimmed().isEmpty())
             {
-                 setFixedSize(fontMetrics().horizontalAdvance(m_text) + 6, fontMetrics().height());
+                 setFixedSize(fontMetrics().horizontalAdvance(m_text) + 20, fontMetrics().height());
                  update();
             }
         }
@@ -108,7 +108,7 @@ bool TipsWidget::event(QEvent *event)
                 setFixedHeight(fontMetrics().height() * m_textList.size());
                 for(QString text : m_textList)
                 {
-                    int fontLength = fontMetrics().horizontalAdvance(text) + 6;
+                    int fontLength = fontMetrics().horizontalAdvance(text) + 20;
                     maxLength = qMax(maxLength,fontLength);
                 }
                 m_width = maxLength;

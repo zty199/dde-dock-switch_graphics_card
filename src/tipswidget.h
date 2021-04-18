@@ -13,10 +13,11 @@ class TipsWidget : public QFrame
         SingleLine,
         MultiLine
     };
+
 public:
     explicit TipsWidget(QWidget *parent = nullptr);
 
-    const QString& text(){return m_text;}
+    const QString& text() { return m_text; }
     const QStringList &textList() { return  m_textList; }
     void setText(const QString &text);
     void setTextList(const QStringList &textList);

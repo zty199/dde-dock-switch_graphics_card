@@ -3,10 +3,10 @@
 
 #include "ddeUtil.h"
 #include <dde-dock/pluginsiteminterface.h>
-#include "tipswidget.h"
 
 #include "switchgraphicscardwidget.h"
 #include "switchgraphicscardappletwidget.h"
+#include "tipswidget.h"
 
 class SwitchGraphicsCardPlugin : public QObject, PluginsItemInterface
 {
@@ -58,9 +58,11 @@ private:
 
     QProcess *process;
     bool m_pluginLoaded;
+    QTranslator *ts;
 
     void loadPlugin();
     void refreshPluginItemsVisible();
+    void updateTranslator();
 
 };
 
