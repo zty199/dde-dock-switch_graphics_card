@@ -12,8 +12,6 @@ public:
 
     void setCardName();
     QString getCardName();
-    void setLocale();
-    QString getLocale();
     void refreshButton();
 
 private:

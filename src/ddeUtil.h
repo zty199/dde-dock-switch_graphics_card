@@ -8,6 +8,7 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QLocale>
+#include <QTranslator>
 #include <QProcess>
 
 #endif
