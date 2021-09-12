@@ -19,7 +19,7 @@ eval "TITLE=\$TITLE_${LANG}"
 eval "TEXT=\$TEXT_${LANG}"
 
 # 判断 NVIDIA 闭源驱动 是否安装 | Judge whether nvidia-driver is installed
-lshw -c video | grep "driver=nvidia" > /dev/null
+lshw -c video 2>/dev/null | grep "driver=nvidia" > /dev/null
 if [ $? -ne 0 ]
 then
 	# zenity --warning --width=500 --title="$TITLE" --text="$TEXT"
