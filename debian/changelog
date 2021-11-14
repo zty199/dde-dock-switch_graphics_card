@@ -1,0 +1,6 @@
+dde-dock-graphics-plugin (1.8.4) stable; urgency=medium
+
+  * Add gsettings for the plugin context menu to show correctly.
+
+ -- unknown <zty2864@gmail.com>  Sun, 14 Nov 2021 14:00:00 +0800
+

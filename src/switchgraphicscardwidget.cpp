@@ -5,16 +5,15 @@
 
 DWIDGET_USE_NAMESPACE
 
-SwitchGraphicsCardWidget::SwitchGraphicsCardWidget(QWidget *parent) :
-    QWidget(parent),
-    m_hover(false),
-    m_pressed(false)
+SwitchGraphicsCardWidget::SwitchGraphicsCardWidget(QWidget *parent)
+    : QWidget(parent)
+    , m_hover(false)
+    , m_pressed(false)
 {
     setMouseTracking(true);
     setMinimumSize(PLUGIN_BACKGROUND_MIN_SIZE, PLUGIN_BACKGROUND_MIN_SIZE);
 
-    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, [=]()
-    {
+    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, [=]() {
         update();
     });
 }
@@ -32,41 +31,34 @@ void SwitchGraphicsCardWidget::paintEvent(QPaintEvent *)
 {
     QPixmap pixmap;
     QString iconName;
-    if(m_cardName == "Intel")
-    {
+    if (m_cardName == "Intel") {
         iconName = Intel_light;
-    }
-    else
-    {
+    } else {
         iconName = NVIDIA_light;
     }
     int iconSize = PLUGIN_ICON_MAX_SIZE;
 
     // 绘制图标背景
     QPainter painter(this);
-    if(std::min(width(), height()) > PLUGIN_BACKGROUND_MIN_SIZE)
-    {
+    if (std::min(width(), height()) > PLUGIN_BACKGROUND_MIN_SIZE) {
         QColor color;
-        if(DGuiApplicationHelper::instance()->themeType() == DGuiApplicationHelper::LightType)
-        {
+        if (DGuiApplicationHelper::instance()->themeType() == DGuiApplicationHelper::LightType) {
             color = Qt::black;
             painter.setOpacity(0.5);
 
-            if(m_hover)
+            if (m_hover)
                 painter.setOpacity(0.6);
 
-            if(m_pressed)
+            if (m_pressed)
                 painter.setOpacity(0.3);
-        }
-        else
-        {
+        } else {
             color = Qt::white;
             painter.setOpacity(0.1);
 
-            if(m_hover)
+            if (m_hover)
                 painter.setOpacity(0.2);
 
-            if(m_pressed)
+            if (m_pressed)
                 painter.setOpacity(0.05);
         }
 
@@ -83,15 +75,10 @@ void SwitchGraphicsCardWidget::paintEvent(QPaintEvent *)
 
         path.addRoundedRect(rc, radius, radius);
         painter.fillPath(path, color);
-    }
-    else if(DGuiApplicationHelper::instance()->themeType() == DGuiApplicationHelper::LightType)
-    {
-        if(m_cardName == "Intel")
-        {
+    } else if (DGuiApplicationHelper::instance()->themeType() == DGuiApplicationHelper::LightType) {
+        if (m_cardName == "Intel") {
             iconName = Intel_dark;
-        }
-        else
-        {
+        } else {
             iconName = NVIDIA_dark;
         }
     }

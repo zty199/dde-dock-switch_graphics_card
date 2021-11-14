@@ -1,14 +1,21 @@
 #ifndef SWITCHCARD_H
 #define SWITCHCARD_H
 
-#include "ddeUtil.h"
-#include <dde-dock/pluginsiteminterface.h>
+#include <QGSettings>
 
-#include "switchgraphicscardwidget.h"
-#include "switchgraphicscardappletwidget.h"
+#include "pluginsiteminterface.h"
 #include "tipswidget.h"
 
-class SwitchGraphicsCardPlugin : public QObject, PluginsItemInterface
+#include "ddeUtil.h"
+#include "switchgraphicscardwidget.h"
+#include "switchgraphicscardappletwidget.h"
+
+namespace Dock {
+class TipsWidget;
+}
+
+class SwitchGraphicsCardPlugin : public QObject
+    , PluginsItemInterface
 {
     Q_OBJECT
 
@@ -19,6 +26,7 @@ class SwitchGraphicsCardPlugin : public QObject, PluginsItemInterface
 
 public:
     explicit SwitchGraphicsCardPlugin(QObject *parent = nullptr);
+    ~SwitchGraphicsCardPlugin() override;
 
     // 返回插件的名称，必须是唯一值，不可以和其它插件冲突
     const QString pluginName() const override;
@@ -52,18 +60,22 @@ public:
     void pluginSettingsChanged() override;
 
 private:
-    SwitchGraphicsCardWidget *m_pluginWidget;
-    Dock::TipsWidget *m_tipsWidget;
-    SwitchGraphicsCardAppletWidget *m_appletWidget;
-
-    QProcess *process;
-    bool m_pluginLoaded;
-    QTranslator *ts;
-
     void loadPlugin();
     void refreshPluginItemsVisible();
     void updateTranslator();
 
+private slots:
+    void onGsettingsChanged(const QString &key);
+
+private:
+    SwitchGraphicsCardWidget *m_pluginWidget;
+    Dock::TipsWidget *m_tipsWidget;
+    SwitchGraphicsCardAppletWidget *m_appletWidget;
+
+    QGSettings *m_gsettings;
+    QProcess *process;
+    bool m_pluginLoaded;
+    QTranslator *ts;
 };
 
 #endif // HOMEMONITORPLUGIN_H

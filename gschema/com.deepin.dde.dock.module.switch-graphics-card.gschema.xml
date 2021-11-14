@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schemalist>
+  <schema path="/com/deepin/dde/dock/module/switch-graphics-card/" id="com.deepin.dde.dock.module.switch-graphics-card" gettext-domain="DDE">
+    <key type="b" name="menu-enable">
+      <default>true</default>
+      <summary>Menu Enable</summary>
+      <description>
+        Control Menu Enable
+      </description>
+    </key>
+  </schema>
+</schemalist>

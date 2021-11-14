@@ -36,7 +36,6 @@ private:
     const QString NVIDIA_light = ":/icons/icons/NVIDIA_light.svg";
 
     const QPixmap loadSVG(const QString &fileName, const QSize &size) const;
-
 };
 
 #endif // INFORMATIONWIDGET_H

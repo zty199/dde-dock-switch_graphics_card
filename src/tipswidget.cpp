@@ -10,7 +10,6 @@ TipsWidget::TipsWidget(QWidget *parent)
     , m_width(0)
     , m_type(SingleLine)
 {
-
 }
 
 void TipsWidget::setText(const QString &text)
@@ -27,8 +26,7 @@ void TipsWidget::setText(const QString &text)
     update();
 
 #ifndef QT_NO_ACCESSIBILITY
-    if(accessibleName().isEmpty())
-    {
+    if (accessibleName().isEmpty()) {
         QAccessibleEvent event(this, QAccessible::NameChanged);
         QAccessible::updateAccessibility(&event);
     }
@@ -43,8 +41,7 @@ void TipsWidget::setTextList(const QStringList &textList)
     int maxLength = 0;
     int k = fontMetrics().height() * m_textList.size();
     setFixedHeight(k);
-    for(QString text : m_textList)
-    {
+    for (QString text : m_textList) {
         int fontLength = fontMetrics().horizontalAdvance(text) + 20;
         maxLength = maxLength > fontLength ? maxLength : fontLength;
     }
@@ -64,52 +61,38 @@ void TipsWidget::paintEvent(QPaintEvent *event)
     int fontHeight = fontMetrics().height();
     option.setAlignment(Qt::AlignCenter);
 
-    switch (m_type)
-    {
-    case SingleLine:
-    {
+    switch (m_type) {
+    case SingleLine: {
         painter.drawText(rect(), m_text, option);
-    }
-        break;
-    case MultiLine:
-    {
+    } break;
+    case MultiLine: {
         int y = 0;
-        if(m_textList.size() != 1)
-        {
+        if (m_textList.size() != 1) {
             option.setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
         }
-        for(QString text : m_textList)
-        {
+        for (QString text : m_textList) {
             painter.drawText(QRect(10, y, m_width, fontHeight), text, option);
             y += fontHeight;
         }
-    }
-        break;
+    } break;
     }
 }
 
 bool TipsWidget::event(QEvent *event)
 {
-    if(event->type() == QEvent::FontChange)
-    {
-        if(m_type == SingleLine)
-        {
-            if(!m_text.trimmed().isEmpty())
-            {
-                 setFixedSize(fontMetrics().horizontalAdvance(m_text) + 20, fontMetrics().height());
-                 update();
+    if (event->type() == QEvent::FontChange) {
+        if (m_type == SingleLine) {
+            if (!m_text.trimmed().isEmpty()) {
+                setFixedSize(fontMetrics().horizontalAdvance(m_text) + 20, fontMetrics().height());
+                update();
             }
-        }
-        else
-        {
-            if(m_textList.size() > 0)
-            {
+        } else {
+            if (m_textList.size() > 0) {
                 int maxLength = 0;
                 setFixedHeight(fontMetrics().height() * m_textList.size());
-                for(QString text : m_textList)
-                {
+                for (QString text : m_textList) {
                     int fontLength = fontMetrics().horizontalAdvance(text) + 20;
-                    maxLength = qMax(maxLength,fontLength);
+                    maxLength = qMax(maxLength, fontLength);
                 }
                 m_width = maxLength;
                 setFixedWidth(maxLength);
@@ -119,4 +102,4 @@ bool TipsWidget::event(QEvent *event)
     }
     return QFrame::event(event);
 }
-}
+} // namespace Dock

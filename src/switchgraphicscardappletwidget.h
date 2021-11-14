@@ -25,7 +25,6 @@ private:
 private slots:
     void switchIntel();
     void switchNVIDIA();
-
 };
 
 #endif

@@ -30,4 +30,12 @@
 *.exe
 *.out
 *.app
-/src/CMakeLists.txt.user
+
+*.user
+/obj-x86_64-linux-gnu
+/debian/debhelper-build-stamp
+/debian/files
+/debian/.debhelper
+/debian/dde-dock-graphics-plugin.debhelper.log
+/debian/dde-dock-graphics-plugin.substvars
+/debian/dde-dock-graphics-plugin

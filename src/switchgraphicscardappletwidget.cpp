@@ -42,8 +42,7 @@ QString SwitchGraphicsCardAppletWidget::getCardName()
 
 void SwitchGraphicsCardAppletWidget::switchIntel()
 {
-    if(this->m_cardName == "Intel")
-    {
+    if (this->m_cardName == "Intel") {
         Dtk::Core::DUtil::DNotifySender(tr("Intel graphics is already in use")).appIcon("deepin-graphics-driver-manager").appName("dde-dock-graphics-plugin").timeOut(2000).call();
         return;
     }
@@ -56,8 +55,7 @@ void SwitchGraphicsCardAppletWidget::switchIntel()
 
 void SwitchGraphicsCardAppletWidget::switchNVIDIA()
 {
-    if(this->m_cardName == "NVIDIA")
-    {
+    if (this->m_cardName == "NVIDIA") {
         Dtk::Core::DUtil::DNotifySender(tr("NVIDIA graphics is already in use")).appIcon("deepin-graphics-driver-manager").appName("dde-dock-graphics-plugin").timeOut(2000).call();
         return;
     }
