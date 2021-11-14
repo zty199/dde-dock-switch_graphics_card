@@ -1,3 +1,9 @@
 #!/bin/sh
 
+chmod +x /opt/apps/dde-dock-graphics-plugin/files/bin/*.sh
+
 ln -sf /opt/apps/dde-dock-graphics-plugin/files/plugins/libswitch-graphics-card.so /usr/lib/dde-dock/plugins/libswitch-graphics-card.so
+
+ln -sf /opt/apps/dde-dock-graphics-plugin/files/bin/prime-run.sh /usr/bin/prime-run
+
+ln -sf /opt/apps/dde-dock-graphics-plugin/files/share/oem-menuextensions/prime-run.desktop /usr/share/deepin/dde-file-manager/oem-menuextensions/prime-run.desktop
