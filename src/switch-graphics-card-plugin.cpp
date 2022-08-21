@@ -8,7 +8,7 @@
 #define GraphicsCardPlugin "switch-graphics-card"
 #define SchemaId "com.deepin.dde.dock.module.switch-graphics-card"
 #define SchemaPath "/com/deepin/dde/dock/module/switch-graphics-card/"
-#define SchemaKeyMenuEnable "menu-enable"
+#define SchemaKeyMenuEnable "menuEnable"
 
 SwitchGraphicsCardPlugin::SwitchGraphicsCardPlugin(QObject *parent)
     : QObject(parent)

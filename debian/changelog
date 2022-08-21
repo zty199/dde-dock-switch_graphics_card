@@ -1,3 +1,10 @@
+dde-dock-graphics-plugin (1.8.4-2) stable; urgency=medium
+
+  * Fix a bug that plugin exits unexpectedly when changing its position in dde-dock
+
+ -- zty199 <zty2864@gmail.com>  Sun, 14 Nov 2021 23:00:00 +0800
+
+
 dde-dock-graphics-plugin (1.8.4-1) stable; urgency=medium
 
   * Add execute permission for scripts;

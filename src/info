@@ -1,12 +1,12 @@
 {
     "appid": "dde-dock-graphics-plugin",
     "name": "SwitchGraphicsCardPlugin",
-    "version": "1.8.4",
-    "arch": ["all"],
+    "version": "1.8.4-2",
+    "arch": ["amd64"],
     "permissions": {
-        "autostart": false,
-        "notification": false,
-        "trayicon": false,
+        "autostart": true,
+        "notification": true,
+        "trayicon": true,
         "clipboard": false,
         "account": false,
         "bluetooth": false,

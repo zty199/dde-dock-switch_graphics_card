@@ -1,4 +1,3 @@
-
 # 学习 cmake 时建议直接从命令列表作为入口，遇到不清楚意思的命令都可以在此处查阅：
 # https://cmake.org/cmake/help/latest/manual/cmake-commands.7.html
 # 另外下面时完整的文档入口：
@@ -69,7 +68,7 @@ find_package(PkgConfig REQUIRED)
 # DdeDockInterface_INCLUDE_DIRS
 # DdeDockInterface_LIBRARIES
 # 还有有另外的一些变量以及更灵活的用法，比如一次性查找多个库，这些请自行查找 cmake 文档学习。
-pkg_check_modules(DdeDockInterface REQUIRED dde-dock)
+pkg_check_modules(DdeDock REQUIRED dde-dock)
 pkg_check_modules(QGSettings REQUIRED gsettings-qt)
 
 # add_definitions 命令用于声明/定义一些编译/预处理参数
@@ -108,8 +107,7 @@ target_include_directories(${PLUGIN_NAME} PUBLIC
     ${DtkCore_INCLUDE_DIRS}
     ${DtkWidget_INCLUDE_DIRS}
     ${DFrameworkdbus_INCLUDE_DIRS}
-#    ${DdeDock_INCLUDE_DIRS}
-    ${DdeDockInterface_INCLUDE_DIRS}
+    ${DdeDock_INCLUDE_DIRS}
     ${QGSettings_INCLUDE_DIRS}
 )
 
@@ -123,7 +121,7 @@ target_link_libraries(${PLUGIN_NAME} PRIVATE
     ${DtkCore_LIBRARIES}
     ${DtkWidget_LIBRARIES}
     ${DFrameworkdbus_LIBRARIES}
-    ${QGSettings_LIBRARIES}
+    -lgsettings-qt
 )
 
 # 设置安装路径的前缀(默认为 "/usr/local")
