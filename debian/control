@@ -16,7 +16,8 @@ Build-Depends:
  libgsettings-qt-dev,
  pkg-config,
  qtchooser (>= 55-gc9562a1-1~),
- qttools5-private-dev
+ qttools5-private-dev,
+ dde-dock-dev
 Standards-Version: 1.6.0
 Homepage: https://github.com/zty199/dde-dock-switch_graphics_card
 
