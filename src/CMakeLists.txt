@@ -7,27 +7,13 @@
 cmake_minimum_required(VERSION 3.11)
 
 # 使用 set 命令设置一个变量
-set(PLUGIN_NAME "switch-graphics-card")
-set(PKG_NAME "dde-dock-graphics-plugin")
-
-# 设置项目名称
-project(${PLUGIN_NAME})
-
-set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
-# 启用 qt moc 的支持
-set(CMAKE_AUTOMOC ON)
-# 启用 qrc 资源文件的支持
-set(CMAKE_AUTORCC ON)
-
-# generate a compile commands file as complete database for vim-YouCompleteMe or some other similar tools
-#set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(PLUGIN_NAME switch-graphics-card)
 
 # 指定所有源码文件
 # 使用了 cmake 的 file 命令，递归查找项目目录下所有头文件和源码文件，
-# 并将结果放入 SRCS 变量中，SRCS 变量可用于后续使用
-#file(GLOB_RECURSE SRCS "*.h" "*.cpp")
-file(GLOB SRCS "${CMAKE_CURRENT_SOURCE_DIR}/*.h" "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
+# 并将结果放入变量中，变量可用于后续使用
+file(GLOB HDRS "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
+file(GLOB SRCS "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
 
 # 指定要用到的库
 # 使用了 cmake 的 find_package 命令，查找库 Qt5Widgets 等，
@@ -44,11 +30,8 @@ find_package(Qt5LinguistTools REQUIRED)
 find_package(DtkCore REQUIRED)
 find_package(DtkWidget REQUIRED)
 find_package(DFrameworkdbus REQUIRED)
-
-# dde-dock-dev 其实支持 CMake 查找
-# 然而 /usr/lib/x86_64-linux-gnu/cmake/DdeDock/DdeDockConfig.cmake 这个文件写错了
-# 将该文件中 include_directories("${DTKCORE_INCLUDE_DIR}") 改为 include_directories("${DDE_DOCK_INCLUDE_DIR}") 即可正常使用
-# 此处暂时使用 pkg-config 标准
+# dde-dock-dev 也支持 CMake 查找
+# 此处使用 pkg-config 标准
 #find_package(DdeDock REQUIRED)
 
 # find_package 命令还可以用来加载 cmake 的功能模块
@@ -68,7 +51,7 @@ find_package(PkgConfig REQUIRED)
 # DdeDockInterface_INCLUDE_DIRS
 # DdeDockInterface_LIBRARIES
 # 还有有另外的一些变量以及更灵活的用法，比如一次性查找多个库，这些请自行查找 cmake 文档学习。
-pkg_check_modules(DdeDock REQUIRED dde-dock)
+pkg_check_modules(DdeDockInterface REQUIRED dde-dock)
 pkg_check_modules(QGSettings REQUIRED gsettings-qt)
 
 # add_definitions 命令用于声明/定义一些编译/预处理参数
@@ -77,25 +60,24 @@ pkg_check_modules(QGSettings REQUIRED gsettings-qt)
 # 暂时仍然使用 add_definitions，add_definitions 的语法很简单就是直接写要定义的 flag 并在前面加上 "-D" 即可
 # 括号中的 ${QT_DEFINITIONS} 变量会在执行 cmake 时展开为它的值，这个变量属于历史遗留，应该是在 qt3/qt4 时有用，
 # 基于 qt5 或更高版本的新插件不必使用此变量。要查看 qt5 的库定义了哪些变量应该查看变量：${Qt5Widgets_DEFINITIONS}
-add_definitions("${QT_DEFINITIONS} -DQT_PLUGIN")
+#add_definitions("${QT_DEFINITIONS} -DQT_PLUGIN")
 
-# .ts 翻译文件
-set(TS_FILES "${CMAKE_CURRENT_SOURCE_DIR}/translations/zh_CN.ts")
+# 更新 .ts 翻译文件
+execute_process(COMMAND bash ${CMAKE_CURRENT_SOURCE_DIR}/translations/translate_update.sh WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/translations)
 # 生成 .qm 翻译文件
-qt5_create_translation(QM_FILES ${CMAKE_CURRENT_SOURCE_DIR} ${TS_FILES})
-execute_process(COMMAND bash "${CMAKE_CURRENT_SOURCE_DIR}/translations/translate_generation.sh" WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/translations")
+execute_process(COMMAND bash ${CMAKE_CURRENT_SOURCE_DIR}/translations/translate_generation.sh WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/translations)
 
 # 新增一个编译目标
 # 这里使用命令 add_library 来表示本项目要生成一个库文件目标，
 # 类似的还有命令 add_executable 添加一个可执行二进制目标，甚至 add_custom_target(使用较少) 添加自定义目标
 # SHARED 表示生成的库应该是动态库，
-# 变量 ${PLUGIN_NAME} 和 ${SRCS} 都是前面处理好的，
+# 变量 ${PLUGIN_NAME} 和 ${HDRS} ${SRCS} 都是前面处理好的，
 # 另外 qrc 资源文件也应该追加在后面以编译进目标中。
-add_library(${PLUGIN_NAME} SHARED ${SRCS} ${TS_FILES} "${PLUGIN_NAME}.qrc")
+add_library(${PLUGIN_NAME} SHARED ${HDRS} ${SRCS} ${PLUGIN_NAME}.qrc)
 
 # 设置目标的生成位置，这里表示生成在执行 make 的目录,
 # 另外还有很多可用于设置的属性，可查阅 cmake 文档。
-set_target_properties(${PLUGIN_NAME} PROPERTIES LIBRARY_OUTPUT_DIRECTORY ./)
+set_target_properties(${PLUGIN_NAME} PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
 
 # 设置目标要使用的 include 目录，即头文件目录
 # 变量 ${DtkWidget_INCLUDE_DIRS} 是在前面执行 find_package 命令时引入的
@@ -107,7 +89,8 @@ target_include_directories(${PLUGIN_NAME} PUBLIC
     ${DtkCore_INCLUDE_DIRS}
     ${DtkWidget_INCLUDE_DIRS}
     ${DFrameworkdbus_INCLUDE_DIRS}
-    ${DdeDock_INCLUDE_DIRS}
+#    ${DdeDock_INCLUDE_DIRS}
+    ${DdeDockInterface_INCLUDE_DIRS}
     ${QGSettings_INCLUDE_DIRS}
 )
 
@@ -121,13 +104,23 @@ target_link_libraries(${PLUGIN_NAME} PRIVATE
     ${DtkCore_LIBRARIES}
     ${DtkWidget_LIBRARIES}
     ${DFrameworkdbus_LIBRARIES}
-    -lgsettings-qt
+#    ${DdeDock_LIBRARIES}
+    ${DdeDockInterface_LIBRARIES}
+    ${QGSettings_LIBRARIES}
 )
 
 # 设置安装路径的前缀(默认为 "/usr/local")
 set(CMAKE_INSTALL_PREFIX "/opt")
 
 # 设置执行 make install 时哪个目标应该被 install 到哪个位置
-install(TARGETS ${PLUGIN_NAME} LIBRARY DESTINATION apps/${PKG_NAME}/files/plugins)
-install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/dde-dock-graphics-plugin.desktop" DESTINATION apps/${PKG_NAME}/entries/applications)
-install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/info" DESTINATION apps/${PKG_NAME})
+install(TARGETS ${PLUGIN_NAME} LIBRARY DESTINATION apps/${PROJECT_NAME}/files/plugins)
+
+install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/dde-dock-graphics-plugin.desktop DESTINATION apps/${PROJECT_NAME}/entries/applications)
+install(FILES ${CMAKE_SOURCE_DIR}/gschema/com.deepin.dde.dock.module.switch-graphics-card.gschema.xml DESTINATION apps/${PROJECT_NAME}/entries/glib-2.0/schemas)
+install(FILES ${CMAKE_SOURCE_DIR}/pkexec/com.deepin.pkexec.dde-dock-graphics-plugin.policy DESTINATION apps/${PROJECT_NAME}/entries/polkit/actions)
+
+install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/info DESTINATION apps/${PROJECT_NAME})
+install(FILES ${CMAKE_SOURCE_DIR}/oem-menuextensions/prime-run.desktop DESTINATION apps/${PROJECT_NAME}/files/share/oem-menuextensions)
+# 使用 cmake 的 file 命令，递归查找项目目录下所有脚本文件
+file(GLOB SCRIPTS "${CMAKE_SOURCE_DIR}/scripts/*.sh")
+install(FILES ${SCRIPTS} DESTINATION apps/${PROJECT_NAME}/files/bin)

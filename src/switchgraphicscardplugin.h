@@ -1,14 +1,12 @@
-#ifndef SWITCHCARD_H
-#define SWITCHCARD_H
-
-#include <QGSettings>
+#ifndef SWITCHGRAPHICSCARDPLUGIN_H
+#define SWITCHGRAPHICSCARDPLUGIN_H
 
 #include "pluginsiteminterface.h"
-#include "tipswidget.h"
 
-#include "ddeUtil.h"
 #include "switchgraphicscardwidget.h"
 #include "switchgraphicscardappletwidget.h"
+
+#include <QGSettings>
 
 namespace Dock {
 class TipsWidget;
@@ -65,17 +63,17 @@ private:
     void updateTranslator();
 
 private slots:
-    void onGsettingsChanged(const QString &key);
+    void slotGSettingsChanged(const QString &key);
 
 private:
-    SwitchGraphicsCardWidget *m_pluginWidget;
-    Dock::TipsWidget *m_tipsWidget;
-    SwitchGraphicsCardAppletWidget *m_appletWidget;
+    QTranslator *m_translator = nullptr;
+    QGSettings *m_gsettings = nullptr;
 
-    QGSettings *m_gsettings;
-    QProcess *process;
-    bool m_pluginLoaded;
-    QTranslator *ts;
+    SwitchGraphicsCardWidget *m_pluginWidget = nullptr;
+    Dock::TipsWidget *m_tipsWidget = nullptr;
+    SwitchGraphicsCardAppletWidget *m_appletWidget = nullptr;
+
+    bool m_pluginLoaded = false;
 };
 
-#endif // HOMEMONITORPLUGIN_H
+#endif // SWITCHGRAPHICSCARDPLUGIN_H

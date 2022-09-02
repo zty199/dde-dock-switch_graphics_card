@@ -1,24 +1,28 @@
 #include "switchgraphicscardwidget.h"
+#include "common.h"
 
 #include <DGuiApplicationHelper>
 #include <DStyle>
+
+#include <QPainterPath>
+#include <QtMath>
 
 DWIDGET_USE_NAMESPACE
 
 SwitchGraphicsCardWidget::SwitchGraphicsCardWidget(QWidget *parent)
     : QWidget(parent)
-    , m_hover(false)
-    , m_pressed(false)
 {
     setMouseTracking(true);
-    setMinimumSize(PLUGIN_BACKGROUND_MIN_SIZE, PLUGIN_BACKGROUND_MIN_SIZE);
 
-    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, [=]() {
-        update();
-    });
+    initUI();
+    initConnections();
 }
 
-void SwitchGraphicsCardWidget::getInfo(SwitchGraphicsCardAppletWidget *m_appletWidget)
+SwitchGraphicsCardWidget::~SwitchGraphicsCardWidget()
+{
+}
+
+void SwitchGraphicsCardWidget::updateData(SwitchGraphicsCardAppletWidget *m_appletWidget)
 {
     // 获取 appletwidget 中的信息
     m_cardName = m_appletWidget->getCardName();
@@ -27,68 +31,68 @@ void SwitchGraphicsCardWidget::getInfo(SwitchGraphicsCardAppletWidget *m_appletW
     update();
 }
 
-void SwitchGraphicsCardWidget::paintEvent(QPaintEvent *)
+void SwitchGraphicsCardWidget::paintEvent(QPaintEvent *event)
 {
-    QPixmap pixmap;
+    QPainter painter(this);
+    painter.setRenderHints(QPainter::HighQualityAntialiasing | QPainter::SmoothPixmapTransform | QPainter::Antialiasing);
+    painter.save();
+
+    // 获取图标名称
     QString iconName;
     if (m_cardName == "Intel") {
-        iconName = Intel_light;
+        iconName = kIntelIconName;
     } else {
-        iconName = NVIDIA_light;
+        iconName = kNvidiaIconName;
     }
-    int iconSize = PLUGIN_ICON_MAX_SIZE;
 
     // 绘制图标背景
-    QPainter painter(this);
-    if (std::min(width(), height()) > PLUGIN_BACKGROUND_MIN_SIZE) {
+    int minSize = qMin(width(), height());
+    if (minSize > PLUGIN_BACKGROUND_MIN_SIZE) {
         QColor color;
         if (DGuiApplicationHelper::instance()->themeType() == DGuiApplicationHelper::LightType) {
             color = Qt::black;
             painter.setOpacity(0.5);
-
-            if (m_hover)
+            if (m_hover) {
                 painter.setOpacity(0.6);
-
-            if (m_pressed)
+            }
+            if (m_pressed) {
                 painter.setOpacity(0.3);
+            }
         } else {
             color = Qt::white;
             painter.setOpacity(0.1);
-
-            if (m_hover)
+            if (m_hover) {
                 painter.setOpacity(0.2);
-
-            if (m_pressed)
+            }
+            if (m_pressed) {
                 painter.setOpacity(0.05);
+            }
         }
 
-        painter.setRenderHint(QPainter::Antialiasing, true);
+        QPainterPath path;
+
+        QRect rect(0, 0, minSize, minSize);
+        rect.moveTo(this->rect().center() - rect.center());
 
         DStyleHelper dstyle(style());
         const int radius = dstyle.pixelMetric(DStyle::PM_FrameRadius);
 
-        QPainterPath path;
-
-        int minSize = std::min(width(), height());
-        QRect rc(0, 0, minSize, minSize);
-        rc.moveTo(rect().center() - rc.center());
-
-        path.addRoundedRect(rc, radius, radius);
+        path.addRoundedRect(rect, radius, radius);
         painter.fillPath(path, color);
     } else if (DGuiApplicationHelper::instance()->themeType() == DGuiApplicationHelper::LightType) {
-        if (m_cardName == "Intel") {
-            iconName = Intel_dark;
-        } else {
-            iconName = NVIDIA_dark;
-        }
+        iconName += PLUGIN_MIN_ICON_NAME;
     }
 
-    pixmap = loadSVG(iconName, QSize(iconSize, iconSize));
+    painter.restore();
 
-    painter.setOpacity(1);
-    const QRectF &rf = QRectF(rect());
-    const QRectF &rfp = QRectF(pixmap.rect());
-    painter.drawPixmap(rf.center() - rfp.center() / devicePixelRatioF(), pixmap);
+    QString fileName = QString(":/icons/icons/%1.svg").arg(iconName);
+    QPixmap pixmap = loadSVG(fileName, QSize(PLUGIN_ICON_MAX_SIZE, PLUGIN_ICON_MAX_SIZE));
+
+    const QRectF &rectf = QRectF(rect());
+    const QRectF &pixmapRectf = QRectF(pixmap.rect());
+    painter.drawPixmap(rectf.center() - pixmapRectf.center() / devicePixelRatioF(), pixmap);
+
+    QWidget::paintEvent(event);
 }
 
 void SwitchGraphicsCardWidget::mousePressEvent(QMouseEvent *event)
@@ -97,6 +101,13 @@ void SwitchGraphicsCardWidget::mousePressEvent(QMouseEvent *event)
     update();
 
     QWidget::mousePressEvent(event);
+}
+
+void SwitchGraphicsCardWidget::mouseMoveEvent(QMouseEvent *event)
+{
+    m_hover = true;
+
+    QWidget::mouseMoveEvent(event);
 }
 
 void SwitchGraphicsCardWidget::mouseReleaseEvent(QMouseEvent *event)
@@ -108,13 +119,6 @@ void SwitchGraphicsCardWidget::mouseReleaseEvent(QMouseEvent *event)
     QWidget::mouseReleaseEvent(event);
 }
 
-void SwitchGraphicsCardWidget::mouseMoveEvent(QMouseEvent *event)
-{
-    m_hover = true;
-
-    QWidget::mouseMoveEvent(event);
-}
-
 void SwitchGraphicsCardWidget::leaveEvent(QEvent *event)
 {
     m_hover = false;
@@ -124,14 +128,21 @@ void SwitchGraphicsCardWidget::leaveEvent(QEvent *event)
     QWidget::leaveEvent(event);
 }
 
-void SwitchGraphicsCardWidget::resizeEvent(QResizeEvent *event)
+void SwitchGraphicsCardWidget::initUI()
 {
-    QWidget::resizeEvent(event);
+    setMinimumSize(PLUGIN_BACKGROUND_MIN_SIZE, PLUGIN_BACKGROUND_MIN_SIZE);
+}
+
+void SwitchGraphicsCardWidget::initConnections()
+{
+    connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, [=]() {
+        update();
+    });
 }
 
 const QPixmap SwitchGraphicsCardWidget::loadSVG(const QString &fileName, const QSize &size) const
 {
-    const auto ratio = devicePixelRatioF();
+    const qreal ratio = devicePixelRatioF();
 
     QPixmap pixmap;
     pixmap = QIcon::fromTheme(fileName).pixmap(size * ratio);

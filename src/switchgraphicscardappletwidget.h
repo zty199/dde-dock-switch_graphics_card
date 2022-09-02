@@ -1,7 +1,11 @@
 #ifndef SWITCHITEMWIDGET_H
 #define SWITCHITEMWIDGET_H
 
-#include "ddeUtil.h"
+#include <DPushButton>
+
+#include <QProcess>
+
+DWIDGET_USE_NAMESPACE
 
 class SwitchGraphicsCardAppletWidget : public QWidget
 {
@@ -9,22 +13,28 @@ class SwitchGraphicsCardAppletWidget : public QWidget
 
 public:
     explicit SwitchGraphicsCardAppletWidget(QWidget *parent = nullptr);
+    ~SwitchGraphicsCardAppletWidget();
 
     void setCardName();
-    QString getCardName();
-    void refreshButton();
+    QString getCardName() const;
+
+    void updateButtonText();
 
 private:
-    QPushButton *btn_intel;
-    QPushButton *btn_nvidia;
-    QProcess *process;
+    void initUI();
+    void initConnections();
+
+private slots:
+    void slotIntelButtonClicked();
+    void slotNvidiaButtonClicked();
+
+private:
+    QPushButton *m_intelButton = nullptr;
+    QPushButton *m_nvidiaButton = nullptr;
+    QProcess *m_process = nullptr;
 
     QString m_cardName;
     QString m_locale;
-
-private slots:
-    void switchIntel();
-    void switchNVIDIA();
 };
 
 #endif

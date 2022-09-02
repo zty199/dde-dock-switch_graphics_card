@@ -1,10 +1,8 @@
 #ifndef INFORMATIONWIDGET_H
 #define INFORMATIONWIDGET_H
 
-#include "ddeUtil.h"
-#include "constants.h"
-
 #include "switchgraphicscardappletwidget.h"
+#include "constants.h"
 
 class SwitchGraphicsCardWidget : public QWidget
 {
@@ -12,30 +10,29 @@ class SwitchGraphicsCardWidget : public QWidget
 
 public:
     explicit SwitchGraphicsCardWidget(QWidget *parent = nullptr);
+    ~SwitchGraphicsCardWidget() override;
 
-    void getInfo(SwitchGraphicsCardAppletWidget *m_appletWidget);
+    void updateData(SwitchGraphicsCardAppletWidget *m_appletWidget);
 
 protected:
-    void paintEvent(QPaintEvent *) override;
+    void paintEvent(QPaintEvent *event) override;
     void mousePressEvent(QMouseEvent *event) override;
-    void mouseReleaseEvent(QMouseEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
+    void mouseReleaseEvent(QMouseEvent *event) override;
     void leaveEvent(QEvent *event) override;
-    void resizeEvent(QResizeEvent *event) override;
+
+private:
+    void initUI();
+    void initConnections();
+
+    const QPixmap loadSVG(const QString &fileName, const QSize &size) const;
 
 private:
     // 通过 SwitchGraphicsCardPlugin.cpp 中实例化的 m_appletWidget 获取当前显卡
-    QString m_cardName;
+    QString m_cardName = "";
 
-    bool m_hover;
-    bool m_pressed;
-
-    const QString Intel_dark = ":/icons/icons/Intel_dark.svg";
-    const QString Intel_light = ":/icons/icons/Intel_light.svg";
-    const QString NVIDIA_dark = ":/icons/icons/NVIDIA_dark.svg";
-    const QString NVIDIA_light = ":/icons/icons/NVIDIA_light.svg";
-
-    const QPixmap loadSVG(const QString &fileName, const QSize &size) const;
+    bool m_hover = false;
+    bool m_pressed = false;
 };
 
 #endif // INFORMATIONWIDGET_H
