@@ -113,14 +113,14 @@ target_link_libraries(${PLUGIN_NAME} PRIVATE
 set(CMAKE_INSTALL_PREFIX "/opt")
 
 # 设置执行 make install 时哪个目标应该被 install 到哪个位置
-install(TARGETS ${PLUGIN_NAME} LIBRARY DESTINATION apps/${PROJECT_NAME}/files/plugins)
+install(TARGETS ${PLUGIN_NAME} LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/apps/${PROJECT_NAME}/files/plugins)
 
-install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/dde-dock-graphics-plugin.desktop DESTINATION apps/${PROJECT_NAME}/entries/applications)
-install(FILES ${CMAKE_SOURCE_DIR}/gschema/com.deepin.dde.dock.module.switch-graphics-card.gschema.xml DESTINATION apps/${PROJECT_NAME}/entries/glib-2.0/schemas)
-install(FILES ${CMAKE_SOURCE_DIR}/pkexec/com.deepin.pkexec.dde-dock-graphics-plugin.policy DESTINATION apps/${PROJECT_NAME}/entries/polkit/actions)
+install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/dde-dock-graphics-plugin.desktop DESTINATION ${CMAKE_INSTALL_PREFIX}/apps/${PROJECT_NAME}/entries/applications)
+install(FILES ${CMAKE_SOURCE_DIR}/gschema/com.deepin.dde.dock.module.switch-graphics-card.gschema.xml DESTINATION ${CMAKE_INSTALL_PREFIX}/apps/${PROJECT_NAME}/entries/glib-2.0/schemas)
+install(FILES ${CMAKE_SOURCE_DIR}/pkexec/com.deepin.pkexec.dde-dock-graphics-plugin.policy DESTINATION ${CMAKE_INSTALL_PREFIX}/apps/${PROJECT_NAME}/entries/polkit/actions)
 
-install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/info DESTINATION apps/${PROJECT_NAME})
-install(FILES ${CMAKE_SOURCE_DIR}/oem-menuextensions/prime-run.desktop DESTINATION apps/${PROJECT_NAME}/files/share/oem-menuextensions)
+install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/info DESTINATION ${CMAKE_INSTALL_PREFIX}/apps/${PROJECT_NAME})
+install(FILES ${CMAKE_SOURCE_DIR}/oem-menuextensions/prime-run.desktop DESTINATION ${CMAKE_INSTALL_PREFIX}/apps/${PROJECT_NAME}/files/share/oem-menuextensions)
 # 使用 cmake 的 file 命令，递归查找项目目录下所有脚本文件
 file(GLOB SCRIPTS "${CMAKE_SOURCE_DIR}/scripts/*.sh")
-install(FILES ${SCRIPTS} DESTINATION apps/${PROJECT_NAME}/files/bin)
+install(FILES ${SCRIPTS} DESTINATION ${CMAKE_INSTALL_PREFIX}/apps/${PROJECT_NAME}/files/bin)

@@ -70,8 +70,12 @@ void SwitchGraphicsCardAppletWidget::slotIntelButtonClicked()
 
     DUtil::DNotifySender(QObject::tr("Preparing to switch graphics card and logout, please save your work in progress in time")).appIcon("deepin-graphics-driver-manager").appName("dde-dock-graphics-plugin").call();
 
-    QProcess process;
-    process.startDetached("pkexec", QStringList() << "/opt/apps/dde-dock-graphics-plugin/files/bin/Intel.sh");
+    /**
+     * WARNING: 此处需要保证 QProcess 不被销毁，且无法使用 startDetached，
+     * 否则调用 pkexec 存在错误 Refusing to render service to dead parents.
+     */
+    QProcess *process = new QProcess(this);
+    process->start("pkexec", QStringList() << "/opt/apps/dde-dock-graphics-plugin/files/bin/Intel.sh");
 }
 
 void SwitchGraphicsCardAppletWidget::slotNvidiaButtonClicked()
@@ -83,6 +87,10 @@ void SwitchGraphicsCardAppletWidget::slotNvidiaButtonClicked()
 
     DUtil::DNotifySender(QObject::tr("Preparing to switch graphics card and logout, please save your work in progress in time")).appIcon("deepin-graphics-driver-manager").appName("dde-dock-graphics-plugin").call();
 
-    QProcess process;
-    process.startDetached("pkexec", QStringList() << "/opt/apps/dde-dock-graphics-plugin/files/bin/NVIDIA.sh");
+    /**
+     * WARNING: 此处需要保证 QProcess 不被销毁，且无法使用 startDetached，
+     * 否则调用 pkexec 存在错误 Refusing to render service to dead parents.
+     */
+    QProcess *process = new QProcess(this);
+    process->start("pkexec", QStringList() << "/opt/apps/dde-dock-graphics-plugin/files/bin/NVIDIA.sh");
 }
