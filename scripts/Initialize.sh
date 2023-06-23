@@ -49,20 +49,12 @@ EndSection
 Section "Screen"
     Identifier     "IGPU"
     Device         "GFX0"
-    DefaultDepth    24
-    SubSection     "Display"
-        Depth       24
-    EndSubSection
 EndSection
 
 Section "Screen"
     Identifier     "DGPU"
     Device         "PEGP"
-    DefaultDepth    24
     Option         "AllowEmptyInitialConfiguration"
-    SubSection     "Display"
-        Depth       24
-    EndSubSection
     Option         "Coolbits" "28"
 EndSection' | sudo tee /etc/X11/xorg.conf.bak > /dev/null
 
