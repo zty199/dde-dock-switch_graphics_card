@@ -1,12 +1,10 @@
 #!/bin/bash
 # this file is used to auto-update .ts file.
 
-cd $(dirname $0)
+cd $(dirname $0) || true
 
-ts_list=$(ls ./*.ts)
+fileNames=$(ls ./*.ts)
 
-for ts in "${ts_list[@]}"
-do
-#    printf "\nprocess ${ts}\n"
-    lupdate ./src -recursive -no-obsolete -ts "${ts}"
+for fileName in $fileNames ; do
+    /usr/lib/qt5/bin/lupdate ../ -recursive -no-obsolete -ts $fileName
 done

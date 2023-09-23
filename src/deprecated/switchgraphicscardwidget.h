@@ -12,7 +12,7 @@ public:
     explicit SwitchGraphicsCardWidget(QWidget *parent = nullptr);
     ~SwitchGraphicsCardWidget() override;
 
-    void updateData(SwitchGraphicsCardAppletWidget *m_appletWidget);
+    void updateData();
 
 protected:
     void paintEvent(QPaintEvent *event) override;
@@ -24,8 +24,6 @@ protected:
 private:
     void initUI();
     void initConnections();
-
-    const QPixmap loadSVG(const QString &fileName, const QSize &size) const;
 
 private:
     // 通过 SwitchGraphicsCardPlugin.cpp 中实例化的 m_appletWidget 获取当前显卡

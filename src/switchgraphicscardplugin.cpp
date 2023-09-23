@@ -1,9 +1,10 @@
 #include "switchgraphicscardplugin.h"
-#include "common.h"
 #include "tipswidget.h"
+#include "switchgraphicscardappletwidget.h"
+#include "common.h"
+#include "utils.h"
 
 #include <DDBusSender>
-#include <QGSettings>
 
 SwitchGraphicsCardPlugin::SwitchGraphicsCardPlugin(QObject *parent)
     : QObject(parent)
@@ -20,24 +21,14 @@ SwitchGraphicsCardPlugin::SwitchGraphicsCardPlugin(QObject *parent)
 
 SwitchGraphicsCardPlugin::~SwitchGraphicsCardPlugin()
 {
-    m_translator->deleteLater();
-
-    if (m_gsettings) {
-        m_gsettings->deleteLater();
-        m_gsettings = nullptr;
-    }
-
     if (m_tipsWidget) {
         m_tipsWidget->deleteLater();
         m_tipsWidget = nullptr;
     }
+
     if (m_appletWidget) {
         m_appletWidget->deleteLater();
         m_appletWidget = nullptr;
-    }
-    if (m_pluginWidget) {
-        m_pluginWidget->deleteLater();
-        m_pluginWidget = nullptr;
     }
 }
 
@@ -61,6 +52,108 @@ void SwitchGraphicsCardPlugin::init(PluginProxyInterface *proxyInter)
     }
 }
 
+// dock 栏插件显示（V23中作用未知）
+QWidget *SwitchGraphicsCardPlugin::itemWidget(const QString &itemKey)
+{
+    Q_UNUSED(itemKey)
+    return nullptr;
+}
+
+// 鼠标悬停时显示信息
+QWidget *SwitchGraphicsCardPlugin::itemTipsWidget(const QString &itemKey)
+{
+    if (itemKey != kPluginName) {
+        return nullptr;
+    }
+
+    return m_tipsWidget;
+}
+
+// 单击插件弹出选项框
+QWidget *SwitchGraphicsCardPlugin::itemPopupApplet(const QString &itemKey)
+{
+    if (itemKey == kPluginName || itemKey == QUICK_ITEM_KEY) {
+        return m_appletWidget;
+    }
+
+    return nullptr;
+}
+
+const QString SwitchGraphicsCardPlugin::itemContextMenu(const QString &itemKey)
+{
+    if (itemKey != kPluginName) {
+        return QString();
+    }
+
+    QVariantList items;
+    items.reserve(3);
+
+    QVariantMap graphicsRefresh;
+    graphicsRefresh.insert("itemId", "graphics-refresh");
+    graphicsRefresh.insert("itemText", QObject::tr("Refresh"));
+    graphicsRefresh.insert("isActive", true);
+    items.append(graphicsRefresh);
+
+    QVariantMap displaySettings;
+    displaySettings.insert("itemId", "display-settings");
+    displaySettings.insert("itemText", QObject::tr("Display Settings"));
+    displaySettings.insert("isActive", true);
+    items.append(displaySettings);
+
+    QVariantMap nvidiaSettings;
+    nvidiaSettings.insert("itemId", "nvidia-settings");
+    nvidiaSettings.insert("itemText", QObject::tr("Run nvidia-settings"));
+    nvidiaSettings.insert("isActive", true);
+    items.append(nvidiaSettings);
+
+    QVariantMap menu;
+    menu.insert("items", items);
+    menu.insert("checkableMenu", false);
+    menu.insert("singleCheck", false);
+
+    // 返回 JSON 格式的菜单数据
+    return QJsonDocument::fromVariant(menu).toJson();
+}
+
+void SwitchGraphicsCardPlugin::invokedMenuItem(const QString &itemKey, const QString &menuId, const bool checked)
+{
+    Q_UNUSED(checked)
+
+    if (itemKey != kPluginName) {
+        return;
+    }
+
+    // 根据上面接口设置的 id 执行不同的操作
+    if (menuId == "graphics-refresh") {
+        // 刷新显卡信息
+        Singleton<SwitchGraphicsCardItem>::instance()->refresh();
+    } else if (menuId == "display-settings") {
+        // 使用 dbus 调用控制中心
+        DDBusSender()
+            .service("com.deepin.dde.ControlCenter")
+            .interface("com.deepin.dde.ControlCenter")
+            .path("/com/deepin/dde/ControlCenter")
+            .method(QString("ShowModule"))
+            .arg(QString("display"))
+            .call();
+    } else if (menuId == "nvidia-settings") {
+        // 需要用户自行安装 nvidia-settings
+        QProcess::startDetached("nvidia-settings", QStringList());
+    }
+}
+
+int SwitchGraphicsCardPlugin::itemSortKey(const QString &itemKey)
+{
+    const QString key = QString("pos_%1_%2").arg(itemKey).arg(Dock::Efficient);
+    return m_proxyInter->getValue(this, key, 0).toInt();
+}
+
+void SwitchGraphicsCardPlugin::setSortKey(const QString &itemKey, const int order)
+{
+    const QString key = QString("pos_%1_%2").arg(itemKey).arg(Dock::Efficient);
+    m_proxyInter->saveValue(this, key, order);
+}
+
 bool SwitchGraphicsCardPlugin::pluginIsAllowDisable()
 {
     // 通知 dde-dock 本插件允许禁用
@@ -82,152 +175,78 @@ void SwitchGraphicsCardPlugin::pluginStateSwitched()
     refreshPluginItemsVisible();
 }
 
-// dock 栏插件显示
-QWidget *SwitchGraphicsCardPlugin::itemWidget(const QString &itemKey)
-{
-    if (itemKey != kPluginName) {
-        return nullptr;
-    }
-
-    // 添加 pluginWidget 到 dde-dock 上
-    return m_pluginWidget;
-}
-
-// 鼠标悬停时显示信息
-QWidget *SwitchGraphicsCardPlugin::itemTipsWidget(const QString &itemKey)
-{
-    if (itemKey != kPluginName) {
-        return nullptr;
-    }
-
-    return m_tipsWidget;
-}
-
-// 单击插件弹出选项框
-QWidget *SwitchGraphicsCardPlugin::itemPopupApplet(const QString &itemKey)
-{
-    if (itemKey != kPluginName) {
-        return nullptr;
-    }
-
-    return m_appletWidget;
-}
-
-const QString SwitchGraphicsCardPlugin::itemContextMenu(const QString &itemKey)
-{
-    if (itemKey != kPluginName) {
-        return QString();
-    }
-
-    QList<QVariant> items;
-    items.reserve(3);
-
-    QMap<QString, QVariant> graphicsRefresh;
-    graphicsRefresh["itemId"] = "graphics-refresh";
-    graphicsRefresh["itemText"] = QObject::tr("Refresh");
-    graphicsRefresh["isActive"] = true;
-    items.push_back(graphicsRefresh);
-
-    QMap<QString, QVariant> displaySettings;
-    displaySettings["itemId"] = "display-settings";
-    displaySettings["itemText"] = QObject::tr("Display Settings");
-    displaySettings["isActive"] = true;
-    items.push_back(displaySettings);
-
-    QMap<QString, QVariant> nvidiaSettings;
-    nvidiaSettings["itemId"] = "nvidia-settings";
-    nvidiaSettings["itemText"] = QObject::tr("Run nvidia-settings");
-    nvidiaSettings["isActive"] = true;
-    items.push_back(nvidiaSettings);
-
-    QMap<QString, QVariant> menu;
-    menu["items"] = items;
-    menu["checkableMenu"] = false;
-    menu["singleCheck"] = false;
-
-    // 返回 JSON 格式的菜单数据
-    return QJsonDocument::fromVariant(menu).toJson();
-}
-
-void SwitchGraphicsCardPlugin::invokedMenuItem(const QString &itemKey, const QString &menuId, const bool checked)
-{
-    Q_UNUSED(checked)
-
-    if (itemKey != kPluginName) {
-        return;
-    }
-
-    // 根据上面接口设置的 id 执行不同的操作
-    if (menuId == "graphics-refresh") {
-        // 刷新显卡信息
-        m_appletWidget->setCardName();
-        m_appletWidget->updateButtonText();
-        m_pluginWidget->updateData(m_appletWidget);
-    } else if (menuId == "display-settings") {
-        // 使用 dbus 调用控制中心
-        DDBusSender()
-            .service("com.deepin.dde.ControlCenter")
-            .interface("com.deepin.dde.ControlCenter")
-            .path("/com/deepin/dde/ControlCenter")
-            .method(QString("ShowModule"))
-            .arg(QString("display"))
-            .call();
-    } else if (menuId == "nvidia-settings") {
-        // 需要用户自行安装 nvidia-settings
-        QProcess process;
-        process.startDetached("nvidia-settings", QStringList());
-    }
-}
-
-void SwitchGraphicsCardPlugin::displayModeChanged(const Dock::DisplayMode displayMode)
-{
-    Q_UNUSED(displayMode)
-
-    if (!pluginIsDisable()) {
-        m_pluginWidget->update();
-    }
-}
-
-int SwitchGraphicsCardPlugin::itemSortKey(const QString &itemKey)
-{
-    const QString key = QString("pos_%1_%2").arg(itemKey).arg(Dock::Efficient);
-    return m_proxyInter->getValue(this, key, 0).toInt();
-}
-
-void SwitchGraphicsCardPlugin::setSortKey(const QString &itemKey, const int order)
-{
-    const QString key = QString("pos_%1_%2").arg(itemKey).arg(Dock::Efficient);
-    m_proxyInter->saveValue(this, key, order);
-}
-
 void SwitchGraphicsCardPlugin::pluginSettingsChanged()
 {
     refreshPluginItemsVisible();
 }
 
+PluginsItemInterface::PluginMode SwitchGraphicsCardPlugin::status() const
+{
+    return PluginMode::Active;
+}
+
+QIcon SwitchGraphicsCardPlugin::icon(const DockPart &dockPart, DGuiApplicationHelper::ColorType themeType)
+{
+    QString iconName;
+    QSize iconSize;
+
+    switch (dockPart) {
+    case DockPart::DCCSetting:
+        iconName = kDefaultIconName;
+        iconSize = QSize(18, 18);
+        break;
+    case DockPart::QuickShow:
+        if (Singleton<SwitchGraphicsCardItem>::instance()->cardName() == "Intel") {
+            iconName = kIntelIconName;
+        } else if (Singleton<SwitchGraphicsCardItem>::instance()->cardName() == "NVIDIA") {
+            iconName = kNvidiaIconName;
+        } else {
+            iconName = kDefaultIconName;
+        }
+        iconSize = QSize(18, 16);
+        break;
+    default:
+        break;
+    }
+
+    if (iconName.isEmpty()) {
+        return QIcon();
+    }
+
+    if (themeType == DGuiApplicationHelper::ColorType::LightType) {
+        iconName += PLUGIN_MIN_ICON_NAME;
+    }
+
+    return Utils::loadSVG(QString(":/icons/%1.svg").arg(iconName), iconSize);
+}
+
+PluginFlags SwitchGraphicsCardPlugin::flags() const
+{
+    return PluginFlag::Type_Common
+           | PluginFlag::Attribute_CanDrag
+           | PluginFlag::Attribute_CanInsert
+           | PluginFlag::Attribute_CanSetting;
+}
+
 void SwitchGraphicsCardPlugin::loadPlugin()
 {
     if (m_pluginLoaded) {
-        qDebug() << Q_FUNC_INFO << "graphics plugin has been loaded! return";
+        qDebug().noquote() << "Plugin switch-graphics-card has been loaded";
         return;
     }
 
     m_pluginLoaded = true;
 
-    m_pluginWidget = new SwitchGraphicsCardWidget;
     m_tipsWidget = new Dock::TipsWidget;
+    m_tipsWidget->setAccessibleName(pluginDisplayName());
+    m_tipsWidget->setText(QObject::tr("Initializing"));
     m_appletWidget = new SwitchGraphicsCardAppletWidget;
 
-    // 初始化显卡信息
-    m_pluginWidget->updateData(m_appletWidget);
-
-    // 初始化 tipsWidget 信息
-    m_tipsWidget->setVisible(false);
-    m_tipsWidget->setAccessibleName(pluginDisplayName());
-    m_tipsWidget->setText(QObject::tr("Current: ") + m_appletWidget->getCardName());
+    connect(Singleton<SwitchGraphicsCardItem>::instance(), &SwitchGraphicsCardItem::sigStatusChanged, this, &SwitchGraphicsCardPlugin::slotInitializationStatusChanged);
 
     m_proxyInter->itemAdded(this, pluginName());
-    displayModeChanged(displayMode());
+
+    QMetaObject::invokeMethod(Singleton<SwitchGraphicsCardItem>::instance(), "refresh", Qt::QueuedConnection);
 }
 
 void SwitchGraphicsCardPlugin::refreshPluginItemsVisible()
@@ -246,7 +265,7 @@ void SwitchGraphicsCardPlugin::refreshPluginItemsVisible()
 void SwitchGraphicsCardPlugin::updateTranslator()
 {
     if (QLocale::system().name().split("_").at(0) == "zh") {
-        m_translator->load("zh_CN.qm", ":/translations/translations");
+        m_translator->load("zh_CN.qm", ":/translations");
         QCoreApplication::installTranslator(m_translator);
     }
 }
@@ -257,6 +276,28 @@ void SwitchGraphicsCardPlugin::slotGSettingsChanged(const QString &key)
 
     if (key == kGSettingsSchemaKeyMenuEnable) {
         bool enable = m_gsettings->get(key).toBool();
-        qDebug() << Q_FUNC_INFO << "graphics plugin right-click menu isEnabled:" << enable;
+        qDebug() << "Plugin switch-graphics-card menuEnabled:" << enable;
     }
+}
+
+void SwitchGraphicsCardPlugin::slotInitializationStatusChanged(SwitchGraphicsCardItem::Status status)
+{
+    QString cardName;
+
+    switch (status) {
+    case SwitchGraphicsCardItem::Initializing:
+        m_tipsWidget->setText(QObject::tr("Initializing"));
+        return;
+    case SwitchGraphicsCardItem::InitializeFailed:
+        cardName = "Unknown";
+        break;
+    case SwitchGraphicsCardItem::InitializeFinished:
+        cardName = Singleton<SwitchGraphicsCardItem>::instance()->cardName();
+        break;
+    }
+
+    m_tipsWidget->setText(QObject::tr("Current: ") + cardName);
+
+    // NOTE: 主动刷新 QuickShow item 图标
+    m_proxyInter->itemUpdate(this, pluginName());
 }
