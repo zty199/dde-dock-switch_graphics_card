@@ -1,9 +1,10 @@
+# 设置运行被配置所需的 cmake 最低版本
 cmake_minimum_required(VERSION 3.11)
 
 project(dde-dock-graphics-plugin)
 
 if (NOT DEFINED VERSION)
-    set(VERSION 1.6.0)
+    set(VERSION 2.0.0)
 endif ()
 
 set(CMAKE_CXX_STANDARD 11)

@@ -1,11 +1,13 @@
 <RCC>
-    <qresource prefix="/icons">
-        <file>icons/intel-dark.svg</file>
+    <qresource prefix="/">
+        <file>icons/gpu-indicator.svg</file>
+        <file>icons/gpu-indicator-dark.svg</file>
         <file>icons/intel.svg</file>
-        <file>icons/nvidia-dark.svg</file>
+        <file>icons/intel-dark.svg</file>
         <file>icons/nvidia.svg</file>
+        <file>icons/nvidia-dark.svg</file>
     </qresource>
-    <qresource prefix="/translations">
+    <qresource prefix="/">
         <file>translations/zh_CN.qm</file>
     </qresource>
 </RCC>

@@ -1,10 +1,9 @@
 #ifndef SWITCHGRAPHICSCARDPLUGIN_H
 #define SWITCHGRAPHICSCARDPLUGIN_H
 
-#include "pluginsiteminterface.h"
+#include "switchgraphicscarditem.h"
 
-#include "switchgraphicscardwidget.h"
-#include "switchgraphicscardappletwidget.h"
+#include <pluginsiteminterface.h>
 
 #include <QGSettings>
 
@@ -12,6 +11,7 @@ namespace Dock {
 class TipsWidget;
 }
 
+class SwitchGraphicsCardAppletWidget;
 class SwitchGraphicsCardPlugin : public QObject
     , PluginsItemInterface
 {
@@ -33,11 +33,6 @@ public:
     // 插件初始化函数
     void init(PluginProxyInterface *proxyInter) override;
 
-    // 控制插件启用或禁用
-    bool pluginIsAllowDisable() override;
-    bool pluginIsDisable() override;
-    void pluginStateSwitched() override;
-
     // 返回插件的 widget
     QWidget *itemWidget(const QString &itemKey) override;
     QWidget *itemTipsWidget(const QString &itemKey) override;
@@ -47,15 +42,26 @@ public:
     const QString itemContextMenu(const QString &itemKey) override;
     void invokedMenuItem(const QString &itemKey, const QString &menuId, const bool checked) override;
 
-    // dock 栏显示模式改变
-    void displayModeChanged(const Dock::DisplayMode displayMode) override;
-
     // dock 栏插件排序
     int itemSortKey(const QString &itemKey) override;
     void setSortKey(const QString &itemKey, const int order) override;
 
-    // 插件状态改变（启用或禁用）
+    // 控制插件启用或禁用
+    bool pluginIsAllowDisable() override;
+    bool pluginIsDisable() override;
+    void pluginStateSwitched() override;
+
+    // 插件设置改变（DeepinSync）
     void pluginSettingsChanged() override;
+
+    // 插件状态（未激活/激活/禁用）
+    PluginMode status() const override;
+
+    // 图标
+    QIcon icon(const DockPart &dockPart, DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType()) override;
+
+    // 属性标志
+    PluginFlags flags() const override;
 
 private:
     void loadPlugin();
@@ -64,12 +70,12 @@ private:
 
 private slots:
     void slotGSettingsChanged(const QString &key);
+    void slotInitializationStatusChanged(SwitchGraphicsCardItem::Status status);
 
 private:
     QTranslator *m_translator = nullptr;
     QGSettings *m_gsettings = nullptr;
 
-    SwitchGraphicsCardWidget *m_pluginWidget = nullptr;
     Dock::TipsWidget *m_tipsWidget = nullptr;
     SwitchGraphicsCardAppletWidget *m_appletWidget = nullptr;
 

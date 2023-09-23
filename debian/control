@@ -5,20 +5,20 @@ Priority: optional
 Build-Depends:
  cmake,
  debhelper (>= 9),
- libqt5core5a,
- libqt5gui5,
- libqt5widgets5,
- libqt5dbus5,
- libdtkcore-dev,
- libdtkgui-dev,
- libdtkwidget-dev,
- libdframeworkdbus-dev,
- libgsettings-qt-dev,
  pkg-config,
  qtchooser (>= 55-gc9562a1-1~),
+ qtbase5-dev,
  qttools5-private-dev,
+ libqt5core5a,
+ libqt5dbus5,
+ libqt5svg5,
+ libqt5svg5-dev,
+ libqt5widgets5,
+ libdtkcore-dev,
+ libdtkwidget-dev,
+ libgsettings-qt-dev,
  dde-dock-dev
-Standards-Version: 1.6.0
+Standards-Version: 2.0.0
 Homepage: https://github.com/zty199/dde-dock-switch_graphics_card
 
 
@@ -26,16 +26,13 @@ Package: dde-dock-graphics-plugin
 Architecture: any
 Depends:${shlibs:Depends}, ${misc:Depends},
  dde-control-center,
- dde-dock,
+ dde-dock (>= 6.0.22),
  libqt5core5a,
- libqt5gui5,
- libqt5widgets5,
  libqt5dbus5,
- libdtkwidget5,
+ libqt5svg5,
+ libqt5widgets5,
  libdtkcore5,
- libdtkgui5,
  libdtkwidget5,
- libdframeworkdbus2,
  libgsettings-qt1,
  mesa-utils,
  zenity,

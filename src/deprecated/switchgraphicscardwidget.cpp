@@ -1,5 +1,7 @@
 #include "switchgraphicscardwidget.h"
+#include "switchgraphicscarditem.h"
 #include "common.h"
+#include "utils.h"
 
 #include <DGuiApplicationHelper>
 #include <DStyle>
@@ -22,10 +24,10 @@ SwitchGraphicsCardWidget::~SwitchGraphicsCardWidget()
 {
 }
 
-void SwitchGraphicsCardWidget::updateData(SwitchGraphicsCardAppletWidget *m_appletWidget)
+void SwitchGraphicsCardWidget::updateData()
 {
     // 获取 appletwidget 中的信息
-    m_cardName = m_appletWidget->getCardName();
+    m_cardName = Singleton<SwitchGraphicsCardItem>::instance()->cardName();
 
     // 刷新图标
     update();
@@ -85,8 +87,8 @@ void SwitchGraphicsCardWidget::paintEvent(QPaintEvent *event)
 
     painter.restore();
 
-    QString fileName = QString(":/icons/icons/%1.svg").arg(iconName);
-    QPixmap pixmap = loadSVG(fileName, QSize(PLUGIN_ICON_MAX_SIZE, PLUGIN_ICON_MAX_SIZE));
+    QString fileName = QString(":/icon/%1.svg").arg(iconName);
+    QPixmap pixmap = Utils::loadSVG(fileName, QSize(PLUGIN_ICON_MAX_SIZE, PLUGIN_ICON_MAX_SIZE));
 
     const QRectF &rectf = QRectF(rect());
     const QRectF &pixmapRectf = QRectF(pixmap.rect());
@@ -138,15 +140,4 @@ void SwitchGraphicsCardWidget::initConnections()
     connect(DGuiApplicationHelper::instance(), &DGuiApplicationHelper::themeTypeChanged, this, [=]() {
         update();
     });
-}
-
-const QPixmap SwitchGraphicsCardWidget::loadSVG(const QString &fileName, const QSize &size) const
-{
-    const qreal ratio = devicePixelRatioF();
-
-    QPixmap pixmap;
-    pixmap = QIcon::fromTheme(fileName).pixmap(size * ratio);
-    pixmap.setDevicePixelRatio(ratio);
-
-    return pixmap;
 }

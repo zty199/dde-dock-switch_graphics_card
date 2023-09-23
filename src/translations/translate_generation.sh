@@ -3,10 +3,8 @@
 
 cd $(dirname $0)
 
-ts_list=$(ls ./*.ts)
+fileNames=$(ls ./*.ts)
 
-for ts in "${ts_list[@]}"
-do
-#    printf "\nprocess ${ts}\n"
-    lrelease "${ts}"
+for fileName in $fileNames ; do
+    /usr/lib/qt5/bin/lrelease $fileName
 done

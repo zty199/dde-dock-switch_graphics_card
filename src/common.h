@@ -10,5 +10,6 @@ constexpr char kGSettingsSchemaKeyMenuEnable[] = "menuEnable";
 
 constexpr char kIntelIconName[] = "intel";
 constexpr char kNvidiaIconName[] = "nvidia";
+constexpr char kDefaultIconName[] = "gpu-indicator";
 
 #endif // COMMON_H

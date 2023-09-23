@@ -1,36 +1,6 @@
-dde-dock-graphics-plugin (1.8.4-4) stable; urgency=medium
+dde-dock-graphics-plugin (2.0.0-1) stable; urgency=medium
 
-  * fix: lightdm won't startup when switching to NVIDIA graphics card on UOS Home 22.0
+  * feat: Be compatible with Deepin V23 Beta2
 
- -- zty199 <zty2864@gmail.com>  Fri, 23 Jun 2023 11:30:00 +0800
-
-
-dde-dock-graphics-plugin (1.8.4-3) stable; urgency=medium
-
-  * Fix a bug that gsettings schema key name is incerrect
-
- -- zty199 <zty2864@gmail.com>  Fri, 2 Sep 2022 03:00:00 +0800
-
-
-dde-dock-graphics-plugin (1.8.4-2) stable; urgency=medium
-
-  * Fix a bug that plugin exits unexpectedly when changing its position in dde-dock
-
- -- zty199 <zty2864@gmail.com>  Sun, 21 Aug 2022 20:35:00 +0800
-
-
-dde-dock-graphics-plugin (1.8.4-1) stable; urgency=medium
-
-  * Add execute permission for scripts;
-  * Add missing symbol link for prime-run.sh;
-  * Delete invalid symbol links after removal.
-
- -- zty199 <zty2864@gmail.com>  Sun, 14 Nov 2021 23:00:00 +0800
-
-
-dde-dock-graphics-plugin (1.8.4) stable; urgency=medium
-
-  * Add gsettings for the plugin context menu to show correctly.
-
- -- zty199 <zty2864@gmail.com>  Sun, 14 Nov 2021 14:00:00 +0800
+ -- zty199 <zty2864@gmail.com>  Sat, 23 Sep 2023 20:30:00 +0800
 
