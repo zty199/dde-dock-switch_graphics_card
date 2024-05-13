@@ -24,7 +24,7 @@ void SwitchGraphicsCardAppletWidget::initUI()
     resize(150, 80);
 
     QVBoxLayout *layout = new QVBoxLayout(this);
-    layout->setMargin(10);
+    layout->setContentsMargins(10, 10, 10, 10);
     layout->setSpacing(2);
     // 设置按钮大小、位置和文字
     m_intelButton->resize(130, 28);
@@ -73,7 +73,7 @@ void SwitchGraphicsCardAppletWidget::slotIntelButtonClicked()
      * 否则调用 pkexec 存在错误 Refusing to render service to dead parents.
      */
     QProcess *process = new QProcess(this);
-    process->start("pkexec", QStringList() << "/opt/apps/dde-dock-graphics-plugin/files/bin/Intel.sh");
+    process->start("/usr/bin/pkexec", QStringList() << "/opt/apps/dde-dock-graphics-plugin/files/bin/Intel.sh");
 }
 
 void SwitchGraphicsCardAppletWidget::slotNvidiaButtonClicked()
@@ -106,5 +106,5 @@ void SwitchGraphicsCardAppletWidget::slotNvidiaButtonClicked()
      * 否则调用 pkexec 存在错误 Refusing to render service to dead parents.
      */
     QProcess *process = new QProcess(this);
-    process->start("pkexec", QStringList() << "/opt/apps/dde-dock-graphics-plugin/files/bin/NVIDIA.sh");
+    process->start("/usr/bin/pkexec", QStringList() << "/opt/apps/dde-dock-graphics-plugin/files/bin/NVIDIA.sh");
 }

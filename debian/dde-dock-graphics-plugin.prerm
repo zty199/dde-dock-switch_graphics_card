@@ -1,5 +1,0 @@
-#!/bin/sh
-
-rm -f /usr/lib/dde-dock/plugins/libswitch-graphics-card.so
-rm -f /usr/bin/prime-run
-rm -f /usr/share/deepin/dde-file-manager/oem-menuextensions/prime-run.desktop

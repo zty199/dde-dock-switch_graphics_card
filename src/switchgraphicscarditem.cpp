@@ -8,7 +8,7 @@ SwitchGraphicsCardItem::SwitchGraphicsCardItem(QObject *parent)
     m_process = new QProcess(this);
     connect(m_process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), this, &SwitchGraphicsCardItem::slotProcessFinished);
 
-    QString cmd = "/bin/bash";
+    QString cmd = "/bin/sh";
     QStringList args {"/opt/apps/dde-dock-graphics-plugin/files/bin/CheckGraphics.sh"};
     m_process->setProgram(cmd);
     m_process->setArguments(args);

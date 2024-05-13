@@ -36,7 +36,7 @@ void SwitchGraphicsCardWidget::updateData()
 void SwitchGraphicsCardWidget::paintEvent(QPaintEvent *event)
 {
     QPainter painter(this);
-    painter.setRenderHints(QPainter::HighQualityAntialiasing | QPainter::SmoothPixmapTransform | QPainter::Antialiasing);
+    painter.setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
     painter.save();
 
     // 获取图标名称
