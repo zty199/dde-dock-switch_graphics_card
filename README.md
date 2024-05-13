@@ -1,103 +1,80 @@
-# dde-dock-graphics-plugin (forked from mywhat/DDESwitchCard)
+# dde-dock-graphics-plugin (forked from [mywhat/DDESwitchCard](https://github.com/mywhat/DDESwitchCard/))
 
-原贴地址：[切换显卡插件](https://bbs.deepin.org/zh/post/197280)
+[![en-US](https://img.shields.io/badge/lang-en--US-blue.svg)](https://github.com/zty199/dde-dock-switch_graphics_card/blob/master/README.md)
+[![zh-Hans](https://img.shields.io/badge/lang-zh--Hans-red.svg)](https://gitee.com/deepin-opensource/switch-graphics-card/blob/master/README.zh_CN.md)
 
-GitHub 原项目地址：[mywhat/DDESwitchCard](https://github.com/mywhat/DDESwitchCard/)
+Original BBS Post：[切换显卡插件](https://bbs.deepin.org/zh/post/197280)
 
-## 功能介绍
+## Introduction
 
-由论坛大佬 chanforever 的插件修改得来，在 **dde-dock** 添加插件实现快速切换显卡的操作。
+This dde-dock plugin is originally written by chanforever, designed for quick access from dde-dock to switch between different graphics cards to run X11 server.
 
-目前仅支持 **Intel + NVIDIA** 双显卡，且不支持独显直连功能的笔记本。
+For now only support **Intel IGPU + NVIDIA DGPU** laptops with internal display connected to IGPU.
+> Laptops with internal display connected to DGPU, or those with DDG(Dual-Direct GFX) technology won't need this plugin.
 
-* **AMD + NVIDIA** 双显卡用户不推荐使用，如果使用后造成 xserver 无法启动，可在 tty2 中执行 `/opt/apps/dde-dock-graphics-plugin/files/bin/Rescue.sh` 还原插件修改。
+* **AMD APU + NVIDIA DGPU** laptops are theortically supported(?)
 
-## 功能优化
+  Ofcourse it only shows `Intel graphics` in dde-dock, but since using `modesetting` module in xorg.conf, APU should work......
 
-* 修改了整个代码结构，优化函数调用逻辑，取消了外部储存配置文件。
+  If you switch to `Intel graphics` and xserver failed to start, you can run `/opt/apps/dde-dock-graphics-plugin/files/bin/Rescue.sh` in tty2 to revert modifications in `/etc/X11/xorg.conf` and `/etc/lightdm/lightdm.conf`.
 
-* 切换显卡前自动判断 **NVIDIA** 显卡驱动是否安装 。
+## Dependencies
 
-* 添加 **Rescue.sh** 脚本，如果切换后无法进入图形界面可以运行该脚本删除相关配置文件并重启 lightdm 服务。
+### build-deps
 
-* 添加 **nvidia-prime** 相关配置，**Intel** 显卡状态下使用 **prime-run** 命令即可调用 **NVIDIA** 显卡运行指定程序。
+* cmake
+* debhelper
+* qtchooser
+* qt6-base-dev
+* qt6-tools-dev
+* qt6-svg-dev
+* libdtk6core-dev
+* libdtk6widget-dev
+* dde-dock-dev
 
-* 添加了桌面右键菜单，可以直接调用 **prime-run** 运行 **可执行文件** 以及 **桌面快捷方式**。
-
-* 添加了插件右键菜单，支持手动刷新显卡信息，快速访问 **显示器设置** 以及 **NVIDIA 显卡设置**。
-
-* 添加了 **pkexec** 策略文件，切换显卡授权提示框显示更美观。
-
-* 添加了英文翻译，非中文环境自动显示英文。（能力有限，只能翻译英文了......）
-
-## 相关依赖
-
-### 编译依赖
-
-cmake
-
-qt5-default
-
-qttools5-dev
-
-libgsettings-qt-dev
-
-libdtkcore-dev
-
-libdtkgui-dev
-
-libdtkwidget-dev
-
-libdframeworkdbus-dev
-
-dde-dock-dev
-
-qtcreator（推荐使用 Qt Creator 直接打开 CMakeLists.txt 编译运行）
-
-```
-sudo apt install cmake qt5-default qttools5-dev libgsettings-qt-dev libdtkcore-dev libdtkgui-dev libdtkwidget-dev libdframeworkdbus-dev dde-dock-dev qtcreator
+Use the following command to install required dependencies:
+```bash
+$ sudo apt build-dep .
 ```
 
-### 运行依赖
+### runtime-deps
 
-mesa-utils
+* libqt6svg6
+* dde-control-center
+* dde-shell (>= 0.0.6)
+* dde-application
+* mesa-utils
+* pkexec
+* zenity
 
-zenity
+## Installation
+Make sure you have installed all dependencies.
 
-libnotify4
-
+Use the following command to build binary package:
+```bash
+$ dpkg-buildpackage -Zxz -rfakeroot -uc -us -nc -b -j$(nproc)
 ```
-sudo apt install mesa-utils zenity libnotify4
-```
 
-## 源码编译
+> The binary package will be generated in parent directory.
 
-安装编译所需依赖后，进入项目目录，在终端中打开，执行 `fakeroot dpkg-buildpackage -b`
+## Credits
 
-项目目录上层文件夹中将生成 `dde-dock-graphics-plugin_${version}_amd64.deb`，双击安装即可。
+* [mywhat/DDESwitchCard](https://github.com/mywhat/DDESwitchCard) -> [切换显卡插件](https://bbs.deepin.org/zh/post/197280)
+* [deepin-espanol/dde-dock-graphics-plugin](https://github.com/deepin-espanol/dde-dock-graphics-plugin)
+* [Dziban-dev/dde-appknitter](https://github.com/Dziban-dev/dde-appknitter)
+* [q77190858/dde-sys-monitor-plugin](https://github.com/q77190858/dde-sys-monitor-plugin)
+* [Qt 项目(Cmake)设置国际化支持](https://ifmet.cn/posts/9644ed82/)
 
-## 感谢
+---
 
-linuxdeepin 官方的 [dde-dock](https://github.com/linuxdeepin/dde-dock) 项目仓库
+* [shell scripts to switch graphics card from jfy_99](https://bbs.deepin.org/zh/post/192750)
+* [a possible way to use nvidia-prime from risez](https://bbs.deepin.org/zh/post/191741)
+* [modification suggestions from shenmo, lenke, mmlmonkey, xuey, etc.](https://bbs.deepin.org/zh/post/197367)
 
-linuxdeepin 官方的 [dde-file-manager](https://github.com/linuxdeepin/dde-file-manager) 项目仓库
+## References
 
-linuxdeepin 官方的 [dde-session-ui](https://github.com/linuxdeepin/dde-session-ui) 项目仓库
-
-GitHub 开源项目 [dde-appknitter](https://github.com/Dziban-dev/dde-appknitter) 的脚本翻译方式
-
-Github 开源项目 [dde-store](https://github.com/dekzi/dde-store) 的系统通知发送方式
-
-GitHub 大佬 [xmuli](https://github.com/xmuli) 的 [Qt 项目(Cmake)设置国际化支持](https://ifmet.cn/posts/9644ed82/) 方法
-
-论坛大佬 chanforever 的 [DDESwitchCard](https://github.com/mywhat/DDESwitchCard) 插件        https://bbs.deepin.org/zh/post/197280
-
-论坛大佬 jfy_99 的显卡切换脚本     https://bbs.deepin.org/zh/post/192750
-
-论坛大佬 risez 的 nvidia-prime 方案        https://bbs.deepin.org/zh/post/191741
-
-论坛大佬 q77190858 的 [dde-sys-monitor-plugin](https://github.com/q77190858/dde-sys-monitor-plugin) 插件        https://bbs.deepin.org/zh/post/179425
-
-论坛大佬 shenmo，lenke，mmlmonkey，xuey 等提供的修改建议       https://bbs.deepin.org/zh/post/197367
-
-码云组织 [开源应用](https://gitee.com/deepin-opensource) 提供的 UOS 打包规范和方法
+* [linuxdeepin/dde-dock](https://github.com/linuxdeepin/dde-dock)
+* [linuxdeepin/dde-shell](https://github.com/linuxdeepin/dde-shell)
+* [linuxdeepin/dde-file-manager](https://github.com/linuxdeepin/dde-file-manager)
+* [linuxdeepin/dtkcore](https://github.com/linuxdeepin/dtkcore) / [linuxdeepin/dtk6core](https://github.com/linuxdeepin/dtk6core)
+* [linuxdeepin/dde-application-manager](https://github.com/linuxdeepin/dde-application-manager) 

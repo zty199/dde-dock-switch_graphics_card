@@ -5,8 +5,6 @@
 
 #include <pluginsiteminterface.h>
 
-#include <QGSettings>
-
 namespace Dock {
 class TipsWidget;
 }
@@ -24,7 +22,7 @@ class SwitchGraphicsCardPlugin : public QObject
 
 public:
     explicit SwitchGraphicsCardPlugin(QObject *parent = nullptr);
-    ~SwitchGraphicsCardPlugin() override;
+    ~SwitchGraphicsCardPlugin() = default;
 
     // 返回插件的名称，必须是唯一值，不可以和其它插件冲突
     const QString pluginName() const override;
@@ -69,15 +67,13 @@ private:
     void updateTranslator();
 
 private slots:
-    void slotGSettingsChanged(const QString &key);
     void slotInitializationStatusChanged(SwitchGraphicsCardItem::Status status);
 
 private:
-    QTranslator *m_translator = nullptr;
-    QGSettings *m_gsettings = nullptr;
+    QScopedPointer<QTranslator> m_translator;
 
-    Dock::TipsWidget *m_tipsWidget = nullptr;
-    SwitchGraphicsCardAppletWidget *m_appletWidget = nullptr;
+    QScopedPointer<Dock::TipsWidget> m_tipsWidget;
+    QScopedPointer<SwitchGraphicsCardAppletWidget> m_appletWidget;
 
     bool m_pluginLoaded = false;
 };

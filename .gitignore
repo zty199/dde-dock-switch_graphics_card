@@ -1,42 +1,64 @@
-# Prerequisites
-*.d
-
-# Compiled Object files
+# C++ objects and libs
 *.slo
 *.lo
 *.o
-*.obj
-
-# Precompiled Headers
-*.gch
-*.pch
-
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
-
-# Fortran module files
-*.mod
-*.smod
-
-# Compiled Static libraries
-*.lai
-*.la
 *.a
-*.lib
+*.la
+*.lai
+*.so
+*.so.*
+*.dll
+*.dylib
 
-# Executables
-*.exe
-*.out
-*.app
-
-*.user
+# Qt-es
+object_script.*.Release
+object_script.*.Debug
+*_plugin_import.cpp
+/.qmake.cache
+/.qmake.stash
+*.pro.user
+*.pro.user.*
+*.qbs.user
+*.qbs.user.*
+*.moc
+moc_*.cpp
+moc_*.h
+qrc_*.cpp
+ui_*.h
+*.qmlc
+*.jsc
+Makefile*
+*build-*
 *.qm
-/obj-x86_64-linux-gnu
-/debian/debhelper-build-stamp
-/debian/files
-/debian/.debhelper
-/debian/dde-dock-graphics-plugin.debhelper.log
-/debian/dde-dock-graphics-plugin.substvars
-/debian/dde-dock-graphics-plugin
+*.prl
+
+# Qt unit tests
+target_wrapper.*
+
+# QtCreator
+*.autosave
+
+# QtCreator Qml
+*.qmlproject.user
+*.qmlproject.user.*
+
+# QtCreator CMake
+CMakeLists.txt.user*
+
+# QtCreator 4.8< compilation database
+compile_commands.json
+
+# QtCreator local machine specific files for imported projects
+*creator.user*
+
+*_qmlcache.qrc
+
+# debian
+debian/*debhelper*
+debian/files
+debian/dde-dock-graphics-plugin/
+debian/dde-dock-graphics-plugin.substvars
+obj-*
+
+# Other
+resources/info

@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Exec=/usr/bin/prime-run %u
+Name=Run with prime-run
+Name[es]=Ejecutar con prime-run
+Name[zh_CN]=使用 prime-run 运行
+MimeType=application/x-shellscript;application/x-sharedlib;application/x-executable;application/x-desktop;
+X-DFM-MenuTypes=SingleFile
+X-DFM-SupportSchemes=file
+X-Deepin-Vendor=user-custom

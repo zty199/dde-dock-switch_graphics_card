@@ -1,9 +1,10 @@
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
-Upstream-Name: switch-graphics-card
-Source: https://gitee.com/deepin-opensource/switch-graphics-card
+Upstream-Name: dde-dock-graphics-plugin
+Upstream-Contact: https://github.com/zty199/dde-dock-switch_graphics_card/issues
+Source: https://github.com/zty199/dde-dock-switch_graphics_card
 
 Files: *
-Copyright: zty199
+Copyright: 2023 Deepin en Español <soporte@deepines.com>, zty199, mywhat
  
 License: GPL-3+
  This package is free software; you can redistribute it and/or modify

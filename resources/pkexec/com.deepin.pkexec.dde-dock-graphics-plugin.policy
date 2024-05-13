@@ -3,10 +3,11 @@
  "-//freedesktop//DTD PolicyKit Policy Configuration 1.0//EN"
  "http://www.freedesktop.org/standards/PolicyKit/1/policyconfig.dtd">
 <policyconfig>
-  <vendor>zty199</vendor>
-  <vendor_url>https://github.com/zty199/dde-dock-switch_graphics_card</vendor_url>
+  <vendor>DeepinenEspañol</vendor>
+  <vendor_url>https://github.com/deepin-espanol/dde-dock-graphics-plugin</vendor_url>
   <action id="com.deepin.pkexec.dde-dock-graphics-plugin.Intel">
     <message>Authentication is required to switch graphics card</message>
+    <message xml:lang="es">Se requiere autenticación para cambiar de tarjeta gráfica</message>
     <message xml:lang="zh_CN">切换显卡需要输入密码</message>
     <icon_name>deepin-graphics-driver-manager</icon_name>
     <defaults>
@@ -19,6 +20,7 @@
   </action>
   <action id="com.deepin.pkexec.dde-dock-graphics-plugin.NVIDIA">
     <message>Authentication is required to switch graphics card</message>
+    <message xml:lang="es">Se requiere autenticación para cambiar de tarjeta gráfica</message>
     <message xml:lang="zh_CN">切换显卡需要输入密码</message>
     <icon_name>deepin-graphics-driver-manager</icon_name>
     <defaults>
