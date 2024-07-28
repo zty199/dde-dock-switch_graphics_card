@@ -9,28 +9,28 @@
         <translation>显卡切换</translation>
     </message>
     <message>
-        <location filename="../src/switchgraphicscardplugin.cpp" line="73"/>
+        <location filename="../src/switchgraphicscardplugin.cpp" line="76"/>
         <source>Refresh</source>
         <translation>刷新</translation>
     </message>
     <message>
-        <location filename="../src/switchgraphicscardplugin.cpp" line="79"/>
+        <location filename="../src/switchgraphicscardplugin.cpp" line="82"/>
         <source>Display Settings</source>
         <translation>显示器设置</translation>
     </message>
     <message>
-        <location filename="../src/switchgraphicscardplugin.cpp" line="85"/>
+        <location filename="../src/switchgraphicscardplugin.cpp" line="88"/>
         <source>Run nvidia-settings</source>
         <translation>NVIDIA 显卡设置</translation>
     </message>
     <message>
-        <location filename="../src/switchgraphicscardplugin.cpp" line="231"/>
-        <location filename="../src/switchgraphicscardplugin.cpp" line="268"/>
+        <location filename="../src/switchgraphicscardplugin.cpp" line="187"/>
+        <location filename="../src/switchgraphicscardplugin.cpp" line="225"/>
         <source>Initializing</source>
         <translation>初始化中</translation>
     </message>
     <message>
-        <location filename="../src/switchgraphicscardplugin.cpp" line="278"/>
+        <location filename="../src/switchgraphicscardplugin.cpp" line="234"/>
         <source>Current: %1</source>
         <translation>当前显卡：%1</translation>
     </message>
