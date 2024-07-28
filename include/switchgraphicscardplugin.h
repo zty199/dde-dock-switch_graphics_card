@@ -9,6 +9,7 @@ namespace Dock {
 class TipsWidget;
 }
 
+class SwitchGraphicsCardWidget;
 class SwitchGraphicsCardAppletWidget;
 class SwitchGraphicsCardPlugin : public QObject
     , PluginsItemInterface
@@ -18,7 +19,7 @@ class SwitchGraphicsCardPlugin : public QObject
     // 声明实现了的接口
     Q_INTERFACES(PluginsItemInterface)
     // 插件元数据
-    Q_PLUGIN_METADATA(IID "com.deepin.dock.PluginsItemInterface" FILE "switch-graphics-card.json")
+    Q_PLUGIN_METADATA(IID ModuleInterface_iid FILE "switch-graphics-card.json")
 
 public:
     explicit SwitchGraphicsCardPlugin(QObject *parent = nullptr);
@@ -52,15 +53,6 @@ public:
     // 插件设置改变（DeepinSync）
     void pluginSettingsChanged() override;
 
-    // 插件状态（未激活/激活/禁用）
-    PluginMode status() const override;
-
-    // 图标
-    QIcon icon(const DockPart &dockPart, DGuiApplicationHelper::ColorType themeType = DGuiApplicationHelper::instance()->themeType()) override;
-
-    // 属性标志
-    PluginFlags flags() const override;
-
 private:
     void loadPlugin();
     void refreshPluginItemsVisible();
@@ -72,6 +64,7 @@ private slots:
 private:
     QScopedPointer<QTranslator> m_translator;
 
+    QScopedPointer<SwitchGraphicsCardWidget> m_mainWidget;
     QScopedPointer<Dock::TipsWidget> m_tipsWidget;
     QScopedPointer<SwitchGraphicsCardAppletWidget> m_appletWidget;
 

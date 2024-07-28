@@ -9,28 +9,28 @@
         <translation>Cambiar de tarjeta gráfica</translation>
     </message>
     <message>
-        <location filename="../src/switchgraphicscardplugin.cpp" line="73"/>
+        <location filename="../src/switchgraphicscardplugin.cpp" line="76"/>
         <source>Refresh</source>
         <translation>Actualizar</translation>
     </message>
     <message>
-        <location filename="../src/switchgraphicscardplugin.cpp" line="79"/>
+        <location filename="../src/switchgraphicscardplugin.cpp" line="82"/>
         <source>Display Settings</source>
         <translation>Configuración de la pantalla</translation>
     </message>
     <message>
-        <location filename="../src/switchgraphicscardplugin.cpp" line="85"/>
+        <location filename="../src/switchgraphicscardplugin.cpp" line="88"/>
         <source>Run nvidia-settings</source>
         <translation>Configuración de gráficos NVIDIA</translation>
     </message>
     <message>
-        <location filename="../src/switchgraphicscardplugin.cpp" line="231"/>
-        <location filename="../src/switchgraphicscardplugin.cpp" line="268"/>
+        <location filename="../src/switchgraphicscardplugin.cpp" line="187"/>
+        <location filename="../src/switchgraphicscardplugin.cpp" line="225"/>
         <source>Initializing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/switchgraphicscardplugin.cpp" line="278"/>
+        <location filename="../src/switchgraphicscardplugin.cpp" line="234"/>
         <source>Current: %1</source>
         <translation>Actual: %1</translation>
     </message>

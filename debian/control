@@ -4,24 +4,23 @@ Section: utils
 Priority: optional
 Build-Depends:
  cmake,
- debhelper (>= 9),
+ debhelper (>= 11),
  qtchooser (>= 55-gc9562a1-1~),
- qt6-base-dev,
- qt6-tools-dev,
- qt6-svg-dev,
- libdtk6core-dev,
- libdtk6widget-dev,
- dde-dock-dev
-Standards-Version: 2.0.0
+ qtbase5-dev,
+ qttools5-dev,
+ libqt5svg5-dev,
+ libdtkcore-dev,
+ libdtkwidget-dev,
+ dde-tray-loader-dev
+Standards-Version: 4.1.7
 Homepage: https://github.com/zty199/dde-dock-switch_graphics_card
 
 
 Package: dde-dock-graphics-plugin
 Architecture: any
-Depends:${shlibs:Depends}, ${misc:Depends},
- libqt6svg6,
- dde-control-center (>= 6.0.0.1),
- dde-shell (>= 0.0.6),
+Depends: ${shlibs:Depends}, ${misc:Depends},
+ libqt5svg5,
+ dde-tray-loader,
  dde-application-manager (>= 0.1.0),
  mesa-utils,
  pkexec,

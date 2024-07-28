@@ -1,8 +1,8 @@
 #include "switchgraphicscardplugin.h"
+#include "switchgraphicscardwidget.h"
 #include "tipswidget.h"
 #include "switchgraphicscardappletwidget.h"
-#include "common.h"
-#include "utils.h"
+#include "../include/common.h"
 
 #include <DDBusSender>
 
@@ -19,7 +19,7 @@ const QString SwitchGraphicsCardPlugin::pluginName() const
 
 const QString SwitchGraphicsCardPlugin::pluginDisplayName() const
 {
-    return QString(QObject::tr("Switch Graphics Card"));
+    return QObject::tr("Switch Graphics Card");
 }
 
 void SwitchGraphicsCardPlugin::init(PluginProxyInterface *proxyInter)
@@ -35,8 +35,11 @@ void SwitchGraphicsCardPlugin::init(PluginProxyInterface *proxyInter)
 // dock 栏插件显示（V23中作用未知）
 QWidget *SwitchGraphicsCardPlugin::itemWidget(const QString &itemKey)
 {
-    Q_UNUSED(itemKey)
-    return nullptr;
+    if (itemKey != kPluginName) {
+        return nullptr;
+    }
+
+    return m_mainWidget.data();
 }
 
 // 鼠标悬停时显示信息
@@ -52,7 +55,7 @@ QWidget *SwitchGraphicsCardPlugin::itemTipsWidget(const QString &itemKey)
 // 单击插件弹出选项框
 QWidget *SwitchGraphicsCardPlugin::itemPopupApplet(const QString &itemKey)
 {
-    if (itemKey == kPluginName || itemKey == QUICK_ITEM_KEY) {
+    if (itemKey == kPluginName) {
         return m_appletWidget.data();
     }
 
@@ -169,54 +172,6 @@ void SwitchGraphicsCardPlugin::pluginSettingsChanged()
     refreshPluginItemsVisible();
 }
 
-PluginsItemInterface::PluginMode SwitchGraphicsCardPlugin::status() const
-{
-    return PluginMode::Active;
-}
-
-QIcon SwitchGraphicsCardPlugin::icon(const DockPart &dockPart, DGuiApplicationHelper::ColorType themeType)
-{
-    QString iconName;
-    QSize iconSize;
-
-    switch (dockPart) {
-    case DockPart::DCCSetting:
-        iconName = kDefaultIconName;
-        iconSize = QSize(PLUGIN_ICON_MIN_SIZE, PLUGIN_ICON_MIN_SIZE);
-        break;
-    case DockPart::QuickShow:
-        if (Singleton<SwitchGraphicsCardItem>::instance()->cardName() == "Intel") {
-            iconName = kIntelIconName;
-        } else if (Singleton<SwitchGraphicsCardItem>::instance()->cardName() == "NVIDIA") {
-            iconName = kNvidiaIconName;
-        } else {
-            iconName = kDefaultIconName;
-        }
-        iconSize = QSize(PLUGIN_ICON_MIN_SIZE, PLUGIN_ICON_MIN_SIZE);
-        break;
-    default:
-        break;
-    }
-
-    if (iconName.isEmpty()) {
-        return QIcon();
-    }
-
-    if (themeType == DGuiApplicationHelper::ColorType::LightType) {
-        iconName += PLUGIN_MIN_ICON_NAME;
-    }
-
-    return Utils::loadSVG(QString(":/icons/%1.svg").arg(iconName), iconSize);
-}
-
-PluginFlags SwitchGraphicsCardPlugin::flags() const
-{
-    return PluginFlag::Type_Common
-           | PluginFlag::Attribute_CanDrag
-           | PluginFlag::Attribute_CanInsert
-           | PluginFlag::Attribute_CanSetting;
-}
-
 void SwitchGraphicsCardPlugin::loadPlugin()
 {
     if (m_pluginLoaded) {
@@ -226,6 +181,7 @@ void SwitchGraphicsCardPlugin::loadPlugin()
 
     m_pluginLoaded = true;
 
+    m_mainWidget.reset(new SwitchGraphicsCardWidget);
     m_tipsWidget.reset(new Dock::TipsWidget);
     m_tipsWidget->setAccessibleName(pluginDisplayName());
     m_tipsWidget->setText(QObject::tr("Initializing"));
@@ -261,8 +217,9 @@ void SwitchGraphicsCardPlugin::updateTranslator()
 
 void SwitchGraphicsCardPlugin::slotInitializationStatusChanged(SwitchGraphicsCardItem::Status status)
 {
-    QString cardName;
+    m_mainWidget->refreshIcon();
 
+    QString cardName;
     switch (status) {
     case SwitchGraphicsCardItem::Initializing:
         m_tipsWidget->setText(QObject::tr("Initializing"));
@@ -274,7 +231,6 @@ void SwitchGraphicsCardPlugin::slotInitializationStatusChanged(SwitchGraphicsCar
         cardName = Singleton<SwitchGraphicsCardItem>::instance()->cardName();
         break;
     }
-
     m_tipsWidget->setText(QObject::tr("Current: %1").arg(cardName));
 
     // NOTE: 主动刷新 QuickShow item 图标
