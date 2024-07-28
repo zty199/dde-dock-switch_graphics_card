@@ -23,12 +23,12 @@
 * cmake
 * debhelper
 * qtchooser
-* qt6-base-dev
-* qt6-tools-dev
-* qt6-svg-dev
-* libdtk6core-dev
-* libdtk6widget-dev
-* dde-dock-dev
+* qtbase5-dev
+* qttools5-dev
+* libqt5svg5-dev
+* libdtkcore-dev
+* libdtkwidget-dev
+* dde-tray-loader-dev
 
 使用以下命令安装所需依赖:
 ```bash
@@ -37,10 +37,9 @@ $ sudo apt build-dep .
 
 ### 运行依赖
 
-* libqt6svg6
-* dde-control-center
-* dde-shell (>= 0.0.6)
-* dde-application
+* libqt5svg5
+* dde-tray-loader
+* dde-application-manager
 * mesa-utils
 * pkexec
 * zenity
@@ -51,7 +50,7 @@ $ sudo apt build-dep .
 
 使用以下命令构建二进制软件包：
 ```bash
-$ dpkg-buildpackage -Zxz -rfakeroot -uc -us -nc -b -j$(nproc)
+$ dpkg-buildpackage -Zxz -rfakeroot -uc -us -b -j$(nproc)
 ```
 
 > 二进制软件包将生成在上级目录。
@@ -72,8 +71,7 @@ $ dpkg-buildpackage -Zxz -rfakeroot -uc -us -nc -b -j$(nproc)
 
 ## 参考
 
-* [linuxdeepin/dde-dock](https://github.com/linuxdeepin/dde-dock)
-* [linuxdeepin/dde-shell](https://github.com/linuxdeepin/dde-shell)
+* [linuxdeepin/dde-tray-loader](https://github.com/linuxdeepin/dde-tray-loader)
 * [linuxdeepin/dde-file-manager](https://github.com/linuxdeepin/dde-file-manager)
-* [linuxdeepin/dtkcore](https://github.com/linuxdeepin/dtkcore) / [linuxdeepin/dtk6core](https://github.com/linuxdeepin/dtk6core)
-* [linuxdeepin/dde-application-manager](https://github.com/linuxdeepin/dde-application-manager) 
+* [linuxdeepin/dtkcore](https://github.com/linuxdeepin/dtkcore)
+* [linuxdeepin/dde-application-manager](https://github.com/linuxdeepin/dde-application-manager)
