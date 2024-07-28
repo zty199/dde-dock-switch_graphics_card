@@ -25,12 +25,12 @@ For now only support **Intel IGPU + NVIDIA DGPU** laptops with internal display 
 * cmake
 * debhelper
 * qtchooser
-* qt6-base-dev
-* qt6-tools-dev
-* qt6-svg-dev
-* libdtk6core-dev
-* libdtk6widget-dev
-* dde-dock-dev
+* qtbase5-dev
+* qttools5-dev
+* libqt5svg5-dev
+* libdtkcore-dev
+* libdtkwidget-dev
+* dde-tray-loader-dev
 
 Use the following command to install required dependencies:
 ```bash
@@ -39,10 +39,9 @@ $ sudo apt build-dep .
 
 ### runtime-deps
 
-* libqt6svg6
-* dde-control-center
-* dde-shell (>= 0.0.6)
-* dde-application
+* libqt5svg5
+* dde-tray-loader
+* dde-application-manager
 * mesa-utils
 * pkexec
 * zenity
@@ -52,7 +51,7 @@ Make sure you have installed all dependencies.
 
 Use the following command to build binary package:
 ```bash
-$ dpkg-buildpackage -Zxz -rfakeroot -uc -us -nc -b -j$(nproc)
+$ dpkg-buildpackage -Zxz -rfakeroot -uc -us -b -j$(nproc)
 ```
 
 > The binary package will be generated in parent directory.
@@ -73,8 +72,7 @@ $ dpkg-buildpackage -Zxz -rfakeroot -uc -us -nc -b -j$(nproc)
 
 ## References
 
-* [linuxdeepin/dde-dock](https://github.com/linuxdeepin/dde-dock)
-* [linuxdeepin/dde-shell](https://github.com/linuxdeepin/dde-shell)
+* [linuxdeepin/dde-tray-loader](https://github.com/linuxdeepin/dde-tray-loader)
 * [linuxdeepin/dde-file-manager](https://github.com/linuxdeepin/dde-file-manager)
-* [linuxdeepin/dtkcore](https://github.com/linuxdeepin/dtkcore) / [linuxdeepin/dtk6core](https://github.com/linuxdeepin/dtk6core)
-* [linuxdeepin/dde-application-manager](https://github.com/linuxdeepin/dde-application-manager) 
+* [linuxdeepin/dtkcore](https://github.com/linuxdeepin/dtkcore)
+* [linuxdeepin/dde-application-manager](https://github.com/linuxdeepin/dde-application-manager)
