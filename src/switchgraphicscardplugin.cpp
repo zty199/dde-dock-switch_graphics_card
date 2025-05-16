@@ -210,8 +210,7 @@ void SwitchGraphicsCardPlugin::refreshPluginItemsVisible()
 void SwitchGraphicsCardPlugin::updateTranslator()
 {
     m_translator.reset(new QTranslator);
-
-    m_translator->load(QLocale::system(), QString(), QString(), ":/translations", ".qm");
+    std::ignore = m_translator->load(QLocale::system(), PROJECT_NAME, "_", ":/i18n/translations", ".qm");
     QCoreApplication::installTranslator(m_translator.data());
 }
 

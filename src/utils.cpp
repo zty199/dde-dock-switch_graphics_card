@@ -9,7 +9,7 @@ const QPixmap Utils::loadSVG(const QString &iconName, const QSize size, const qr
 {
     QIcon icon = QIcon::fromTheme(iconName);
     if (!icon.isNull()) {
-        QPixmap pixmap = icon.pixmap(QCoreApplication::testAttribute(Qt::AA_UseHighDpiPixmaps) ? size : QSize(size * ratio));
+        QPixmap pixmap = icon.pixmap(size * ratio);
         pixmap.setDevicePixelRatio(ratio);
         if (ratio == 1) {
             return pixmap;

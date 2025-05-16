@@ -1,20 +1,6 @@
-dde-dock-graphics-plugin (2.0.2) stable; urgency=medium
+dde-dock-graphics-plugin (2.1.0) stable; urgency=medium
 
-  * feat: be compatible with Deepin V23 Release and dde-tray-loader
+  * feat: be compatible with deepin 25 Beta
 
- -- zty199 <zty2864@gmail.com>  Sun, 28 Jul 2024 22:07:00 +0800
-
-
-dde-dock-graphics-plugin (2.0.1-1) stable; urgency=medium
-
-  * feat: Be compatible with Deepin V23 RC and dde-shell
-
- -- zty199 <zty2864@gmail.com>  Sat, 11 May 2024 17:30:00 +0800
-
-
-dde-dock-graphics-plugin (2.0.0-1) stable; urgency=medium
-
-  * feat: Be compatible with Deepin V23 Beta2
-
- -- zty199 <zty2864@gmail.com>  Sat, 23 Sep 2023 20:30:00 +0800
+ -- zty199 <zty2864@gmail.com>  Fri, 16 May 2025 14:20:30 +0800
 

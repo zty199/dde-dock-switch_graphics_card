@@ -4,14 +4,14 @@ Section: utils
 Priority: optional
 Build-Depends:
  cmake,
- debhelper (>= 11),
- qtchooser (>= 55-gc9562a1-1~),
- qtbase5-dev,
- qttools5-dev,
- libqt5svg5-dev,
- libdtkcore-dev,
- libdtkwidget-dev,
- dde-tray-loader-dev
+ debhelper,
+ qtchooser,
+ qt6-base-dev,
+ qt6-tools-dev,
+ qt6-svg-dev,
+ libdtk6core-dev,
+ libdtk6widget-dev,
+ dde-tray-loader-dev (>= 1.99.4)
 Standards-Version: 4.1.7
 Homepage: https://github.com/zty199/dde-dock-switch_graphics_card
 
@@ -19,12 +19,10 @@ Homepage: https://github.com/zty199/dde-dock-switch_graphics_card
 Package: dde-dock-graphics-plugin
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends},
- libqt5svg5,
- dde-tray-loader,
- dde-application-manager (>= 0.1.0),
  mesa-utils,
  pkexec,
  zenity
+Provides: switch-graphics-card (= ${binary:Version})
 Conflicts: switch-graphics-card (<= 1.5)
 Replaces: switch-graphics-card (<= 1.5)
 Description: DDE Dock Graphics Plugin
