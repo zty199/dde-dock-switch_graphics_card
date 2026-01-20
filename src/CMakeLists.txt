@@ -1,5 +1,5 @@
-find_package(Qt5 COMPONENTS Core Widgets DBus Svg REQUIRED)
-find_package(Dtk COMPONENTS Core Widget REQUIRED)
+find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core Widgets DBus Svg REQUIRED)
+find_package(Dtk${DTK_VERSION_MAJOR} COMPONENTS Core Widget REQUIRED)
 find_package(DdeTrayLoader REQUIRED)
 
 include(src.cmake)
@@ -7,21 +7,21 @@ include(src.cmake)
 add_library(${PROJECT_NAME} MODULE ${HEADERS} ${SOURCES} ${QRC_FILE})
 
 target_include_directories(${PROJECT_NAME} PUBLIC
-    Qt5::Core
-    Qt5::Widgets
-    Qt5::DBus
-    Qt5::Svg
-    Dtk::Core
-    Dtk::Widget
+    Qt${QT_VERSION_MAJOR}::Core
+    Qt${QT_VERSION_MAJOR}::Widgets
+    Qt${QT_VERSION_MAJOR}::DBus
+    Qt${QT_VERSION_MAJOR}::Svg
+    Dtk${DTK_VERSION_MAJOR}::Core
+    Dtk${DTK_VERSION_MAJOR}::Widget
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    Qt5::Core
-    Qt5::Widgets
-    Qt5::DBus
-    Qt5::Svg
-    Dtk::Core
-    Dtk::Widget
+    Qt${QT_VERSION_MAJOR}::Core
+    Qt${QT_VERSION_MAJOR}::Widgets
+    Qt${QT_VERSION_MAJOR}::DBus
+    Qt${QT_VERSION_MAJOR}::Svg
+    Dtk${DTK_VERSION_MAJOR}::Core
+    Dtk${DTK_VERSION_MAJOR}::Widget
 )
 
 set(PLUGIN_NAME switch-graphics-card)

@@ -4,26 +4,20 @@
 # @ref https://stackoverflow.com/a/24245615/1917249
 set_directory_properties(PROPERTIES CLEAN_NO_CUSTOM TRUE)
 
-find_package(Qt5 REQUIRED COMPONENTS LinguistTools)
+# By default, the generated .qm files are embedded in a Qt resource
+# that will be linked into the targets passed with TARGETS.
+# The files in the resource are accessible under the resource prefix "/i18n".
+# This feature needs cmake Qt6Core module.
+# @ref https://doc.qt.io/qt-6.8/qtlinguist-cmake-qt-add-translations.html#embedding-generated-qm-files-in-resources
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core LinguistTools)
 
-# Create ts files if not exists
-file(GLOB TS_FILES "*.ts")
-set(CREATE_TS $<$<BOOL:${TS_FILES}>:FALSE, TRUE>)
-
-if (NOT TS_FILES)
-set(TS_FILES
-    es.ts
-    zh_CN.ts
-)
-endif ()
+qt_standard_project_setup(I18N_TRANSLATED_LANGUAGES en es zh_CN)
 
 # Update ts files and release qm files only in Release build
-if (NOT ${CMAKE_BUILD_TYPE} MATCHES "Debug" OR CREATE_TS)
-    set_source_files_properties(${TS_FILES} PROPERTIES OUTPUT_LOCATION ${CMAKE_CURRENT_SOURCE_DIR})
-    qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR}/src ${TS_FILES} OPTIONS -no-obsolete)
-    # @ref https://stackoverflow.com/questions/70665191/cmake-does-not-generate-ts-files
-    add_custom_target(${PROJECT_NAME}_translations DEPENDS ${TS_FILES} ${QM_FILES})
-    add_dependencies(${PROJECT_NAME} ${PROJECT_NAME}_translations)
+if (NOT ${CMAKE_BUILD_TYPE} MATCHES "Debug")
+    include(${CMAKE_SOURCE_DIR}/src/src.cmake)
+    qt_add_translations(${PROJECT_NAME}
+                        SOURCES ${HEADERS} ${SOURCES}
+                        LUPDATE_OPTIONS -no-obsolete)
+    add_dependencies(${PROJECT_NAME} update_translations)
 endif ()
-
-target_sources(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/translations.qrc)
